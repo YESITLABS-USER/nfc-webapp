@@ -198,7 +198,7 @@ const Loyality = () => {
               showPopup={coupanPopup}
               onClose={() => {
                 setCoupanPopup(false);
-                navigate("/dashboard");
+                navigate(data?.url);
               }}
               timer = {data?.expiration_time}
               countText={ 

@@ -176,7 +176,8 @@ const userSlice = createSlice({
         state.otpError = null;
         localStorage.setItem("nfc-app", JSON.stringify({
           user_id: action.payload?.user?.id,
-          token: action.payload?.token
+          token: action.payload?.token,
+          client_id: 82
         }));
         toast.success(action.payload?.message || "Otp verified successfully")
         setTimeout(() => {
@@ -200,7 +201,8 @@ const userSlice = createSlice({
         state.otpError = null;
         localStorage.setItem("nfc-app", JSON.stringify({
           user_id: action.payload?.user?.id,
-          token: action.payload?.token
+          token: action.payload?.token,
+          client_id: 82
         }));
         toast.success(action.payload?.message || "Otp verified successfully")
         setTimeout(() => {

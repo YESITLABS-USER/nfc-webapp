@@ -21,14 +21,13 @@ import Img3 from "../assets/icons/img3.svg";
 
 import CopsActivation from "../components/CopsActivation";
 import BottomSheet from "../components/BottomSheet";
-import { useNavigate } from "react-router-dom";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
-import { getRemainingTime } from "../assets/common";
+import { formatDate } from "../assets/common";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -46,6 +45,7 @@ const Dashboard = () => {
   const [showAllLoyality, setShowAllLoyality] = useState(false);
 
   const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  const {client_id} = JSON.parse(localStorage.getItem("nfc-app"));
 
 
   const handleToggle = () => {
@@ -53,8 +53,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    dispatch(getClientInfo({ client_table_id : 82, user_id : user_id}))
-    dispatch(getAllLoyalityCards({ client_table_id : 82, user_id : user_id}))
+    dispatch(getClientInfo({ client_table_id : client_id, user_id : user_id}))
+    dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
   },[dispatch])
 
   const coupans = [
@@ -127,11 +127,11 @@ const Dashboard = () => {
     setIsSliderOpen(val);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { day: '2-digit', month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('en-GB', options); 
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const options = { day: '2-digit', month: 'long', year: 'numeric' };
+  //   return date.toLocaleDateString('en-GB', options); 
+  // };
 
   const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OnboardHeader from "../components/OnboardHeader";
 
 import LoyaltyCard from "../assets/icons/loyaltyCard.png";
@@ -15,40 +15,13 @@ import CopsActivation from "../components/CopsActivation";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteLoyalityCard, getAllClients, getAllLoyalityCards } from "../store/slices/clientSlice";
+import LoyaltyCardImgComponent from "../components/LoyaltyCard";
+import { formatDate } from "../assets/common";
+import { Button, Modal } from "react-bootstrap";
 // import MyPlacesModal from "../components/MyPlacesModal";
 
-const items = [
-  {
-    id: 1,
-    image: "https://via.placeholder.com/100",
-    title: "BASBAS",
-    description: "Counter & dining",
-  },
-  {
-    id: 2,
-    image: "https://via.placeholder.com/100",
-    title: "var",
-  },
-  {
-    id: 3,
-    image: "https://via.placeholder.com/100",
-    title: "KASKIS",
-    description: "Dining",
-  },
-  {
-    id: 4,
-    image: "https://via.placeholder.com/100",
-    title: "GRON",
-    description: "Dining",
-  },
-];
-
-// const allCoupans = [
-//   { name: "Coupans 2", img: FreeBeer, age: true, description: "30% off Food COUPAN from olo"},
-//   { name: "Coupans 3", img: Food, age: false, description: " FREE BEER COUPAN from olo"},
-//   { name: "Coupans 2", img: FreeBeer, age: true, description: "FREE BEER COUPAN from olo"},
-//   { name: "Coupans 3", img: Food, age: false, description: " 30% off Food from olo"}
-// ]
 const allCoupans = [
   {
     coupan_type: "Beverages coupon",
@@ -105,33 +78,70 @@ const MyPage = () => {
   const [ageLimitaion, setAddlimitation] = useState(false);
   const [coupanPopup, setCoupanPopup] = useState(false);
   const [voucerDes, setVoucherDes] = useState(null);
+  const [showAllLoyality, setShowAllLoyality] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(null); // State to store the card id for deletion
+  
+  
   const handleBottmSheet = (val) => {
     setIsSliderOpen(val);
   };
+  
+  const dispatch = useDispatch()
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const { allClientsData, loyalityCards, loading } = useSelector((state) => state.client)
 
+  const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  const {client_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  
+  useEffect(() => {
+    dispatch(getAllClients({ client_table_id : client_id, user_table_id : user_id}))
+    dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
+    
+  },[dispatch])
+  
   const [visibleCount, setVisibleCount] = useState(3); // State to manage visible items
   const [isExpanded, setIsExpanded] = useState(false);
-
+  
   const toggleVisibility = () => {
     if (isExpanded) {
       setVisibleCount(3); // Show only 3 items
     } else {
-      setVisibleCount(items.length); // Show all items
+      setVisibleCount(allClientsData?.length); // Show all items
     }
     setIsExpanded(!isExpanded); // Toggle state
   };
+  
+  const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
+  
+  const handleSeeMore = () => {
+    setShowAllLoyality(!showAllLoyality);
+    if (!showAllLoyality) {
+      setTimeout(() => {
+        document.getElementById('see-more-button')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
+  // For Loyality Delete
+  const handleLoyalityDelete = async (id) => {
+    try {
+      await dispatch(deleteLoyalityCard({'loyalty_card_table_id': id, 'user_table_id': user_id}));
+      // Dispatch getAllLoyalityCards after delete is successful
+      dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id }));
+      setShowDeleted(false);
+    } catch (error) {
+      console.error("Error deleting loyalty card:", error);
+    }
+  }
+  
+  const handleUnfollow = (id) => {
+    console.log("Unfollowed item ID:", id); 
+  };
+
   return (
     <>
       <OnboardHeader disabled={true} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          margin: 10,
-        }}
-      >
+      <div style={{display: "flex",flexDirection: "column",alignItems: "center",textAlign: "center", margin: 10}}>
         <h3 style={{ color: "#000000" }}>Welcome to Tagis!</h3>
         <p style={{ width: "90%", fontSize: 17, color: "#000000" }}>
           Your go-to app for restaurant coupons from a variety of dining spots.
@@ -139,58 +149,49 @@ const MyPage = () => {
         </p>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "20px",
-            width: "80%",
-          }}
-        >
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }} >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px", width: "80%" }} >
           <h3 style={{ marginLeft: "20px" }}>Coopons</h3>
-          <FaInfoCircle
-            size={24}
-            color="#25026E"
+          <FaInfoCircle size={24} color="#25026E" 
             onClick={() => {
               setIsModalOpen(true);
               setCoops(true);
-            }}
+            }} 
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-            padding: "10px", // Optional: Add padding to the container
-            borderRadius: "10px", // Optional: Round corners of the container
-            width: "80%", // Optional: Control the width of the image container
-            alignItems: "center", // Center images horizontally
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={LoyaltyCard}
-              alt="Coupon 1"
-              style={{ objectFit: "contain" }}
-            />
-            <MdDelete style={{ fontSize: "25px", color: "red" }} />
-          </div>
+        <div style={{ display: "flex",flexDirection: "column",gap: "10px", padding: "10px", borderRadius: "10px", 
+            width: "80%", alignItems: "center" }}>
+
+                  {/* <LoyaltyCard /> */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+          width: "80%", alignItems: "center", }} >
+          {visibleLoyalityCards?.map((item, index) => {
+            return (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
+                <LoyaltyCardImgComponent 
+                  allData = {item}
+                  campaign_name={item?.campaign_name}
+                  free_item={item?.free_items_name}
+                  total_stamps={item?.number_of_stamps}
+                  open_stamps={item?.total_open_stamps ?? "0"}
+                  end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
+                  url={"/mypage"}
+                />
+              <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => { 
+                setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
+                setShowDeleted(true); // Open the delete modal 
+              }}/>
+              </div>
+            );
+          })}
+
+        { loyalityCards?.length > 2 && (
+            <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
+              {showAllLoyality ? "See Less" : "See More"}
+              <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
+            </button>
+        )}
+      </div>
 
           <div
             style={{
@@ -205,17 +206,6 @@ const MyPage = () => {
             {allCoupans
               .slice(0, showAll ? allCoupans.length : 2)
               .map((coupan, index) => (
-                // <img key={index} src={coupan.img} alt={coupan.anme} style={{ objectFit: "contain" }} onClick={() => {
-                //   if (coupan?.age) {
-                //     setFreeCops(true);
-                //     setAddlimitation(true);
-                //     setVoucherDes(coupan.description);
-                //   } else {
-                //     setFreeCops(true);
-                //     setAddlimitation(false);
-                //     setVoucherDes(coupan.description);
-                //   }
-                // }} />
                 <CoupanComponent
                   key={index}
                   coupan_type={coupan.coupan_type}
@@ -282,13 +272,21 @@ const MyPage = () => {
         />
       </div>
       <div style={styles.verticalList}>
-        {items.slice(0, visibleCount).map((item) => (
-          <div style={styles.listItem} key={item.id}>
-            <img src={Restro} alt={item.title} style={styles.itemImage} />
+          {
+            allClientsData?.length <= 0 && <p style={{ display:"flex", justifyContent:'center', padding:"20px 0"}}> No Clients Available </p>
+          }
+
+        {allClientsData?.slice(0, visibleCount).map((item, index) => (
+          <div style={styles.listItem} key={index}>
+            <img src={(backendUrl+"/"+ item?.company_logo) || Restro} alt={item?.client_name} style={styles.itemImage} />
+
             <div style={styles.itemContent}>
-              <h3 style={styles.itemTitle}>{item.title}</h3>
-              <p style={styles.itemDescription}>{item.description}</p>
+              <h3 style={styles.itemTitle}>{item?.client_name}</h3>
+              <p style={styles.itemDescription}> 
+                {item?.location_name?.length > 20 ? `${item?.location_name.slice(0, 20)}...` : item?.location_name}
+              </p>
             </div>
+
             <div style={styles.itemButtons}>
               <button
                 style={{
@@ -299,22 +297,25 @@ const MyPage = () => {
                   backgroundColor: "#25026E",
                   color: "#fff",
                   textAlign: "center",
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: "600",
                 }}
               >
                 VIEW COUPONS
               </button>
-              <button style={styles.button} onClick={() => setIsUnfollow(true)}>
-                UNFOLLOW
+              <button style={styles.button} onClick={() => {
+                setSelectedCardId(item?.client_table_id); 
+                setIsUnfollow(true);
+              }}>
+                {item?.follow_status ? "UNFOLLOW" : "FOLLOW"}
               </button>
             </div>
           </div>
         ))}
-        <button style={styles.showMore} onClick={toggleVisibility}>
+        {(allClientsData?.length > 3) && <button style={styles.showMore} onClick={toggleVisibility}>
           {isExpanded ? "Show Less" : "See More"}
           <FaChevronDown style={{ marginLeft: "10px" }} />
-        </button>
+        </button>}
       </div>
 
       <CopsActivation
@@ -440,12 +441,43 @@ const MyPage = () => {
         show={isModalOpen}
         onHide={() => setIsModalOpen(false)} // Close modal
       /> */}
-      <UnFollow isModalOpen={UnFollows} setIsModalOpen={setIsUnfollow} />
-    </>
+      <UnFollow
+        isModalOpen={UnFollows}
+        setIsModalOpen={setIsUnfollow}
+        itemId={selectedCardId}
+        onUnfollow={handleUnfollow}
+      />
+      <DeletePopup isModalOpen={showDeleted} setIsModalOpen={setShowDeleted} handleDelete={handleLoyalityDelete} 
+        cardId={selectedCardId} 
+/>    </>
   );
 };
 
 export default MyPage;
+
+function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId }) {
+  const handleClose = () => {
+    setIsModalOpen(false); // Close the modal
+  }
+
+  const handleConfirmDelete = () => {
+    handleDelete(cardId); // Call handleDelete with the correct card ID
+  }
+
+  return (
+      <Modal show={isModalOpen} size="sm" centered>
+        <Modal.Body style={{ display:'flex', flexDirection:"column", justifyContent:'center', alignItems:"center", textAlign:"center"}}>
+          <h5> Are you sure you want to delete this Loyalty card? </h5>
+          <div style={{width:"100%", display:'flex', justifyContent:"center", gap:"30px", paddingTop:"20px"}}>
+          <Button variant="secondary" onClick={handleClose}> Close </Button>
+          <Button variant="primary" onClick={handleConfirmDelete}> Delete </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
+  );
+}
+
+
 const styles = {
   itemContent: {
     flex: 1,
@@ -453,35 +485,37 @@ const styles = {
   itemTitle: {
     margin: "0 0 10px 0",
     fontSize: "18px",
-    color: "#000000",
+    color: "#000",
   },
   itemDescription: {
     margin: "0",
-
-    color: "#000000",
+    color: "#000",
   },
 
   buttonHover: {
-    backgroundColor: "#0056b3",
+    backgroundColor: "#0056b3", // Hover state for buttons
   },
 
   verticalList: {
-    maxHeight: "300px", // Set a fixed height
-    overflowY: "auto", // Enable vertical scrolling when content exceeds height
+    maxHeight: "300px", // Fixed height for the list container
+    overflowY: "auto", // Enable scrolling
     border: "1px solid #ccc",
     padding: "15px",
     borderRadius: "8px",
   },
+
   listItem: {
     display: "flex",
     alignItems: "flex-start",
     marginBottom: "15px",
     gap: "15px",
   },
+
   itemImage: {
     width: "100px",
     height: "100px",
     flexShrink: 0,
+    borderRadius: "50%", // Make the image circular
   },
 
   itemButtons: {
@@ -489,17 +523,25 @@ const styles = {
     flexDirection: "column", // Stack buttons vertically
     gap: "10px",
   },
+
   button: {
-    padding: "5px 10px",
+    padding: "10px 15px", // Adjust padding for better button size
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
     backgroundColor: "#25026E",
     color: "#fff",
-    fontSize: 14,
+    fontSize: "14px", // Consistent font size
     fontWeight: "600",
     textAlign: "center",
+    transition: "background-color 0.3s ease", // Add transition for hover effect
   },
+
+  // Button hover state
+  buttonHover: {
+    backgroundColor: "#0056b3",
+  },
+
   showMore: {
     marginTop: "15px",
     padding: "10px",
@@ -508,8 +550,23 @@ const styles = {
     cursor: "pointer",
     backgroundColor: "#25026E",
     color: "#fff",
-    display: "block", // Center-align the button
+    display: "block", // Center the button
     marginLeft: "auto",
     marginRight: "auto",
+    transition: "background-color 0.3s ease", // Add transition for hover effect
+  },
+
+  // Hover effect for the "View Coupons" button
+  buttonViewCoupons: {
+    padding: "10px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    backgroundColor: "#25026E",
+    color: "#fff",
+    fontSize: "12px",
+    fontWeight: "600",
+    textAlign: "center",
+    transition: "background-color 0.3s ease", // Add transition for hover effect
   },
 };

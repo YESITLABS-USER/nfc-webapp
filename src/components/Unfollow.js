@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
-const UnFollow = ({ isModalOpen, setIsModalOpen }) => {
+const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
@@ -16,6 +16,11 @@ const UnFollow = ({ isModalOpen, setIsModalOpen }) => {
       document.body.style.overflow = "auto";
     };
   }, [isModalOpen]);
+
+  const handleUnfollow = () => {
+    onUnfollow(itemId); // Pass the itemId to the parent component
+    setIsModalOpen(false); // Close the modal after unfollowing
+  };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -82,7 +87,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen }) => {
                 cursor: "pointer",
                 fontWeight: "bold",
               }}
-              onClick={() => setIsModalOpen(false)}
+              onClick={handleUnfollow}
             >
               UNFOLLOW
             </button>

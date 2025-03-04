@@ -1,0 +1,16 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+  margin-top: 10px;
+}
+.txtWel {
+  color: "#000000";
+  font-size: "20px";
+  font-weight: "bold";
+  align-self: "center";
+}
+
+/* for login input */

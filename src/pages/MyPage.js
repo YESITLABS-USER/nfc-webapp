@@ -20,6 +20,7 @@ import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, unfollowClient 
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
 import { Button, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 // import MyPlacesModal from "../components/MyPlacesModal";
 
 const allCoupans = [
@@ -81,7 +82,7 @@ const MyPage = () => {
   const [showAllLoyality, setShowAllLoyality] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null); // State to store the card id for deletion
-  
+  const navigate = useNavigate()
   
   const handleBottmSheet = (val) => {
     setIsSliderOpen(val);
@@ -91,16 +92,22 @@ const MyPage = () => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const { allClientsData, loyalityCards, loading } = useSelector((state) => state.client)
 
-  const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+  const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
-
+  
   const [activeClient, setActiveClient] = useState(client_id);
   
   useEffect(() => {
-    dispatch(getAllClients({ client_table_id : activeClient, user_table_id : user_id}))
-    dispatch(getAllLoyalityCards({ client_table_id : activeClient, user_id : user_id}))
-    
-  },[dispatch, activeClient, user_id])
+    if (!client_id || !user_id) {
+      localStorage.removeItem("nfc-app");
+      navigate("/"); // Navigate to home if user_id or client_id is not found
+    } else {
+      dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
+      dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
+    }
+  }, [dispatch, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
+  
   
   const [visibleCount, setVisibleCount] = useState(3); // State to manage visible items
   const [isExpanded, setIsExpanded] = useState(false);

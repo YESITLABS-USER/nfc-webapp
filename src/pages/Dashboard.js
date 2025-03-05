@@ -46,23 +46,25 @@ const Dashboard = () => {
   const [showAll, setShowAll] = useState(false);
   const [showAllLoyality, setShowAllLoyality] = useState(false);
 
-  const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+  const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
-
+  
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
-
+  
   useEffect(() => {
-    if(client_id || user_id) {
-      dispatch(getClientInfo({ client_table_id : client_id, user_id : user_id}))
-      dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
-      dispatch(addClientInUser({ client_table_id : client_id, user_table_id : user_id}))
-    } else {
+    if (!client_id || !user_id) {
       localStorage.removeItem("nfc-app");
-      navigate("/")
+      navigate("/");
+    } else {
+      dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
+      dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
     }
-  },[dispatch])
+  }, [dispatch, client_id, user_id, navigate]);
+  
 
   const coupans = [
     {

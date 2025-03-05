@@ -11,7 +11,8 @@ const LoyaltyCardImgComponent = ({
   end_date = "31st DECEMBER 2024",
   backgroundImage = BGImage,
   allData = null,
-  url = "/dashboard"
+  url = "/dashboard",
+  clientLogo
 }) => {
 
   const remainingTime = getRemainingTime(allData?.last_stamp_click_time, allData?.expiration_time);
@@ -45,7 +46,7 @@ const LoyaltyCardImgComponent = ({
       }} onClick={() => {
         // If remainingTime is false, prevent navigation
         if (remainingTime || allData?.completed_status == "1") return;
-        navigate("/loyality", { state: { data: {...allData, url} } });
+        navigate("/loyality", { state: { data: {...allData, url, clientLogo} } });
       }} 
     >
       {/* Dark overlay for disabled state */}

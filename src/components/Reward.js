@@ -3,7 +3,7 @@ import bg from "../assets/images/rewardBg.png";
 import header from "../assets/icons/header.png";
 import { formatTime, parseTime } from "../assets/common";
 
-const Reward = ({ showPopup, onClose, countText, timer }) => {
+const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
   // const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 hours in seconds
   
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer))); // 15 hours in seconds
@@ -93,7 +93,7 @@ const Reward = ({ showPopup, onClose, countText, timer }) => {
           <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", }} >
             {countText || `3 / 9`}
           </p>
-          <img src={header} alt="header" style={{ width: "81px", height: "77px", marginBottom: "20px", marginTop: "10px", }} />
+          <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "81px", height: "77px", marginBottom: "20px", marginTop: "10px", }} />
 
           <h2 style={{ fontSize: "16px", margin: "50px 0 0 0", fontWeight: "bold" }}>
             Coupon Valid 15 Minutes From Activation

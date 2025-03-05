@@ -1,18 +1,16 @@
 import React from "react";
-import orange from "../assets/coupans/orange-coupon.svg";
+// import orange from "../assets/coupans/orange-coupon.svg";
+import orange from "../assets/coupans/orange-coupon.png";
 import blue from "../assets/coupans/blue-coupon.svg";
 import red from "../assets/coupans/red-coupon.svg";
 import black from "../assets/coupans/black-coupon.svg";
 import "../styles/coupan.css";
 import { MdDelete } from "react-icons/md";
+import { formatDate } from "../assets/common";
 
 const CoupanComponent = ({
-  coupan_type,
-  coupan_discount,
-  coupan_title,
-  coupan_validity,
-  coupan_age,
-  coupan_color,
+  allData,  
+  clientData,
   occupied,
   onClick,
 }) => {
@@ -31,13 +29,11 @@ const CoupanComponent = ({
         alignItems: "center",
       }}
     >
-      <div
-        className="coupan-container"
-        style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
-        onClick={occupied ? null : onClick}
-      >
-        <img
-          src={colorMapping[coupan_color]}
+      <div  className="coupan-container" style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
+        onClick={occupied ? null : onClick} >
+        <img 
+        src={colorMapping[allData?.color_selection in colorMapping ? allData?.color_selection : "orange"]}
+        // src={colorMapping["orange"]} 
           alt="Coupon"
           className="coupan-image"
         />
@@ -45,26 +41,29 @@ const CoupanComponent = ({
           <div className="coupan-details">
             <div className="coupan-vertical-text" style={{ color: "#FF6B00" }}>
               <p className="coupan-description">
-                {coupan_type || "Beverages coupon"}
+                {allData?.campaign_name || "Beverages coupon"}
               </p>
-              <h2 className="coupan-offer">{coupan_discount || "FREE"}</h2>
+              <h2 className="coupan-offer">
+                {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"} 
+              </h2>
             </div>
             <div className="coupan-main-text">
-              <h2 className="coupan-title">
-                {" "}
-                {coupan_title.length <= 9
-                  ? coupan_title.split(" ").map((word, index) => (
+              <span style={{marginTop:"-12px", fontSize:"12px"}}> {clientData?.client_name ?? "OLO"} </span>
+
+              <h2 className="coupan-title" style={{textTransform:"uppercase"}}>
+                {allData?.coupon_name?.length <= 9
+                  ? allData?.coupon_name.split(" ").map((word, index) => (
                       <span key={index} style={{ display: "block" }}>
                         {word}
                       </span>
                     ))
-                  : coupan_title}
+                  : allData?.coupon_name}
               </h2>
-              <span className="coupan-validity">
-                <span style={{ color: "#d9d0d0" }}>VALID UNTIL </span>{" "}
-                {coupan_validity || "31 DECEMBER 2025"}
+              <span className="coupan-validity"  style={{textTransform:"uppercase"}}>
+                <span style={{ color: "#d9d0d0" }}>VALID UNTIL </span>
+                {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
               </span>
-              {coupan_age && <span className="coupan-age"> Age : 18+ </span>}
+              {allData?.campaign_age_restriction_start_age >= 18 && <span className="coupan-age"> Age : 18+ </span>}
             </div>
           </div>
         </div>

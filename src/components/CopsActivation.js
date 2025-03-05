@@ -3,12 +3,15 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 import FreeCops from "../assets/icons/freeCopsAvail.png";
 import AgeModal from "./AgeModal";
+import CoupanComponent from "./CoupanComponent";
 
 const CopsActivation = ({
   isModalOpen,
   setIsModalOpen,
   callBack,
   ageLimitaion,
+  currentCoupanData,
+  clientData,
   setAddlimitation,
 }) => {
   const closeModal = () => setIsModalOpen(false);
@@ -77,34 +80,48 @@ const CopsActivation = ({
                 onClick={closeModal}
               />
             </div>
-            <img src={FreeCops} alt="free cops" />
-
-            <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
-              Activate the coupon in-store and show this at the checkout.
-              (Coupon is valid for 15 minutes after activation) <br />
-            </p>
-
-            <div style={{ margin: 10 }}>
-              <strong style={{ display: "flex" }}>Item excluded:</strong>
-
-              <span style={{ fontWeight: "normal" }}>
-                Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
-                egestas.
-              </span>
+            {/* <img src={FreeCops} alt="free cops" /> */}
+            <div> 
+              <CoupanComponent allData={currentCoupanData} clientData={clientData} occupied={currentCoupanData?.occupied} />
             </div>
-            <div style={{ margin: 10 }}>
-              <strong style={{ display: "flex" }}>Special conditions:</strong>
-              <span style={{ fontWeight: "normal" }}>
-                Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
-                egestas.
-              </span>
-            </div>
-            <div style={{ margin: 10 }}>
-              <strong style={{ display: "flex" }}>Validity information:</strong>
-              <span style={{ fontWeight: "normal" }}>
-                Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
-                egestas.
-              </span>
+
+            {/* <div> 
+              <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
+                Activate the coupon in-store and show this at the checkout.
+                (Coupon is valid for 15 minutes after activation) <br />
+              </p>
+
+              <div style={{ margin: 10 }}>
+                <strong style={{ display: "flex" }}>Item excluded:</strong>
+
+                <span style={{ fontWeight: "normal" }}>
+                  Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
+                  egestas.
+                </span>
+              </div>
+              <div style={{ margin: 10 }}>
+                <strong style={{ display: "flex" }}>Special conditions:</strong>
+                <span style={{ fontWeight: "normal" }}>
+                  Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
+                  egestas.
+                </span>
+              </div>
+              <div style={{ margin: 10 }}>
+                <strong style={{ display: "flex" }}>Validity information:</strong>
+                <span style={{ fontWeight: "normal" }}>
+                  Lorem ipsum dolor sit amet consectetur. Nibh quis vitae faucibus
+                  egestas.
+                </span>
+              </div>
+            </div> */}
+            
+            <div> 
+              <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
+                Activate the coupon in-store and show this at the checkout.
+                (Coupon is valid for 15 minutes after activation) <br />
+              </p>
+
+              <p style={{minHeight:'300px'}} dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
             </div>
 
             <button

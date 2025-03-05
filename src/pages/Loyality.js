@@ -196,6 +196,7 @@ const Loyality = () => {
           {coupanPopup && (
             <Reward
               showPopup={coupanPopup}
+              clientLogo={data?.clientLogo}
               onClose={() => {
                 setCoupanPopup(false);
                 navigate(data?.url);

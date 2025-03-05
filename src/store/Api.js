@@ -38,6 +38,9 @@ export const getClientInfo = (formData) => API.post(`/api/v1/get-client-detail`,
 
 export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
 
+
+export const getAllCoupans = (formData) => API.post(`/api/v1/show-all-coupon-of-particular-client-on-particular-location`,formData);
+
 export const addClientInUser = (formData) => API.post(`/api/v1/add-client-in-user`,formData);
 
 

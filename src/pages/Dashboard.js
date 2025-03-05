@@ -15,9 +15,9 @@ import Line22 from "../assets/icons/line222.png";
 
 import ThickLine from "../assets/icons/thickLine.png";
 
-import Img1 from "../assets/icons/img1.svg";
-import Img2 from "../assets/icons/img2.svg";
-import Img3 from "../assets/icons/img3.svg";
+import greenValueImg from "../assets/icons/img1.svg";
+import experienceImg from "../assets/icons/img2.svg";
+import meat from "../assets/icons/img3.svg";
 
 import CopsActivation from "../components/CopsActivation";
 import BottomSheet from "../components/BottomSheet";
@@ -29,10 +29,12 @@ import { Button } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
 import { useNavigate } from "react-router-dom";
+import { getAllCoupans } from "../store/slices/coupanSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { clientData,loyalityCards, loading } = useSelector((state) => state.client)
+  const { coupansData } = useSelector((state) => state.coupans)
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -45,6 +47,7 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [showAllLoyality, setShowAllLoyality] = useState(false);
+  const [currentCoupanData, setCurrentCoupanData] = useState(null);
 
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
@@ -62,6 +65,7 @@ const Dashboard = () => {
       dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
+      dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
     }
   }, [dispatch, client_id, user_id, navigate]);
   
@@ -239,6 +243,7 @@ const Dashboard = () => {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
                 <LoyaltyCardImgComponent 
                   allData = {item}
+                  clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
                   campaign_name={item?.campaign_name}
                   free_item={item?.free_items_name}
                   total_stamps={item?.number_of_stamps}
@@ -262,20 +267,15 @@ const Dashboard = () => {
         
         <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
           overflowX: "hidden", alignItems: "center", width: "80%" }} className={showAll ? "custom-scrollbar" : ""} >
-            {coupans
-              .slice(0, showAll ? coupans.length : 3)
+            {coupansData
+              .slice(0, showAll ? coupans?.length : 3)
               .map((coupan, index) => (
                 <CoupanComponent
-                  key={index}
-                  coupan_type={coupan?.coupan_type}
-                  coupan_discount={coupan?.coupan_discount}
-                  coupan_title={coupan?.coupan_title}
-                  coupan_validity={coupan?.coupan_validity}
-                  coupan_age={coupan?.coupan_age}
-                  coupan_color={coupan?.coupan_color}
+                  key={index} allData={coupan} clientData={clientData}
                   occupied={coupan?.occupied}
                   onClick={() => {
-                    if (coupan?.coupan_age) {
+                    setCurrentCoupanData(coupan);
+                    if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <=18) {
                       setFreeCops(true);
                       setAddlimitation(true);
                     } else {
@@ -286,75 +286,30 @@ const Dashboard = () => {
                 />
               ))}
           </div>
-
-          {/* <img src={Coops1} alt="Coupon 2" style={{ objectFit: "contain" }}
-            onClick={() => { setFreeCops(true); setAddlimitation(false); }} />
-          <img src={Coops2} alt="Coupon 3" style={{ objectFit: "contain" }} />
-          <img src={Coops3} alt="Coupon 4" style={{ objectFit: "contain" }} onClick={() => {
-              setFreeCops(true); setAddlimitation(true); }} /> */}
-        
-        <button
-          onClick={() => setShowAll(!showAll)} // Implement your logic here
-          style={{
-            marginTop: "20px",
-            padding: "10px 20px",
-            backgroundColor: "#25026E",
-            color: "white",
-            border: "none",
-            borderRadius: "12px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          {showAll ? "See Less" : "See More"}
-          <FaChevronDown
-            style={{
-              marginLeft: "10px",
-              rotate: `${showAll ? "180deg" : "0deg"}`,
-            }}
-          />
-        </button>
+          
+        { coupansData?.length > 3 && (
+          <button onClick={() => setShowAll(!showAll)} // Implement your logic here
+            style={{ marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
+              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} >
+            {showAll ? "See Less" : "See More"}
+            <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAll ? "180deg" : "0deg"}`, }} />
+          </button> 
+        )}
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 20,
-        }}
-      >
-        <img
-          src={Img1}
-          alt="Coupon 3"
-          style={{ objectFit: "contain", margin: 10, marginBottom: 25 }}
-        />
-        <img
-          src={Img2}
-          alt="Coupon 2"
-          style={{ objectFit: "contain", margin: 10 }}
-        />
-        <img
-          src={Img3}
-          alt="Coupon 4"
-          style={{ objectFit: "contain", margin: 10 }}
-        />
+    {/* Green value, 10 year Experience, local meat */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 20}}>
+
+        <img src={greenValueImg} alt="Green Value" style={{ objectFit: "contain", margin: 10, marginBottom: 25 }}/>
+        <img src={experienceImg} alt="Experience" style={{ objectFit: "contain", margin: 10 }} />
+        <img src={meat} alt="meat" style={{ objectFit: "contain", margin: 10 }} />
+
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
-        <img
-          src={GoogleReview}
-          alt="Star Pattern"
-          className="start-img"
-          style={{ width: "auto", height: "auto" }} // Adjust width and height as needed
-        />
+    {/* Google Review Image & and Button */}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+        <img src={GoogleReview} alt="Star Pattern" className="start-img"
+          style={{ width: "auto", height: "auto" }} />
       </div>
 
       <a href={(() => {
@@ -380,50 +335,23 @@ const Dashboard = () => {
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
         setAddlimitation={setAddlimitation}
+        currentCoupanData={currentCoupanData}
+        clientData={clientData}
       />
-      <BottomSheet isOpen={isSliderOpen} onClose={() => {}}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
+      <BottomSheet isOpen={isSliderOpen}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", }} >
           <img src={Line22} alt="line22" style={{ marginTop: 20 }} />
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              color: "#000000",
-              paddingTop: "20px",
-              fontWeight: "600",
-            }}
-          >
+
+          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} >
             Coupon Confirmation
           </h2>
 
           <img src={ThickLine} alt="thick tline" style={{ marginBottom: 30 }} />
-          <p
-            style={{
-              textAlign: "center",
-              marginBottom: "10px",
-              color: "black",
-              // fontWeight: "400",
-            }}
-          >
+          <p style={{ textAlign: "center", marginBottom: "10px", color: "black" }}>
             I confirm that I want to activate the coupon.
           </p>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              justifyContent: "space-between",
-              margin: 10,
-            }}
-          >
+          <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
             <button
               style={{
                 marginRight: 40,
@@ -437,11 +365,10 @@ const Dashboard = () => {
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Added shadow here
                 transition: "box-shadow 0.3s ease", // Smooth transition for hover effect
               }}
-              onClick={() => {
+              onClick={() => { 
                 setIsSliderOpen(false);
                 setFreeCops(false);
-              }}
-            >
+              }} >
               RETURN
             </button>
             <button
@@ -466,15 +393,7 @@ const Dashboard = () => {
               ACTIVATE
             </button>
           </div>
-          <p
-            style={{
-              margin: 10,
-              color: "#000000",
-              fontSize: 16,
-              fontWeight: "500",
-              textAlign: "center",
-            }}
-          >
+          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }}           >
             Note: The coupon is valid for 15 minutes after activation.
           </p>
         </div>
@@ -482,7 +401,7 @@ const Dashboard = () => {
 
       {coupanPopup && (
         <Reward
-          showPopup={coupanPopup}
+          showPopup={coupanPopup} timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={"Here is your FREE COFFEE Coupon from olo"}
         />

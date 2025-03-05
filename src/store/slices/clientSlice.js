@@ -31,6 +31,15 @@ export const getAllClients = createAsyncThunk("client/getAllClients", async (for
   }
 });
 
+export const unfollowClient = createAsyncThunk("client/unfollowClient", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.unfollowClient(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
 export const getAllLoyalityCards = createAsyncThunk("client/getAllLoyalityCards", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.getAllLoyalityCards(formData);
@@ -48,9 +57,18 @@ export const reedemLoyalityCard = createAsyncThunk("client/reedemLoyalityCard", 
     return rejectWithValue(error.response?.data || error.message);
   }
 });
+
 export const deleteLoyalityCard = createAsyncThunk("client/deleteLoyalityCard", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.deleteLoyalityCard(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+export const addClientInUser = createAsyncThunk("client/addClientInUser", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.addClientInUser(formData);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response?.data || error.message);
@@ -70,7 +88,7 @@ const clientSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Sign-up user
+      // Single Client Info user
       .addCase(getClientInfo.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -80,6 +98,20 @@ const clientSlice = createSlice({
         state.clientData = action.payload?.data;
       })
       .addCase(getClientInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch client information";
+      }) 
+
+      // Sign-up user
+      .addCase(unfollowClient.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(unfollowClient.fulfilled, (state, action) => {
+        state.loading = false;
+        toast.success(action.payload?.message || "Client unfollowed successfully")
+      })
+      .addCase(unfollowClient.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch client information";
       }) 
@@ -138,6 +170,20 @@ const clientSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
         toast.error("Failed to delete loyalty card!");
+      }) 
+      // Add Client in User
+      .addCase(addClientInUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addClientInUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload?.message;
+      })
+      .addCase(addClientInUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message;
+        toast.error("Failed to Add Client");
       }) 
   },
 });

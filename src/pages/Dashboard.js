@@ -24,10 +24,11 @@ import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
+import { addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Dashboard = () => {
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate()
 
   const [freeCops, setFreeCops] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -45,16 +47,21 @@ const Dashboard = () => {
   const [showAllLoyality, setShowAllLoyality] = useState(false);
 
   const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
-  const {client_id} = JSON.parse(localStorage.getItem("nfc-app"));
-
+  const client_id = localStorage.getItem("client_id");
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
 
   useEffect(() => {
-    dispatch(getClientInfo({ client_table_id : client_id, user_id : user_id}))
-    dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
+    if(client_id || user_id) {
+      dispatch(getClientInfo({ client_table_id : client_id, user_id : user_id}))
+      dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
+      dispatch(addClientInUser({ client_table_id : client_id, user_table_id : user_id}))
+    } else {
+      localStorage.removeItem("nfc-app");
+      navigate("/")
+    }
   },[dispatch])
 
   const coupans = [
@@ -150,7 +157,7 @@ const Dashboard = () => {
       
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <img src={ backendUrl+"/"+clientData?.company_logo || OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
+          <img src={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
           <div style={{ display: "flex", flexDirection: "column", }}>
             <span className="restaurant-name" style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
               {clientData?.client_name.length > 10 ? `${clientData?.client_name.slice(0, 10)}...` : clientData?.client_name || "Olo"}
@@ -199,7 +206,7 @@ const Dashboard = () => {
     
     {/* Client Image And slogan  */}
       <div style={{ position: "relative" }}>
-        <img src={backendUrl+"/"+clientData?.company_photo|| HomeImg} alt="homeImg" style={{ objectFit: "contain", width: "100%", filter: "brightness(70%)" }} />
+        <img src={clientData?.company_photo ? backendUrl+"/"+clientData?.company_photo : HomeImg} alt="homeImg" style={{ objectFit: "contain", width: "100%", filter: "brightness(70%)" }} />
         <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", 
           color: "white", fontSize: "24px",textAlign:'center', fontWeight: "bold" }}> {clientData?.company_slogam} </span>
       </div>

@@ -16,7 +16,7 @@ import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteLoyalityCard, getAllClients, getAllLoyalityCards } from "../store/slices/clientSlice";
+import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
 import { Button, Modal } from "react-bootstrap";
@@ -92,13 +92,15 @@ const MyPage = () => {
   const { allClientsData, loyalityCards, loading } = useSelector((state) => state.client)
 
   const {user_id} = JSON.parse(localStorage.getItem("nfc-app"));
-  const {client_id} = JSON.parse(localStorage.getItem("nfc-app"));
+  const client_id = localStorage.getItem("client_id");
+
+  const [activeClient, setActiveClient] = useState(client_id);
   
   useEffect(() => {
-    dispatch(getAllClients({ client_table_id : client_id, user_table_id : user_id}))
-    dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id}))
+    dispatch(getAllClients({ client_table_id : activeClient, user_table_id : user_id}))
+    dispatch(getAllLoyalityCards({ client_table_id : activeClient, user_id : user_id}))
     
-  },[dispatch])
+  },[dispatch, activeClient, user_id])
   
   const [visibleCount, setVisibleCount] = useState(3); // State to manage visible items
   const [isExpanded, setIsExpanded] = useState(false);
@@ -134,8 +136,16 @@ const MyPage = () => {
     }
   }
   
-  const handleUnfollow = (id) => {
-    console.log("Unfollowed item ID:", id); 
+  const handleUnfollow = async (id) => {
+    try {
+      await dispatch(unfollowClient({ client_table_id : id, user_table_id : user_id }))
+
+      dispatch(getAllClients({ client_table_id : client_id, user_table_id : user_id}))
+      
+    } catch (error) {
+      console.error("Error unfollow client:", error);
+
+    }
   };
 
   return (
@@ -161,38 +171,38 @@ const MyPage = () => {
         </div>
         <div style={{ display: "flex",flexDirection: "column",gap: "10px", padding: "10px", borderRadius: "10px", 
             width: "80%", alignItems: "center" }}>
+        {/* <LoyaltyCard /> */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+            width: "80%", alignItems: "center", }} >
+            {visibleLoyalityCards?.map((item, index) => {
+              return (
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
+                  <LoyaltyCardImgComponent 
+                    allData = {item}
+                    campaign_name={item?.campaign_name}
+                    free_item={item?.free_items_name}
+                    total_stamps={item?.number_of_stamps}
+                    open_stamps={item?.total_open_stamps ?? "0"}
+                    end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
+                    url={"/mypage"}
+                  />
+                <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => { 
+                  setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
+                  setShowDeleted(true); // Open the delete modal 
+                }}/>
+                </div>
+              );
+            })}
 
-                  {/* <LoyaltyCard /> */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
-          width: "80%", alignItems: "center", }} >
-          {visibleLoyalityCards?.map((item, index) => {
-            return (
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
-                <LoyaltyCardImgComponent 
-                  allData = {item}
-                  campaign_name={item?.campaign_name}
-                  free_item={item?.free_items_name}
-                  total_stamps={item?.number_of_stamps}
-                  open_stamps={item?.total_open_stamps ?? "0"}
-                  end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
-                  url={"/mypage"}
-                />
-              <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => { 
-                setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
-                setShowDeleted(true); // Open the delete modal 
-              }}/>
-              </div>
-            );
-          })}
+            { loyalityCards?.length > 2 && (
+                <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
+                  {showAllLoyality ? "See Less" : "See More"}
+                  <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
+                </button>
+            )}
+          </div>
 
-        { loyalityCards?.length > 2 && (
-            <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
-              {showAllLoyality ? "See Less" : "See More"}
-              <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
-            </button>
-        )}
-      </div>
-
+        {/* All Coupans*/}
           <div
             style={{
               maxHeight: "400px",
@@ -278,7 +288,7 @@ const MyPage = () => {
 
         {allClientsData?.slice(0, visibleCount).map((item, index) => (
           <div style={styles.listItem} key={index}>
-            <img src={(backendUrl+"/"+ item?.company_logo) || Restro} alt={item?.client_name} style={styles.itemImage} />
+            <img src={ item?.company_logo ? (backendUrl+"/"+ item?.company_logo) : Restro} alt={item?.client_name} style={styles.itemImage} />
 
             <div style={styles.itemContent}>
               <h3 style={styles.itemTitle}>{item?.client_name}</h3>
@@ -288,19 +298,9 @@ const MyPage = () => {
             </div>
 
             <div style={styles.itemButtons}>
-              <button
-                style={{
-                  padding: 10,
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  backgroundColor: "#25026E",
-                  color: "#fff",
-                  textAlign: "center",
-                  fontSize: 12,
-                  fontWeight: "600",
-                }}
-              >
+              <button style={{
+                  padding: 10, border: "none", borderRadius: "8px", cursor: "pointer", backgroundColor: "#25026E",
+                  color: "#fff", textAlign: "center", fontSize: 12, fontWeight: "600", }} onClick={() => setActiveClient(item?.client_table_id)}>
                 VIEW COUPONS
               </button>
               <button style={styles.button} onClick={() => {
@@ -512,8 +512,8 @@ const styles = {
   },
 
   itemImage: {
-    width: "100px",
-    height: "100px",
+    width: "80px",
+    height: "80px",
     flexShrink: 0,
     borderRadius: "50%", // Make the image circular
   },

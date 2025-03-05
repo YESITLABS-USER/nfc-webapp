@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL || "https://nfcmediapi.tgastaging.com",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
   headers: {
     'Authorization': `Bearer ${JSON.parse(localStorage.getItem("nfc-app"))?.token}`,
     'lang': localStorage.getItem("language") || "eng",
@@ -38,6 +38,11 @@ export const getClientInfo = (formData) => API.post(`/api/v1/get-client-detail`,
 
 export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
 
+export const addClientInUser = (formData) => API.post(`/api/v1/add-client-in-user`,formData);
+
+
+
+
 // ---------------------------------- Loyality Reedem Api --------------------------------
 export const reedemLoyalityCard = (formData) => API.post(`/api/v1/loyality-card-change-stamp`,formData);
 
@@ -48,6 +53,7 @@ export const deleteLoyalityCard = (formData) => API.post(`/api/v1/remove-loyalit
 
 export const getAllClients = (formData) => API.post(`/api/v1/all-visited-clients-by-user`,formData);
 
+export const unfollowClient = (formData) => API.post(`/api/v1/follow-client`,formData);
 
 
 

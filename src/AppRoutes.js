@@ -10,12 +10,14 @@ import AboutService from "./pages/AboutService";
 import MyProfile from "./pages/MyProfile";
 import Loyality from "./pages/Loyality";
 import AboutScreen from "./pages/AboutScreen";
+import NewScan from "./pages/NewScan";
 
 const AppRoutes = () => {
   return (
     <Routes >
       <Route path="/" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/dashboard/:id" element={<NewScan />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/contactFaq" element={<ContactFaq />} />
       <Route path="/mypage" element={<MyPage />} />

@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Line22 from "../assets/icons/line222.png";
 import { useDispatch } from "react-redux";
 import { reedemLoyalityCard } from "../store/slices/clientSlice";
-import { getMySQLFormattedTimestamp, getRemainingTime } from "../assets/common";
+import { getMySQLFormattedTimestamp } from "../assets/common";
 
 const Loyality = () => {
   const location = useLocation();

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OnboardHeader from "../components/OnboardHeader";
 
-import LoyaltyCard from "../assets/icons/loyaltyCard.png";
 import Line22 from "../assets/icons/line222.png";
 import Restro from "../assets/icons/restro.png";
 import ThickLine from "../assets/icons/thickLine.png";
@@ -16,57 +15,14 @@ import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, unfollowClient } from "../store/slices/clientSlice";
+import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { activateCoupan, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
 // import MyPlacesModal from "../components/MyPlacesModal";
 
-const allCoupans = [
-  {
-    coupan_type: "Beverages coupon",
-    coupan_discount: "FREE",
-    coupan_title: "FREE BEER",
-    coupan_validity: "DECEMBER 2025",
-    coupan_color: "red",
-    coupan_age: true,
-  },
-
-  {
-    coupan_type: "Food coupon",
-    coupan_discount: "30%",
-    coupan_title: "30% OFF ON FOOD",
-    coupan_validity: "DECEMBER 2025",
-    coupan_color: "black",
-  },
-
-  {
-    coupan_type: "Beverages coupon",
-    coupan_discount: "FREE",
-    coupan_title: "FREE BEER",
-    coupan_validity: "DECEMBER 2025",
-    coupan_color: "red",
-    coupan_age: true,
-  },
-
-  {
-    coupan_type: "Food coupon",
-    coupan_discount: "30%",
-    coupan_title: "30% OFF ON FOOD",
-    coupan_validity: "DECEMBER 2025",
-    coupan_color: "black",
-  },
-
-  {
-    coupan_type: "Liquors coupon",
-    coupan_discount: "25%",
-    coupan_title: "25% OFF ON LIQUORS",
-    coupan_validity: "DECEMBER 2025",
-    coupan_color: "blue",
-    coupan_age: true,
-  },
-];
 
 const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,11 +34,13 @@ const MyPage = () => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [ageLimitaion, setAddlimitation] = useState(false);
   const [coupanPopup, setCoupanPopup] = useState(false);
-  const [voucerDes, setVoucherDes] = useState(null);
   const [showAllLoyality, setShowAllLoyality] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
+  const [showCoupanDeletepopup, setShowCoupanDeletepopup] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null); // State to store the card id for deletion
   const navigate = useNavigate()
+
+  
   
   const handleBottmSheet = (val) => {
     setIsSliderOpen(val);
@@ -90,21 +48,28 @@ const MyPage = () => {
   
   const dispatch = useDispatch()
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const { allClientsData, loyalityCards, loading } = useSelector((state) => state.client)
-
+  const { allClientsData,clientData, loyalityCards, loading } = useSelector((state) => state.client)
+  const { coupansData } = useSelector((state) => state.coupans)
+  
+  
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
   
   const [activeClient, setActiveClient] = useState(client_id);
+  const [currentCoupanData, setCurrentCoupanData] = useState(null);
   
   useEffect(() => {
     if (!client_id || !user_id) {
       localStorage.removeItem("nfc-app");
       navigate("/"); // Navigate to home if user_id or client_id is not found
     } else {
+      dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
+      
       dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
+      dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      
     }
   }, [dispatch, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
   
@@ -154,6 +119,31 @@ const MyPage = () => {
 
     }
   };
+
+  const handleActivateCoupanBtn = async (coupanData) => {
+    try {
+      await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: coupanData?.coupon_table_id }));
+  
+      await dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+        
+      setIsSliderOpen(false);
+    } catch (error) {
+      console.error("Error activating coupon:", error);
+      setIsSliderOpen(false);
+      setCoupanPopup(false)
+    }
+  }
+
+  const handleCoupanDelete = async (id) => {
+    try {
+      await dispatch(removeCoupan({ coupon_table_id: id, user_table_id: user_id }));
+      dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      setShowCoupanDeletepopup(false);
+    } catch (error) {
+      console.error("Error deleting coupon:", error);
+      setShowCoupanDeletepopup(false);
+    }
+  }
 
   return (
     <>
@@ -210,84 +200,60 @@ const MyPage = () => {
           </div>
 
         {/* All Coupans*/}
-          <div
-            style={{
-              maxHeight: "400px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-              overflowX: "hidden",
-            }}
-            className={showAll ? "custom-scrollbar" : ""}
-          >
-            {allCoupans
-              .slice(0, showAll ? allCoupans.length : 2)
-              .map((coupan, index) => (
-                <CoupanComponent
-                  key={index}
-                  coupan_type={coupan.coupan_type}
-                  coupan_discount={coupan.coupan_discount}
-                  coupan_title={coupan.coupan_title}
-                  coupan_validity={coupan.coupan_validity}
-                  coupan_age={coupan.coupan_age}
-                  coupan_color={coupan.coupan_color}
-                  occupied={coupan.occupied}
-                  onClick={() => {
-                    if (coupan.coupan_age) {
-                      setFreeCops(true);
-                      setAddlimitation(true);
-                    } else {
-                      setFreeCops(true);
-                      setAddlimitation(false);
-                    }
-                  }}
-                />
-              ))}
+       
+      </div>
+        <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
+          overflowX: "hidden", alignItems: "center" }} className={showAll ? "custom-scrollbar" : ""} >
+            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
+              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
+                  <CoupanComponent
+                    allData={coupan} 
+                    clientData={clientData}
+                    occupied={coupan?.occupied}
+                    onClick={() => {
+                      setCurrentCoupanData(coupan);
+                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                        setFreeCops(true);
+                        setAddlimitation(true);
+                      } else {
+                        setFreeCops(true);
+                        setAddlimitation(false);
+                      }
+                    }}
+                  />
+                <MdDelete style={{ fontSize: "35px", color: "red" }}  onClick={() => {
+                  setShowCoupanDeletepopup(true);
+                  setCurrentCoupanData(coupan); 
+                }}/>
+                </div>
+              ))
+            )}
           </div>
+          </div>
+          
+        { coupansData?.length > 3 && (
+          <button onClick={() => setShowAll(!showAll)} // Implement your logic here
+            style={{ marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
+              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} >
+            {showAll ? "See Less" : "See More"}
+            <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAll ? "180deg" : "0deg"}`, }} />
+          </button> 
+        )}
           {/* <img src={FreeBeer} alt="Coupon 2" style={{ objectFit: "contain" }} />
           <img src={Food} alt="Coupon 3" style={{ objectFit: "contain" }} /> */}
-        </div>
-        <button
-          onClick={() => setShowAll(!showAll)} // Implement your logic here
-          style={{
-            marginTop: "20px",
-            padding: "10px 20px",
-            backgroundColor: "#25026E",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          {showAll ? "See Less" : "See More"}
-          <FaChevronDown
-            style={{
-              marginLeft: "10px",
-              rotate: `${showAll ? "180deg" : "0deg"}`,
-            }}
-          />
-        </button>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 15,
-          zIndex: 100,
-        }}
-      >
+
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15, 
+          zIndex: 100, }} >
         <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>
-        <FaInfoCircle
-          size={24}
-          color="#25026E"
-          style={{ marginRight: "30px" }}
+        <FaInfoCircle size={24} color="#25026E" style={{ marginRight: "30px" }}
           onClick={() => {
             setIsModalOpen(true);
             setCoops(false);
-          }}
-        />
+        }} />
       </div>
+
+      
       <div style={styles.verticalList}>
           {
             allClientsData?.length <= 0 && <p style={{ display:"flex", justifyContent:'center', padding:"20px 0"}}> No Clients Available </p>
@@ -331,49 +297,26 @@ const MyPage = () => {
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
         setAddlimitation={setAddlimitation}
+        currentCoupanData={currentCoupanData}
+        clientData={clientData}
       />
-      <BottomSheet isOpen={isSliderOpen} onClose={() => {}}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
+      <BottomSheet isOpen={isSliderOpen}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", }} >
           <img src={Line22} alt="line22" style={{ marginTop: 20 }} />
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              color: "#000000",
-              paddingTop: "20px",
-              fontWeight: "600",
-            }}
-          >
+
+          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} >
             Coupon Confirmation
           </h2>
+
           <img src={ThickLine} alt="thick tline" style={{ marginBottom: 30 }} />
-          <p
-            style={{
-              textAlign: "center",
-              marginBottom: "10px",
-              color: "#000000",
-            }}
-          >
+          <p style={{ textAlign: "center", marginBottom: "10px", color: "black" }}>
             I confirm that I want to activate the coupon.
           </p>
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              justifyContent: "center",
-              marginTop: "20px",
-            }}
-          >
+
+          <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
             <button
               style={{
+                marginRight: 40,
                 padding: "8px 12px",
                 backgroundColor: "#FFFFFF",
                 color: "Black",
@@ -381,15 +324,13 @@ const MyPage = () => {
                 borderRadius: "4px",
                 cursor: "pointer",
                 fontWeight: "bold",
-                marginRight: 40,
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Added shadow here
                 transition: "box-shadow 0.3s ease", // Smooth transition for hover effect
               }}
-              onClick={() => {
+              onClick={() => { 
                 setIsSliderOpen(false);
                 setFreeCops(false);
-              }}
-            >
+              }} >
               RETURN
             </button>
             <button
@@ -406,7 +347,7 @@ const MyPage = () => {
                 marginLeft: 20,
               }}
               onClick={() => {
-                setIsSliderOpen(false);
+                handleActivateCoupanBtn(isSliderOpen)
                 setFreeCops(false);
                 setCoupanPopup(true);
               }}
@@ -414,40 +355,30 @@ const MyPage = () => {
               ACTIVATE
             </button>
           </div>
-          <p
-            style={{
-              margin: 10,
-              color: "#000000",
-              fontSize: 16,
-              fontWeight: "500",
-              textAlign: "center",
-            }}
-          >
+          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }}           >
             Note: The coupon is valid for 15 minutes after activation.
           </p>
         </div>
       </BottomSheet>
 
-      {coupanPopup && (
-        <Reward
-          showPopup={coupanPopup}
+      {/* {coupanPopup && (
+        <Reward showPopup={coupanPopup} countText={voucerDes}
           onClose={() => {
             setCoupanPopup(false);
             setVoucherDes(null);
           }}
-          countText={voucerDes}
+        />
+      )} */}
+      {coupanPopup && (
+        <Reward
+          showPopup={coupanPopup}  timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          onClose={() => setCoupanPopup(false)}
+          countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />
       )}
 
-      <MyPageInfo
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        coops={coopn}
-      />
-      {/* <MyPlacesModal
-        show={isModalOpen}
-        onHide={() => setIsModalOpen(false)} // Close modal
-      /> */}
+      <MyPageInfo isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} coops={coopn} />
+      
       <UnFollow
         isModalOpen={UnFollows}
         setIsModalOpen={setIsUnfollow}
@@ -455,14 +386,16 @@ const MyPage = () => {
         onUnfollow={handleUnfollow}
       />
       <DeletePopup isModalOpen={showDeleted} setIsModalOpen={setShowDeleted} handleDelete={handleLoyalityDelete} 
-        cardId={selectedCardId} 
-/>    </>
+        cardId={selectedCardId} name="loyality card"/> 
+
+      <DeletePopup isModalOpen={showCoupanDeletepopup} setIsModalOpen={setShowCoupanDeletepopup} handleDelete={handleCoupanDelete} cardId={currentCoupanData?.coupon_table_id} name="coupan"/> 
+    </>
   );
 };
 
 export default MyPage;
 
-function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId }) {
+function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }) {
   const handleClose = () => {
     setIsModalOpen(false); // Close the modal
   }
@@ -474,7 +407,7 @@ function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId }) {
   return (
       <Modal show={isModalOpen} size="sm" centered>
         <Modal.Body style={{ display:'flex', flexDirection:"column", justifyContent:'center', alignItems:"center", textAlign:"center"}}>
-          <h5> Are you sure you want to delete this Loyalty card? </h5>
+          <h5> Are you sure you want to delete this {name || "Loyalty card"}? </h5>
           <div style={{width:"100%", display:'flex', justifyContent:"center", gap:"30px", paddingTop:"20px"}}>
           <Button variant="secondary" onClick={handleClose}> Close </Button>
           <Button variant="primary" onClick={handleConfirmDelete}> Delete </Button>

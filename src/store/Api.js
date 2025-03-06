@@ -34,6 +34,9 @@ export const deleteUser = (formData) => API.post(`/api/v1/delete-account`, formD
 
 
 // ---------------------------------- Client Api --------------------------------
+export const getClientInfoWithoutLogin = (formData) => API.post(`/api/v1/get-client-detail-with-out-login`,formData);
+
+
 export const getClientInfo = (formData) => API.post(`/api/v1/get-client-detail`,formData);
 
 export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
@@ -42,6 +45,10 @@ export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyal
 export const getAllCoupans = (formData) => API.post(`/api/v1/show-all-coupon-of-particular-client-on-particular-location`,formData);
 
 export const addClientInUser = (formData) => API.post(`/api/v1/add-client-in-user`,formData);
+
+export const activateCoupan = (formData) => API.post(`/api/v1/activate-coupon-of-user`,formData);
+
+export const removeCoupan = (formData) => API.post(`/api/v1/remove-coupan`,formData);
 
 
 

@@ -7,7 +7,7 @@ import FaceBook from "../assets/icons/facebook.svg";
 import LinkedIn from "../assets/icons/linkedIn.svg";
 import { useNavigate } from "react-router-dom";
 
-const SocialMediaAbout = ({ signup }) => {
+const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
   return (
     <div style={{ margin: "10px" }}>
@@ -26,7 +26,7 @@ const SocialMediaAbout = ({ signup }) => {
       <div style={{ marginTop: "10px" }}>
         {/* Facebook Icon */}
         <a
-          href="https://www.facebook.com"
+          href={data?.facebook || "https://www.facebook.com"}
           target="_blank"
           rel="noopener noreferrer"
           style={{ margin: "0 10px" }}
@@ -36,7 +36,7 @@ const SocialMediaAbout = ({ signup }) => {
 
         {/* LinkedIn Icon */}
         <a
-          href="https://www.linkedin.com"
+          href={"https://www.linkedin.com"}
           target="_blank"
           rel="noopener noreferrer"
           style={{ margin: "0 10px" }}
@@ -46,7 +46,7 @@ const SocialMediaAbout = ({ signup }) => {
 
         {/* Instagram Icon */}
         <a
-          href="https://www.instagram.com"
+          href={data?.instagram || "https://www.instagram.com"}
           target="_blank"
           rel="noopener noreferrer"
           style={{ margin: "0 10px" }}

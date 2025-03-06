@@ -34,7 +34,7 @@ const CoupanComponent = ({
         <img 
         src={colorMapping[allData?.color_selection in colorMapping ? allData?.color_selection : "orange"]}
         // src={colorMapping["orange"]} 
-          alt="Coupon"
+          alt="Coupon" style={{width:"100%"}}
           className="coupan-image"
         />
         <div className="coupan-content">

@@ -22,18 +22,18 @@ export const getAllCoupans = createAsyncThunk("client/getAllCoupans", async (for
   }
 });
 
-export const reedemLoyalityCard = createAsyncThunk("client/reedemLoyalityCard", async (formData, { rejectWithValue }) => {
+export const activateCoupan = createAsyncThunk("client/activateCoupan", async (formData, { rejectWithValue }) => {
   try {
-    const response = await api.reedemLoyalityCard(formData);
+    const response = await api.activateCoupan(formData);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response?.data || error.message);
   }
 });
 
-export const deleteLoyalityCard = createAsyncThunk("client/deleteLoyalityCard", async (formData, { rejectWithValue }) => {
+export const removeCoupan = createAsyncThunk("client/removeCoupan", async (formData, { rejectWithValue }) => {
   try {
-    const response = await api.deleteLoyalityCard(formData);
+    const response = await api.removeCoupan(formData);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response?.data || error.message);
@@ -44,7 +44,7 @@ const coupanSlice = createSlice({
   name: "coupanSlice",
   initialState: {
     coupansData: [],
-    loyalityReward: null,
+    coupanReward: null,
     loading: false,
     error: null,
   },
@@ -66,31 +66,31 @@ const coupanSlice = createSlice({
       }) 
 
       // reedem Coupans
-      .addCase(reedemLoyalityCard.pending, (state) => {
+      .addCase(activateCoupan.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(reedemLoyalityCard.fulfilled, (state, action) => {
+      .addCase(activateCoupan.fulfilled, (state, action) => {
         state.loading = false;
-        state.loyalityReward = action.payload?.data;
+        state.coupanReward = action.payload?.data;
       })
-      .addCase(reedemLoyalityCard.rejected, (state, action) => {
+      .addCase(activateCoupan.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch Coupans";
       }) 
       // reedem Coupans
-      .addCase(deleteLoyalityCard.pending, (state) => {
+      .addCase(removeCoupan.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(deleteLoyalityCard.fulfilled, (state, action) => {
+      .addCase(removeCoupan.fulfilled, (state, action) => {
         state.loading = false;
-        toast.success("Loyalty card deleted successfully!");
+        toast.success("Coupan card deleted successfully!");
       })
-      .addCase(deleteLoyalityCard.rejected, (state, action) => {
+      .addCase(removeCoupan.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch Coupans";
-        toast.error("Failed to delete loyalty card!");
+        toast.error("Failed to delete coupan card!");
       }) 
       
   },

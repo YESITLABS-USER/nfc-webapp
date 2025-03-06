@@ -90,7 +90,7 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
             Congratulations
           </h4>
 
-          <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", }} >
+          <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0",textTransform:"uppercase" }} >
             {countText || `3 / 9`}
           </p>
           <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "81px", height: "77px", marginBottom: "20px", marginTop: "10px", }} />

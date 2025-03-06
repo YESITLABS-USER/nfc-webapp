@@ -12,7 +12,16 @@ import { toast } from "react-toastify";
 //   }, 1000);
 // }
 
-//  User API
+//  Client Get without Login API
+export const getClientInfoWithoutLogin = createAsyncThunk("client/getClientInfoWithoutLogin", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.getClientInfoWithoutLogin(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+//  Client API
 export const getClientInfo = createAsyncThunk("client/getClientInfo", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.getClientInfo(formData);
@@ -88,6 +97,20 @@ const clientSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Single Client Info user
+      .addCase(getClientInfoWithoutLogin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getClientInfoWithoutLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.clientData = action.payload?.data;
+      })
+      .addCase(getClientInfoWithoutLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch client information";
+      }) 
+
       // Single Client Info user
       .addCase(getClientInfo.pending, (state) => {
         state.loading = true;

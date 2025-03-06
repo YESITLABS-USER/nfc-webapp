@@ -124,25 +124,16 @@ const CopsActivation = ({
               <p style={{minHeight:'300px'}} dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
             </div>
 
-            <button
-              style={{
-                padding: "8px 12px",
-                backgroundColor: "#2A0181",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
+            <button style={{ padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none", 
+                borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }}
               onClick={() => {
                 if (ageLimitaion) {
                   setAgeModal(true);
                   setIsModalOpen(false);
                 } else {
-                  callBack(true);
+                  callBack(currentCoupanData);
                 }
-              }}
-            >
+              }} >
               ACTIVATE
             </button>
             <p style={{ color: "black", textAlign: "center", marginTop: 10 }}>

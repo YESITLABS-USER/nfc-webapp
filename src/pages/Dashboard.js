@@ -29,7 +29,7 @@ import { Button } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate } from "../assets/common";
 import { useNavigate } from "react-router-dom";
-import { getAllCoupans } from "../store/slices/coupanSlice";
+import { activateCoupan, getAllCoupans } from "../store/slices/coupanSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -140,11 +140,20 @@ const Dashboard = () => {
     setIsSliderOpen(val);
   };
 
-  // const formatDate = (dateString) => {
-  //   const date = new Date(dateString);
-  //   const options = { day: '2-digit', month: 'long', year: 'numeric' };
-  //   return date.toLocaleDateString('en-GB', options); 
-  // };
+  const handleActivateCoupanBtn = async (coupanData) => {
+    try {
+      await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: coupanData?.coupon_table_id }));
+
+      await dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      
+      setIsSliderOpen(false);
+    } catch (error) {
+      console.error("Error activating coupon:", error);
+      setIsSliderOpen(false);
+      setCoupanPopup(false)
+    }
+  }
+  
 
   const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
 
@@ -267,15 +276,16 @@ const Dashboard = () => {
         
         <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
           overflowX: "hidden", alignItems: "center", width: "80%" }} className={showAll ? "custom-scrollbar" : ""} >
-            {coupansData
-              .slice(0, showAll ? coupans?.length : 3)
-              .map((coupan, index) => (
+            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
+              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
                 <CoupanComponent
-                  key={index} allData={coupan} clientData={clientData}
+                  key={index} 
+                  allData={coupan} 
+                  clientData={clientData}
                   occupied={coupan?.occupied}
                   onClick={() => {
                     setCurrentCoupanData(coupan);
-                    if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <=18) {
+                    if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
                       setFreeCops(true);
                       setAddlimitation(true);
                     } else {
@@ -284,7 +294,8 @@ const Dashboard = () => {
                     }
                   }}
                 />
-              ))}
+              ))
+            )}
           </div>
           
         { coupansData?.length > 3 && (
@@ -385,7 +396,7 @@ const Dashboard = () => {
                 marginLeft: 20,
               }}
               onClick={() => {
-                setIsSliderOpen(false);
+                handleActivateCoupanBtn(isSliderOpen)
                 setFreeCops(false);
                 setCoupanPopup(true);
               }}
@@ -401,9 +412,9 @@ const Dashboard = () => {
 
       {coupanPopup && (
         <Reward
-          showPopup={coupanPopup} timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          showPopup={coupanPopup}  timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
-          countText={"Here is your FREE COFFEE Coupon from olo"}
+          countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />
       )}
     </>

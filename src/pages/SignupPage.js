@@ -19,10 +19,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
+import { getClientInfoWithoutLogin } from "../store/slices/clientSlice";
 
 const SignupPage = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.user) 
+  const { loading } = useSelector((state) => state.user) ;
+  const { clientData } = useSelector((state) => state.client)
+  
   const navigate = useNavigate()
 
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -36,11 +39,14 @@ const SignupPage = () => {
 
   // Use Formik for form handling
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("nfc-app"))?.token
+    const loggedInUser = JSON.parse(localStorage.getItem("nfc-app"))?.token;
+    const clientId = localStorage.getItem("client_id");
+    dispatch(getClientInfoWithoutLogin({"client_table_id": Number(clientId)}));
+
     if(loggedInUser){
       navigate('/dashboard')
     }
-  }, [])
+  }, [dispatch, navigate])
 
   useEffect(() => {
     // Detect if the user is on iOS
@@ -112,7 +118,7 @@ const SignupPage = () => {
   return (
     <>
       <div style={{ marginTop: 10 }}>
-        <Header chgName={false} />
+        <Header chgName={false} data={clientData}/>
       </div>
       <div className="login-container">
         <img src={Start} alt="Start Pattern" className="start-img" />
@@ -241,11 +247,24 @@ const SignupPage = () => {
         <img src={GoogleReview} alt="Star Pattern" className="start-img" style={{ width: "auto", height: "auto" }} />
       </div>
 
-      <CustomButton text="Leave a review" onClick={() => { setToShortCut(true); console.log("hello test user"); }} fullWidth={"50%"} />
+      <CustomButton text="Leave a review" fullWidth="50%" 
+        onClick={() => {
+          const reviewLink = clientData?.google_review_link;
+          if (reviewLink) {
+            // Check if the link contains 'http' or 'https', and format accordingly
+            const formattedLink = reviewLink.startsWith('http') || reviewLink.startsWith('https')
+              ? reviewLink : `https://${reviewLink}`;
+            
+            // Open the link in a new tab
+            window.open(formattedLink, '_blank');
+          }
+        }} 
+      />
+
       <Coopons setCallback={() => {}} value={false} />
 
       <div style={{ backgroundColor: "#E0E0E0", width: "100vw", height: "3px", padding: "0", boxSizing: "border-box", marginTop: "20px" }} />
-      <SocialMediaAbout signup={true} />
+      <SocialMediaAbout signup={true}  data={clientData}/>
       <Verification isModalOpen={isModalOpen} data={selectedData} setIsModalOpen={setIsModalOpen} />
       <AddShortCut isModalOpen={addToShort} setIsModalOpen={setToShortCut} handleInstallClick={handleInstallClick} showInstallButton={showInstallButton} />
 

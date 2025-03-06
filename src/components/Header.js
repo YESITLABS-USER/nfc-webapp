@@ -6,8 +6,9 @@ import OIO from "../assets/icons/header.png";
 import { Link } from "react-router-dom";
 import SlidingPage from "./SlidingPage";
 
-const Header = ({ chgName = false }) => {
+const Header = ({ chgName = false, data=null }) => {
   const [showPage, setShowPage] = useState(false);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   return (
     <div>
@@ -39,7 +40,7 @@ const Header = ({ chgName = false }) => {
       </div>
       <div className="header-extra">
         <img
-          src={OIO}
+          src={ data?.company_logo ? (backendUrl+"/"+data?.company_logo) : OIO}
           alt="restaurent logo"
           style={{
             width: "auto",
@@ -49,8 +50,8 @@ const Header = ({ chgName = false }) => {
           }}
         />
         <div className="text-container">
-          <span className="restaurant-name">Olo</span>
-          <span className="location">Helsinki, Finland</span>
+          <span className="restaurant-name">{data?.client_name || "OLO"}</span>
+          <span className="location">{data?.location_name || "Helsinki, Finland"}</span>
         </div>
       </div>
       <SlidingPage showPage={showPage} setShowPage={setShowPage} />

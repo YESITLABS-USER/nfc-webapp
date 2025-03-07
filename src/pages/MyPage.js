@@ -17,7 +17,7 @@ import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
-import { formatDate } from "../assets/common";
+import { formatDate, getRemainingTime } from "../assets/common";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
@@ -212,6 +212,8 @@ const MyPage = () => {
                     clientData={clientData}
                     occupied={coupan?.occupied}
                     onClick={() => {
+                      coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                      setCurrentCoupanData(coupan);
                       setCurrentCoupanData(coupan);
                       if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
                         setFreeCops(true);
@@ -292,7 +294,7 @@ const MyPage = () => {
       </div>
 
       <CopsActivation
-        isModalOpen={freeCops}
+        isModalOpen={freeCops && !currentCoupanData?.coupon_last_activate_date_time}
         setIsModalOpen={setFreeCops}
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
@@ -371,7 +373,7 @@ const MyPage = () => {
       )} */}
       {coupanPopup && (
         <Reward
-          showPopup={coupanPopup}  timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          showPopup={coupanPopup}  timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />

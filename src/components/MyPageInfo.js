@@ -59,7 +59,7 @@ const MyPageInfo = ({ isModalOpen, setIsModalOpen, coops }) => {
                 size={30}
                 style={{
                   position: "absolute",
-                  right: "5px",
+                  right: "-15px",
                   cursor: "pointer",
                   top: "-10px",
                 }}

@@ -107,6 +107,7 @@ const userSlice = createSlice({
       .addCase(signUp.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.otpError = null;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.loading = false;
@@ -127,6 +128,7 @@ const userSlice = createSlice({
       .addCase(signIn.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.otpError = null;
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading = false;

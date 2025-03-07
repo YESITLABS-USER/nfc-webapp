@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
-import { formatDate } from "../assets/common";
+import { formatDate, getRemainingTime } from "../assets/common";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllCoupans } from "../store/slices/coupanSlice";
 
@@ -142,7 +142,7 @@ const Dashboard = () => {
 
   const handleActivateCoupanBtn = async (coupanData) => {
     try {
-      await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: coupanData?.coupon_table_id }));
+      await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
 
       await dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       
@@ -175,10 +175,10 @@ const Dashboard = () => {
           <img src={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
           <div style={{ display: "flex", flexDirection: "column", }}>
             <span className="restaurant-name" style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
-              {clientData?.client_name.length > 10 ? `${clientData?.client_name.slice(0, 10)}...` : clientData?.client_name || "Olo"}
+              {clientData?.client_name?.length > 10 ? `${clientData?.client_name?.slice(0, 10)}...` : clientData?.client_name || "Olo"}
             </span>
             <span className="location" style={{ fontSize: "14px", color: "#777" }}>
-              {clientData?.location_name.length > 10 ? `${clientData?.location_name.slice(0, 10)}...` : clientData?.location_name || "Helsinki, Finland"}
+              {clientData?.location_name?.length > 10 ? `${clientData?.location_name?.slice(0, 10)}...` : clientData?.location_name || "Helsinki, Finland"}
             </span>
           </div>
         </div>
@@ -410,9 +410,9 @@ const Dashboard = () => {
         </div>
       </BottomSheet>
 
-      {coupanPopup && (
+      {(coupanPopup || currentCoupanData?.coupon_last_activate_date_time) && (
         <Reward
-          showPopup={coupanPopup}  timer={"00:15:00"} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          showPopup={coupanPopup}  timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />

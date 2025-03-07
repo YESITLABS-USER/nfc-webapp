@@ -4,9 +4,7 @@ import header from "../assets/icons/header.png";
 import { formatTime, parseTime } from "../assets/common";
 
 const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
-  // const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 hours in seconds
-  
-  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer))); // 15 hours in seconds
+  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer || 900))); // 15 minute in seconds
 
   useEffect(() => {
     const intervalId = setInterval(() => {

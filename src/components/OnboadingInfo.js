@@ -32,6 +32,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            zIndex:3
           }}
         >
           <div
@@ -59,7 +60,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 size={30}
                 style={{
                   position: "absolute",
-                  right: "5px",
+                  right: "-15px",
                   cursor: "pointer",
                   top: "-10px",
                 }}

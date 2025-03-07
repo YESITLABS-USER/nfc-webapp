@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import orange from "../assets/coupans/orange-coupon.svg";
 import orange from "../assets/coupans/orange-coupon.png";
 import blue from "../assets/coupans/blue-coupon.svg";
@@ -6,7 +6,7 @@ import red from "../assets/coupans/red-coupon.svg";
 import black from "../assets/coupans/black-coupon.svg";
 import "../styles/coupan.css";
 import { MdDelete } from "react-icons/md";
-import { formatDate } from "../assets/common";
+import { formatDate, formatTime, getRemainingTime, parseTime } from "../assets/common";
 
 const CoupanComponent = ({
   allData,  
@@ -21,6 +21,18 @@ const CoupanComponent = ({
     black: black,
   };
 
+  const remainingTime = getRemainingTime(allData?.coupon_last_activate_date_time, "00:15:00");
+  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : "00:15:00"))); 
+  // Effect to update the countdown timer
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const intervalId = setInterval(() => {
+        setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+      }, 1000);
+      
+      return () => clearInterval(intervalId); // Cleanup interval on component unmount or when timeLeft changes
+    }
+  }, [timeLeft]);
   return (
     <div
       style={{
@@ -69,6 +81,11 @@ const CoupanComponent = ({
         </div>
       </div>
 
+      <div style={{position:"relative"}}>    
+      {remainingTime && <div style={{ position: 'absolute', top: '-4rem', left: '-20rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex:5}} >
+        {formatTime(timeLeft)}
+      </div>}
+      </div>
       {/* <MdDelete style={{ fontSize: "25px", color: "red" }} /> */}
     </div>
   );

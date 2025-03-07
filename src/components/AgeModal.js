@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import CancelModal from "./CancelModal";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../store/slices/userSlice";
 
 const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
   const closeModal = () => setIsModalOpen(false);
@@ -8,6 +10,9 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+
+  const dispatch = useDispatch();
+  const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
 
   useEffect(() => {
     if (isModalOpen) {
@@ -22,80 +27,11 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
     };
   }, [isModalOpen]);
 
-  //
+  function convertDateFormat(dateString) {
+    const parts = dateString.split('/');
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+}
 
-  // const handleDateChange = (e) => {
-  //   let input = e.target.value;
-
-  //   // Save the cursor position
-  //   // const cursorPosition = e.target.selectionStart;
-  //   const isDeleting = input.length < value.length;
-
-  //   // Remove all non-numeric characters
-  //   input = input.replace(/\D/g, "");
-
-  //   if (isDeleting) {
-  //     // Format progressively while deleting
-  //     if (input.length >= 6) {
-  //       input =
-  //         input.slice(0, 2) + "/" + input.slice(2, 4) + "/" + input.slice(4);
-  //     } else if (input.length >= 4) {
-  //       input = input.slice(0, 2) + "/" + input.slice(2, 4);
-  //     } else if (input.length >= 2) {
-  //       input = input.slice(0, 2) + "/";
-  //     }
-  //   } else {
-  //     if (input.length > 2) {
-  //       input = input.slice(0, 2) + "/" + input.slice(2);
-  //     }
-  //     if (input.length > 5) {
-  //       input = input.slice(0, 5) + "/" + input.slice(5, 10);
-  //     }
-
-  //     // Restrict the length to 10 characters
-  //     if (input.length > 10) {
-  //       input = input.slice(0, 10);
-  //     }
-
-  //     // Update the value and set the cursor position correctly
-  //     setValue(input);
-  //   }
-
-  //   // Restrict the length to 10 characters
-
-  //   // Update state
-  //   setValue(input);
-
-  //   // Restore cursor position
-
-  //   // Validate format
-  //   if (input.length === 10) {
-  //     const [day, month, year] = input.split("/");
-  //     if (
-  //       isNaN(day) ||
-  //       isNaN(month) ||
-  //       isNaN(year) ||
-  //       day < 1 ||
-  //       day > 31 ||
-  //       month < 1 ||
-  //       month > 12 ||
-  //       year < 1900 ||
-  //       year > new Date().getFullYear()
-  //     ) {
-  //       setError(
-  //         "Invalid date. Please enter a valid date in DD/MM/YYYY format."
-  //       );
-  //     } else {
-  //       setError("");
-  //     }
-  //   } else {
-  //     setError("");
-  //   }
-  // };
-
-  //
-
-  //
 
   const handleDateChange = (e) => {
     let input = e.target.value;
@@ -153,106 +89,6 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
     }
   };
 
-  // const handleDateChange = (e) => {
-  //   let input = e.target.value;
-
-  //   // Save cursor position and determine if deleting
-  //   const cursorPosition = e.target.selectionStart;
-  //   const isDeleting = input.length < value.length;
-
-  //   // Remove all non-numeric characters
-  //   input = input.replace(/\D/g, "");
-
-  //   // Format the input if not deleting
-  //   if (!isDeleting) {
-  //     if (input.length > 2) input = `${input.slice(0, 2)}/${input.slice(2)}`;
-  //     if (input.length > 5)
-  //       input = `${input.slice(0, 5)}/${input.slice(5, 10)}`;
-  //   }
-
-  //   // Limit input length to 10 characters
-  //   input = input.slice(0, 10);
-
-  //   // Update state
-  //   setValue(input);
-
-  //   // Restore cursor position after deletion
-  //   if (isDeleting) {
-  //     setTimeout(
-  //       () => e.target.setSelectionRange(cursorPosition, cursorPosition),
-  //       0
-  //     );
-  //   }
-
-  //   // Validate date format
-  //   if (input.length === 10) {
-  //     const [day, month, year] = input.split("/").map(Number);
-  //     const currentYear = new Date().getFullYear();
-  //     const isValidDate =
-  //       day >= 1 &&
-  //       day <= 31 &&
-  //       month >= 1 &&
-  //       month <= 12 &&
-  //       year >= 1900 &&
-  //       year <= currentYear;
-
-  //     setError(
-  //       isValidDate
-  //         ? ""
-  //         : "Invalid date. Please enter a valid date in DD/MM/YYYY format."
-  //     );
-  //   } else {
-  //     setError("");
-  //   }
-  // };
-
-  // const handleDateChange = (e) => {
-  //   let input = e.target.value;
-
-  //   // Remove all non-numeric characters
-  //   input = input.replace(/\D/g, "");
-
-  //   // Automatically format as DD/MM/YYYY
-  //   if (input.length > 2) {
-  //     input = input.slice(0, 2) + "/" + input.slice(2);
-  //   }
-  //   if (input.length > 4) {
-  //     input = input.slice(0, 5) + "/" + input.slice(5, 10);
-  //   }
-
-  //   // Restrict the length to 10 characters
-  //   if (input.length > 10) {
-  //     input = input.slice(0, 10);
-  //   }
-
-  //   // Update state
-  //   setValue(input);
-
-  //   // Validate format
-  //   if (input.length === 10) {
-  //     const [day, month, year] = input.split("/");
-  //     if (
-  //       isNaN(day) ||
-  //       isNaN(month) ||
-  //       isNaN(year) ||
-  //       day < 1 ||
-  //       day > 31 ||
-  //       month < 1 ||
-  //       month > 12 ||
-  //       year < 1900 ||
-  //       year > new Date().getFullYear()
-  //     ) {
-  //       setError(
-  //         "Invalid date. Please enter a valid date in DD/MM/YYYY format."
-  //       );
-  //     } else {
-  //       setError("");
-  //     }
-  //   } else {
-  //     setError("");
-  //   }
-  // };
-
   const handleSubmit = () => {
     if (!error && value) {
       const [day, month, year] = value.split("/");
@@ -276,6 +112,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
 
       // Show age result
       if (age >= 18) {
+        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setIsModalOpen(false);
         callBack(true);
       } else {

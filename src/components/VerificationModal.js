@@ -14,7 +14,6 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
   const dispatch = useDispatch();
   const { otpError } = useSelector((state) => state.user)
 
-
   const [timeLeft, setTimeLeft] = useState(59); // Initial time in seconds
 
   useEffect(() => {

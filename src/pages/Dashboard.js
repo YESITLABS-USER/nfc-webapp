@@ -284,6 +284,7 @@ const Dashboard = () => {
                   clientData={clientData}
                   occupied={coupan?.occupied}
                   onClick={() => {
+                    coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
                     setCurrentCoupanData(coupan);
                     if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
                       setFreeCops(true);
@@ -341,7 +342,7 @@ const Dashboard = () => {
       {/* <CustomButton text="Leave a Review" onClick={} fullWidth={"50%"} borderRadus={true} /> */}
 
       <CopsActivation
-        isModalOpen={freeCops}
+        isModalOpen={freeCops && !currentCoupanData?.coupon_last_activate_date_time}
         setIsModalOpen={setFreeCops}
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
@@ -410,7 +411,7 @@ const Dashboard = () => {
         </div>
       </BottomSheet>
 
-      {(coupanPopup || currentCoupanData?.coupon_last_activate_date_time) && (
+      {(coupanPopup) && (
         <Reward
           showPopup={coupanPopup}  timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}

@@ -18,10 +18,14 @@ function getMySQLFormattedTimestamp() {
 
 function getRemainingTime(lastStampClickTime, expirationTime) {
   // Parse the last stamp click time and expiration time
+  if(expirationTime == null) {
+    return false;
+  }
+
   const lastTime = new Date(lastStampClickTime); // Convert string to Date object
 
   // Convert expiration time to milliseconds
-  const expirationParts = expirationTime.split(":"); // Split expirationTime to hours, minutes, seconds
+  const expirationParts = expirationTime?.split(":"); // Split expirationTime to hours, minutes, seconds
   const expirationMillis =
     parseInt(expirationParts[0]) * 60 * 60 * 1000 + // hours to milliseconds
     parseInt(expirationParts[1]) * 60 * 1000 + // minutes to milliseconds

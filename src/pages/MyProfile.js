@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import LogoutModalImg from "../assets/icons/logoutModal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUser, updateUser } from "../store/slices/userSlice";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
@@ -34,27 +34,27 @@ const MyProfile = () => {
     email: userData?.email,
     gender: userData?.gender
   });
-  const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
-  
+  const { user_id } = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
+
   useEffect(() => {
-    if(user_id) {
-      dispatch(getUser({"id" : user_id}));
+    if (user_id) {
+      dispatch(getUser({ "id": user_id }));
     } else {
       navigate("/");
     }
-  },[ user_id, dispatch])
+  }, [user_id, dispatch])
 
   const handleProfileSelect = (profile) => {
     setSelectedProfile(profile);
   };
 
   const handleDeleteConfirm = () => {
-    setShowDeletePopup(false); 
-    dispatch(deleteUser({user_id : user_id}));
+    setShowDeletePopup(false);
+    dispatch(deleteUser({ user_id: user_id }));
   };
 
   const handleSubmit = () => {
-    dispatch(updateUser({...updateData, id: user_id}));
+    dispatch(updateUser({ ...updateData, id: user_id }));
     console.log(updateData)
   }
 
@@ -76,7 +76,7 @@ const MyProfile = () => {
         >
           Profile Picture
         </label>
-        
+
         <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
           {[
             { id: "0", label: "Male", image: Man, },
@@ -84,25 +84,26 @@ const MyProfile = () => {
             { id: "2", label: "Transgender", image: Other, },
           ].map((profile) => (
             <div key={profile.id} style={{ textAlign: "center", width: "100%" }} >
-              <img src={profile.image} alt={profile.label} 
+              <img src={profile.image} alt={profile.label}
                 style={{
                   border: selectedProfile == profile.id ? "3px solid green" : "1px solid #ccc",
                   borderRadius: "50px",
-                  width: "100px",
-                  height: "100px",
+                  width: "75px",
+                  height: "75px",
                   objectFit: "cover",
                 }} />
               <button onClick={() => {
-                  handleProfileSelect(profile.id);
-                  setSelectAvator(profile.id);
-                  dispatch(updateUser({profile_pic : profile.id, id: user_id}));
-                }}
+                handleProfileSelect(profile.id);
+                setSelectAvator(profile.id);
+                dispatch(updateUser({ profile_pic: profile.id, id: user_id }));
+              }}
                 style={{
+                  fontSize: "14px",
                   marginTop: "10px",
-                  padding: "5px 10px",
+                  padding: "4px 10px",
                   backgroundColor: profile.id == "3" ? "#000000" : selectedProfile == profile.id
-                      ? "#2A0181" // Purple for selected profile
-                      : "#DB00FF", // Default color for other profiles
+                    ? "#2A0181" // Purple for selected profile
+                    : "#DB00FF", // Default color for other profiles
                   color: "white",
                   border: "none",
                   borderRadius: "20px",
@@ -114,7 +115,7 @@ const MyProfile = () => {
             </div>
           ))}
         </div>
-        <label style={{ display: "block", marginBottom: "10px", color: "#000000", fontWeight: "bold", fontSize: 20}} >
+        <label style={{ display: "block", marginBottom: "10px", color: "#000000", fontWeight: "bold", fontSize: 20 }} >
           Personal Information:
         </label>
 
@@ -124,9 +125,9 @@ const MyProfile = () => {
             <span style={{ display: "inline-block", marginLeft: "60px" }}> {userData?.user_id ?? "Not Available"} </span>
           </p>
 
-          <p> 
+          <p>
             <span style={{ color: "#000000", fontWeight: "500" }}> NickName </span>
-            <span style={{ display: "inline-block", marginLeft: "70px"}}> {userData?.user_name ?? "Not Available"} </span>
+            <span style={{ display: "inline-block", marginLeft: "70px" }}> {userData?.user_name ?? "Not Available"} </span>
           </p>
 
           <p>
@@ -137,27 +138,28 @@ const MyProfile = () => {
         </div>
 
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ width: "40%", color: "#000000", fontWeight: "500"}} >
+          <label style={{ width: "40%", color: "#000000", fontWeight: "500" }} >
             Birthday
           </label>
 
           {birthdayInput ? (
             <input
-            type="date"
-            placeholder={userData?.date_of_birth ? userData.date_of_birth : "Add"}
-            disabled={!!userData?.date_of_birth} 
-            value={userData?.date_of_birth || updateData?.date_of_birth || ""}
-            onChange={(e) => setUpdateData({ ...updateData, date_of_birth: e.target.value })}
-            style={{
-              display: "block",
-              marginTop: "10px",
-              padding: "5px",
-              border: "none",
-              borderBottom: "2px solid #000",
-              outline: "none",
-            }}
-          />
-          
+              type="date"
+              placeholder={userData?.date_of_birth ? userData.date_of_birth : "Add"}
+              disabled={!!userData?.date_of_birth}
+              value={userData?.date_of_birth || updateData?.date_of_birth || ""}
+              onChange={(e) => setUpdateData({ ...updateData, date_of_birth: e.target.value })}
+              style={{
+                display: "block",
+                marginTop: "10px",
+                padding: "5px",
+                border: "none",
+                borderBottom: "2px solid #D1D1D1",
+                width: "100%",
+                outline: "none",
+              }}
+            />
+
           ) : (
             <button onClick={() => setBirthdayInput(true)}
               style={{
@@ -185,12 +187,14 @@ const MyProfile = () => {
                 marginTop: "10px",
                 padding: "5px",
                 border: "none", // Removes the default border
-                borderBottom: "2px solid #000", // Adds only the bottom border
+                borderBottom: "2px solid #D1D1D1",
+                width: "100%", // Adds only the bottom border
                 outline: "none", // Removes the focus outline
               }} />
           ) : (
             <button onClick={() => setFirstNameInput(true)}
               style={{
+                border: "none",
                 marginLeft: "10px",
                 padding: "5px 10px",
                 backgroundColor: "#2A0181",
@@ -209,18 +213,20 @@ const MyProfile = () => {
             Surname
           </label>
           {surNameInput ? (
-            <input type="text" placeholder={userData?.last_name ?? "Add"}  onChange={(e) => setUpdateData({ ...updateData, last_name: e.target.value })}
+            <input type="text" placeholder={userData?.last_name ?? "Add"} onChange={(e) => setUpdateData({ ...updateData, last_name: e.target.value })}
               style={{
                 display: "block",
                 marginTop: "10px",
                 padding: "5px",
                 border: "none", // Removes the default border
-                borderBottom: "2px solid #000", // Adds only the bottom border
+                borderBottom: "2px solid #D1D1D1",
+                width: "100%", // Adds only the bottom border
                 outline: "none", // Removes the focus outline
               }} />
           ) : (
             <button onClick={() => setSurNameInput(true)}
               style={{
+                border: "none",
                 marginLeft: "10px",
                 padding: "5px 10px",
                 backgroundColor: "#2A0181",
@@ -239,26 +245,28 @@ const MyProfile = () => {
             Email
           </label>
           {emailInput ? (
-            <input type="email" placeholder={userData?.email ?? "Add"}  onChange={(e) => setUpdateData({ ...updateData, email: e.target.value })}
+            <input type="email" placeholder={userData?.email ?? "Add"} onChange={(e) => setUpdateData({ ...updateData, email: e.target.value })}
               style={{
                 display: "block",
                 marginTop: "10px",
                 padding: "5px",
                 border: "none", // Removes the default border
-                borderBottom: "2px solid #000", // Adds only the bottom border
+                borderBottom: "2px solid #D1D1D1",
+                width: "100%", // Adds only the bottom border
                 outline: "none", // Removes the focus outline
               }}
             />
           ) : (
             <button onClick={() => setEmailInput(true)} style={{
-                marginLeft: "10px",
-                padding: "5px 10px",
-                backgroundColor: "#2A0181",
-                color: "white",
-                borderRadius: 30,
-                width: "30%",
-                height: 40,
-              }} >
+              border: "none",
+              marginLeft: "10px",
+              padding: "5px 10px",
+              backgroundColor: "#2A0181",
+              color: "white",
+              borderRadius: 30,
+              width: "30%",
+              height: 40,
+            }} >
               Add
             </button>
           )}
@@ -268,28 +276,28 @@ const MyProfile = () => {
           <label style={{ color: "#000000", fontWeight: "500" }}>Sex</label>
           <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
             <label style={{ color: "#000000", fontWeight: "500" }}>
-              <input 
-                type="radio" 
-                name="gender" 
-                value="male"  
+              <input
+                type="radio"
+                name="gender"
+                value="male"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 0 })}
                 checked={updateData.gender === 0 || updateData.gender === "0"}
               /> Male
             </label>
             <label style={{ color: "#000000", fontWeight: "500" }}>
-              <input 
-                type="radio" 
-                name="gender" 
-                value="female"  
+              <input
+                type="radio"
+                name="gender"
+                value="female"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 1 })}
                 checked={updateData.gender === 1 || updateData.gender === "1"}
               /> Female
             </label>
             <label style={{ color: "#000000", fontWeight: "500" }}>
-              <input 
-                type="radio" 
-                name="gender" 
-                value="other"  
+              <input
+                type="radio"
+                name="gender"
+                value="other"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 2 })}
                 checked={updateData.gender === 2 || updateData.gender === "2"}
               /> Other
@@ -336,15 +344,15 @@ const MyProfile = () => {
 
         <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
           setShowDeletePopup(!showdeletePopup);
-          }}> DELETE </Button>
+        }}> DELETE </Button>
 
           <FaInfoCircle size={18} style={{ position: "absolute", right: "0", top: "-10px" }}
-          onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
+            onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
         </div>
 
         <InformationPopup show={informationPopup} onHide={() => setInformationPopup(false)} />
 
-        <DeletePopup show={showdeletePopup} onHide={() => setShowDeletePopup(false)} onDeleteConfirm= {handleDeleteConfirm} />
+        <DeletePopup show={showdeletePopup} onHide={() => setShowDeletePopup(false)} onDeleteConfirm={handleDeleteConfirm} />
 
         <LogoutPopup show={showLogout} onHide={() => setShowLogout(false)} />
       </div>
@@ -374,19 +382,20 @@ function InformationPopup(props) {
           style={{
             backgroundColor: "white",
             color: "#2A0181",
-            fontSize: "20px",
+            fontSize: "14px",
             position: "absolute",
             right: "8px",
             borderRadius: "100%",
             top: "10px",
-            width: "30px",
+            width: "20px",
+            height: "20px",
             textAlign: "center",
             fontWeight: "bolder",
             cursor: "pointer",
           }}
           onClick={props.onHide}
         >
-          
+
           x
         </span>
 
@@ -439,16 +448,17 @@ function DeletePopup(props) {
           style={{
             backgroundColor: "white",
             color: "#2A0181",
-            fontSize: "20px",
+            fontSize: "14px",
             position: "absolute",
             right: "8px",
             borderRadius: "100%",
             top: "10px",
-            width: "30px",
+            width: "20px",
+            height: "20px",
             textAlign: "center",
             fontWeight: "bolder",
             cursor: "pointer",
-          }} 
+          }}
           onClick={props.onHide} > x </span>
 
         <h5 style={{ fontSize: "18px", paddingTop: "25px", fontWeight: "600" }}>
@@ -510,13 +520,13 @@ function LogoutPopup(props) {
           }}
           onClick={props.onHide}
         >
-          
+
           x
         </span>
 
         <img src={LogoutModalImg} alt="logout" />
         <h5 style={{ fontSize: "16px", paddingTop: "25px" }}>
-          
+
           Are you sure you want to Logout ?
         </h5>
         <div style={{ display: "flex", gap: "20px" }}>
@@ -529,7 +539,7 @@ function LogoutPopup(props) {
             }}
             onClick={props.onHide}
           >
-            
+
             No
           </Button>
           <Button
@@ -541,7 +551,7 @@ function LogoutPopup(props) {
             }}
             onClick={props.onHide}
           >
-            
+
             Yes
           </Button>
         </div>

@@ -26,14 +26,14 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
   const { userData } = useSelector((state) => state.user);
 
   const activeUser = localStorage.getItem('nfc-app');
-  const {user_id} =  JSON?.parse(activeUser) || 0;
+  const { user_id } = JSON?.parse(activeUser) || 0;
 
-  
+
   useEffect(() => {
-    if(user_id) {
-      dispatch(getUser({"id" : user_id}));
+    if (user_id) {
+      dispatch(getUser({ "id": user_id }));
     }
-  },[dispatch, user_id])
+  }, [dispatch, user_id])
 
   const navigate = useNavigate();
   const profileMapping = { 0: Man, 1: Girl, 2: Other, };
@@ -70,7 +70,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
     localStorage.setItem('language', language);
     window.location.reload(false);
   };
-  
+
   return (
     <div>
       <div style={style.headtop}>
@@ -91,26 +91,26 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
           />
         )}
         <div style={{
-            display: "flex",
-            alignItems: "center",
-            // border: "1px solid #ccc",
-            borderRadius: "4px",
-            padding: "5px",
-            position: "relative",
-            fontFamily: "Arial, sans-serif",
-            fontSize: "14px",
-            backgroundColor: "#f9f9f9",
-            width: "130px",
-            height: "40px",
-            marginRight: "10px",
-          }} >
+          display: "flex",
+          alignItems: "center",
+          // border: "1px solid #ccc",
+          borderRadius: "4px",
+          padding: "5px",
+          position: "relative",
+          fontFamily: "Arial, sans-serif",
+          fontSize: "14px",
+          backgroundColor: "#f9f9f9",
+          width: "130px",
+          height: "40px",
+          marginRight: "10px",
+        }} >
           <div style={{ marginRight: "10px" }}>
             <TbWorld size={22} />
           </div>
           <div style={{ flex: 1, color: "black", fontWeight: "500", fontSize: 16 }}>
             {selectedLanguage == "eng" ? "English" : "Finnish"}
           </div>
-          <div style={{ cursor: "pointer", display: "flex", alignItems: "center" }} ref={dropdownRef}  onClick={toggleDropdown} >
+          <div style={{ cursor: "pointer", display: "flex", alignItems: "center" }} ref={dropdownRef} onClick={toggleDropdown} >
             <FaChevronDown />
           </div>
 
@@ -125,11 +125,11 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 zIndex: 100,
                 width: "100%",
               }} >
-              <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }} 
+              <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }}
                 onClick={() => selectLanguage("eng")} >
                 English
               </div>
-              <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }} 
+              <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }}
                 onClick={() => selectLanguage("fin")} >
                 Finish
               </div>
@@ -140,13 +140,13 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
       {/* second bottom */}
       {disabled === true && (
         <>
-          <div
+          <div className="profile-header"
             style={{
               backgroundColor: "#25026E",
               display: "flex",
               justifyContent: "space-between",
               // height: "80px",
-              padding: "8px 0",
+              padding: "18px 10px",
               alignItems: "center",
             }}
           >
@@ -155,10 +155,8 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
               color="white"
               style={{
                 position: "absolute",
-                right: 0,
-                // top: 0,
-                marginTop: -55,
-                marginRight: 5,
+                right: 5,
+                top: 5,
               }}
               onClick={() => setIsModalOpen(true)}
             />
@@ -166,30 +164,30 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                padding: "10px",
+                padding: "0px",
                 gap: "10px",
               }}
             >
               {/* <img src={Profile} alt="OLO" style={style.oloimg} /> */}
-              <img
+              <img className="profile-image"
                 src={profileMapping[selectAvatar] || Man}
                 alt="OLO"
                 style={style.oloimg}
               />
-              <div style={{ fontSize:"16px", fontFamily:"Montserrat", fontWeight:"500"}}>
+              <div style={{ fontSize: "16px", fontFamily: "Montserrat", fontWeight: "500" }}>
                 <span style={{ color: "white", display: "block" }}>
                   {userData?.first_name ?? userData?.user_name ?? "user"}
-                  <br /> 
-                  {userData?.last_name?.slice(0,7) ?? ""}
+                  <br />
+                  {userData?.last_name?.slice(0, 7) ?? ""}
                 </span>
                 {/* <span style={{ color: "white", display: "block" }}>James</span> */}
               </div>
             </div>
-            <div style={{ display: "flex", gap: "5px", paddingTop: "5px" }}>
+            <div style={{ display: "flex", gap: "5px" }}>
               <Button style={style.btnCopn}>
                 <img
                   src={Group}
-                  style={{ objectFit: "contain", marginRight: 10 }}
+                  style={{ objectFit: "contain", marginRight: 5 }}
                   alt="Group"
                 />
                 <span
@@ -255,8 +253,6 @@ const style = {
     alignItems: "center",
   },
   oloimg: {
-    width: "auto",
-    height: 50,
     objectFit: "contain",
     backgroundColor: "white",
     borderRadius: "100%",
@@ -271,6 +267,7 @@ const style = {
   hambgrimg: {
     objectFit: "contain",
     marginLeft: 20,
+    cursor: "pointer",
   },
   btnCopn: {
     borderRadius: "10px",
@@ -283,6 +280,6 @@ const style = {
     alignItems: "center",
     justifyContent: "space-between",
     // marginTop: 25,
-    marginRight: "10px",
+    paddingLeft: "5px",
   },
 };

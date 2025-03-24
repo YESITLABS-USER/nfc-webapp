@@ -69,14 +69,14 @@ const Coopons = ({ setCallback, value }) => {
           Coupons
         </span>
         <FaInfoCircle
-          style={{ marginRight: "30px" }}
+          style={{ marginRight: "30px", cursor: "pointer" }}
           size={24}
           color="#25026E"
           onClick={() => setIsModalOpen(true)}
         />
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", width: "100%", padding: "0 10px" }}>
         <style>{keyframes}</style>
         {[1, 2].map((_, index) => (
           <img

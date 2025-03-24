@@ -47,7 +47,7 @@ function ContactFaq() {
       </div>
 
       <div style={{ backgroundColor: "#E0E0E0", width: "100vw", height: "3px", padding: "0", boxSizing: "border-box",
-          marginTop: -30, }} />
+          marginTop: 10, }} />
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", }} >
           <img src={Logo} alt="logo" />
           <div style={{ display: "flex", flexDirection: "column", marginTop: "10px"}} >
@@ -70,7 +70,7 @@ function ContactFaq() {
               marginRight: "10px",
               fontWeight: "600",
             }} >
-            CONTACT Us
+            CONTACT US
           </button>
           <button onClick={() => handleTabChange("faq")}
             style={{
@@ -110,14 +110,14 @@ function ContactFaq() {
                   {/* For Phone */}
                   <Field type="tel" name="phone" placeholder="Phone"
                     style={{
-                      margin: 10, padding: "10px 0", fontSize: "14px", border: "none", borderBottom: "2px solid ddd",
+                      margin: 10, padding: "10px 0", fontSize: "14px", border: "none", borderBottom: "2px solid #ddd",
                       outline: "none", }} />
                   <ErrorMessage name="phone" component="p"
                     style={{ color: "red", marginLeft: "10px", fontWeight: "500", marginTop: -10, }} />
                   
                    {/* For Feedback */}
                   <Field as="textarea" name="feedback" placeholder="Leave a Feedback" rows="4"
-                    style={{ margin: 10, padding: "10px", fontSize: "14px", border: "1px solid #ddd", }} />
+                    style={{ margin: 10, padding: "10px", fontSize: "14px", border: "2px solid #ddd", }} />
                   <ErrorMessage name="feedback" component="p"
                     style={{ color: "red", marginLeft: "15px", fontWeight: "500", marginTop: -10, }} />
                   <CustomButton text={contactLoading ? "Loading...": "Submit"} type="submit" fullWidth={"40%"} />
@@ -141,7 +141,7 @@ function ContactFaq() {
                       <p style={{ fontWeight: "600", color: "#000000" }}>
                         {faq.faq_que}
                       </p>
-                      <p style={{ color: "#2D008C", marginTop: -5 }}>
+                      <p style={{ color: "#000000", marginTop: -5 }}>
                         {faq.faq_ans}
                       </p>
                     </div>

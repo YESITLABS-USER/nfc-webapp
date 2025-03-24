@@ -8,7 +8,8 @@ import GoogleReview from "../assets/icons/googleReview.svg";
 // import { MdDelete } from "react-icons/md"; 
 import OLO from "../assets/icons/header.png";
 import bell from "../assets/icons/bell.png";
-
+// import OLOLogo from "../assets/images/olo-logo.png"
+// import loyalityCard from "../assets/images/loyalityCard2.png"
 import OpeingHrs from "../assets/icons/openingHrs.svg";
 
 import Line22 from "../assets/icons/line222.png";
@@ -33,7 +34,7 @@ import { activateCoupan, getAllCoupans } from "../store/slices/coupanSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { clientData,loyalityCards, loading } = useSelector((state) => state.client)
+  const { clientData, loyalityCards, loading } = useSelector((state) => state.client)
   const { coupansData } = useSelector((state) => state.coupans)
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -52,11 +53,11 @@ const Dashboard = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
-  
+
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
-  
+
   useEffect(() => {
     if (!client_id || !user_id) {
       localStorage.removeItem("nfc-app");
@@ -68,7 +69,7 @@ const Dashboard = () => {
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
     }
   }, [dispatch, client_id, user_id, navigate]);
-  
+
 
   const coupans = [
     {
@@ -145,7 +146,7 @@ const Dashboard = () => {
       await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
 
       await dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
-      
+
       setIsSliderOpen(false);
     } catch (error) {
       console.error("Error activating coupon:", error);
@@ -153,9 +154,9 @@ const Dashboard = () => {
       setCoupanPopup(false)
     }
   }
-  
 
-  const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
+
+  const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards?.slice(0, 2);
 
   const handleSeeMore = () => {
     setShowAllLoyality(!showAllLoyality);
@@ -169,10 +170,10 @@ const Dashboard = () => {
   return (
     <>
       <OnboardHeader disabled={true} OLODISABLE={true} />
-      
+
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <img src={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
+          <img src={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
           <div style={{ display: "flex", flexDirection: "column", }}>
             <span className="restaurant-name" style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
               {clientData?.client_name?.length > 10 ? `${clientData?.client_name?.slice(0, 10)}...` : clientData?.client_name || "Olo"}
@@ -184,9 +185,10 @@ const Dashboard = () => {
         </div>
 
         <Button style={{
-          backgroundColor: "white", border: "2px solid #DCCBFF",  color: "black", height: "fit-content", 
-          padding: "6px 12px", display: "flex", justifyContent: "center", alignItems: "center", 
-          borderRadius: "5px", fontSize: "14px", fontWeight: "500"}}>
+          backgroundColor: "white", border: "2px solid #DCCBFF", color: "black", height: "fit-content",
+          padding: "6px 12px", display: "flex", justifyContent: "center", alignItems: "center",
+          borderRadius: "5px", fontSize: "14px", fontWeight: "500"
+        }}>
           <img src={bell} alt="follow" style={{ width: "34px", height: "29px", marginRight: "5px" }} />
           <span>Follow</span>
         </Button>
@@ -198,13 +200,13 @@ const Dashboard = () => {
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         {isOpen && (
           <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-            <ul style={{ listStyleType: "none", padding: "3% 5%", width: "100%",  margin: "0", fontFamily: "Arial, sans-serif", }} >
+            <ul style={{ listStyleType: "none", padding: "0% 5% 3% 5%", width: "100%", margin: "0", fontFamily: "Arial, sans-serif", }} >
               {
                 clientData?.opening_hours.map((item, index) => (
-                  <li style={{ display: "flex", width:"100%" }} key={index}>
-                  <span style={{ fontWeight: "bold", width:"100%", color: "black", width: "100%", textAlign: "start", }} > {item?.day}: </span>
-                  {item?.isClosed ? <span style={{ width:"100%"}}> Closed </span> : <span style={{ width:"100%"}}>{item?.startTime} - {item?.endTime}</span>}
-                </li>
+                  <li style={{ display: "flex", width: "100%", fontSize: "14px", marginBottom: "10px" }} key={index}>
+                    <span style={{ fontWeight: "bold", width: "100%", color: "black", width: "100%", textAlign: "start" }} > {item?.day}: </span>
+                    {item?.isClosed ? <span style={{ width: "100%", textAlign: "end" }}> Closed </span> : <span style={{ width: "100%", textAlign: "end" }}>{item?.startTime} - {item?.endTime}</span>}
+                  </li>
                 ))
               }
             </ul>
@@ -212,28 +214,32 @@ const Dashboard = () => {
         )}
 
         {isOpen && (
-          <div style={{ backgroundColor: "#E0E0E0", height: "3px", padding: "0", boxSizing: "border-box", 
-              width: "100%", }} />
+          <div style={{
+            backgroundColor: "#E0E0E0", height: "3px", padding: "0", boxSizing: "border-box",
+            width: "100%",
+          }} />
         )}
 
-        <img src={OpeingHrs} style={{ objectFit: "contain", width: 200 }} onClick={toggleOpenHours} alt="open btn"/>
-      </div>
-    
-    {/* Client Image And slogan  */}
-      <div style={{ position: "relative" }}>
-        <img src={clientData?.company_photo ? backendUrl+"/"+clientData?.company_photo : HomeImg} alt="homeImg" style={{ objectFit: "contain", width: "100%", filter: "brightness(70%)" }} />
-        <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", 
-          color: "white", fontSize: "24px",textAlign:'center', fontWeight: "bold" }}> {clientData?.company_slogam} </span>
+        <img src={OpeingHrs} style={{ objectFit: "contain", width: "200" }} onClick={toggleOpenHours} alt="open btn" />
       </div>
 
-    {/* About Client */}
-      <div style={{ textAlign: "left", margin: "0 auto", width: "90%", padding:"10px 0" }}>
+      {/* Client Image And slogan  */}
+      <div style={{ position: "relative" }}>
+        <img src={clientData?.company_photo ? backendUrl + "/" + clientData?.company_photo : HomeImg} alt="homeImg" style={{ objectFit: "contain", width: "100%", filter: "brightness(70%)" }} />
+        <span style={{
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+          color: "white", fontSize: "24px", textAlign: 'center', fontWeight: "bold"
+        }}> {clientData?.company_slogam} </span>
+      </div>
+
+      {/* About Client */}
+      <div style={{ textAlign: "left", margin: "0 auto", width: "90%", padding: "10px 0" }}>
         <span style={{ fontSize: 20, fontWeight: "bold" }}>About</span>
 
         <div>
           <p> {isExpanded ? clientData?.business_about_us : clientData?.business_about_us?.slice(0, 180)}
-            {clientData?.business_about_us?.length > 180 && ( 
-              <span onClick={handleToggle} style={{ color: "#25026E",padding:"0 5px", cursor: "pointer", fontWeight: "bold", }}>
+            {clientData?.business_about_us?.length > 180 && (
+              <span onClick={handleToggle} style={{ color: "#25026E", padding: "0 5px", cursor: "pointer", fontWeight: "bold", }}>
                 {isExpanded ? "Read less..." : "Read more..."}
               </span>
             )}
@@ -243,16 +249,19 @@ const Dashboard = () => {
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>
         <h3 style={{ marginBottom: "20px" }}>EXPLORE OUR COUPONS</h3>
-        
+
         {/* <LoyaltyCard /> */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
-          width: "80%", alignItems: "center", }} >
+        <div style={{
+          display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+          width: "90%", alignItems: "center",
+        }} >
+          
           {visibleLoyalityCards?.map((item, index) => {
             return (
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
-                <LoyaltyCardImgComponent 
-                  allData = {item}
-                  clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }} key={index} >
+                <LoyaltyCardImgComponent
+                  allData={item}
+                  clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
                   campaign_name={item?.campaign_name}
                   free_item={item?.free_items_name}
                   total_stamps={item?.number_of_stamps}
@@ -263,62 +272,158 @@ const Dashboard = () => {
             );
           })}
 
-        { loyalityCards?.length > 2 && (
+          {loyalityCards?.length > 2 && (
             <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
               {showAllLoyality ? "See Less" : "See More"}
               <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
             </button>
-        )}
-        {/* <MdDelete style={{ fontSize: "25px", color: "red" }} /> */}
-      </div>
+          )}
+          {/* <MdDelete style={{ fontSize: "25px", color: "red" }} /> */}
+        </div>
 
         {/* Coupan Section */}
-        
-        <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
-          overflowX: "hidden", alignItems: "center", width: "80%" }} className={showAll ? "custom-scrollbar" : ""} >
-            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
-              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-                <CoupanComponent
-                  key={index} 
-                  allData={coupan} 
-                  clientData={clientData}
-                  occupied={coupan?.occupied}
-                  onClick={() => {
-                    coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
-                    setCurrentCoupanData(coupan);
-                    if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
-                      setFreeCops(true);
-                      setAddlimitation(true);
-                    } else {
-                      setFreeCops(true);
-                      setAddlimitation(false);
-                    }
-                  }}
-                />
-              ))
-            )}
+        {/* <div className="coupon-wrap">
+          <div className="coupon-in">
+            <div className="coupon-left">
+              <div className="coupon-left-text blue-text">
+                <p>Liquors coupon</p>
+                <h3>25%</h3>
+              </div>
+            </div>
+            <div className="coupon-right blue-bg">
+              <div className="coupon-right-text">
+                <h2>Skybags</h2>
+                <h3>25% OFF ON LIQUORS</h3>
+                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
+                <span>Age : 18+</span>
+              </div>
+            </div>
           </div>
-          
-        { coupansData?.length > 3 && (
+          <div className="coupon-in">
+            <div className="coupon-left">
+              <div className="coupon-left-text red-text">
+                <p>Beverages coupon</p>
+                <h3>FREE</h3>
+              </div>
+            </div>
+            <div className="coupon-right red-bg">
+              <div className="coupon-right-text">
+                <h2>Skybags</h2>
+                <h3>FREE BEER</h3>
+                <p>VALID UNTIL <b>DECEMBER 2024</b></p>
+                <span>Age : 18+</span>
+              </div>
+            </div>
+          </div>
+          <div className="coupon-in">
+            <div className="coupon-left">
+              <div className="coupon-left-text orange-text">
+                <p>Beverages coupon</p>
+                <h3>FREE</h3>
+              </div>
+            </div>
+            <div className="coupon-right orange-bg">
+              <div className="coupon-right-text">
+                <h2>Skybags</h2>
+                <h3>FREE COFFEE</h3>
+                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
+              </div>
+            </div>
+          </div>
+          <div className="coupon-in">
+            <div className="coupon-left">
+              <div className="coupon-left-text black-text">
+                <p>Food coupon</p>
+                <h3>30%</h3>
+              </div>
+            </div>
+            <div className="coupon-right black-bg">
+              <div className="coupon-right-text">
+                <h2>Skybags</h2>
+                <h3>30% OFF ON FOOD</h3>
+                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
+          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
+            coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+              <CoupanComponent
+                key={index}
+                allData={coupan}
+                clientData={clientData}
+                occupied={coupan?.occupied}
+                onClick={() => {
+                  coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  setCurrentCoupanData(coupan);
+                  if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                    setFreeCops(true);
+                    setAddlimitation(true);
+                  } else {
+                    setFreeCops(true);
+                    setAddlimitation(false);
+                  }
+                }}
+              />
+            ))
+          )}
+        </div>
+
+        {/* <div style={{
+          maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop: "25px",
+          overflowX: "hidden", alignItems: "center", width: "80%"
+        }} className={showAll ? "custom-scrollbar" : ""} >
+          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
+            coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+              <CoupanComponent
+                key={index}
+                allData={coupan}
+                clientData={clientData}
+                occupied={coupan?.occupied}
+                onClick={() => {
+                  coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  setCurrentCoupanData(coupan);
+                  if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                    setFreeCops(true);
+                    setAddlimitation(true);
+                  } else {
+                    setFreeCops(true);
+                    setAddlimitation(false);
+                  }
+                }}
+              />
+            ))
+          )}
+        </div> */}
+
+        {coupansData?.length > 3 && (
           <button onClick={() => setShowAll(!showAll)} // Implement your logic here
-            style={{ marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
-              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} >
+            style={{
+              marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
+              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold",
+            }} >
             {showAll ? "See Less" : "See More"}
             <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAll ? "180deg" : "0deg"}`, }} />
-          </button> 
+          </button>
         )}
       </div>
 
-    {/* Green value, 10 year Experience, local meat */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 20}}>
-
-        <img src={greenValueImg} alt="Green Value" style={{ objectFit: "contain", margin: 10, marginBottom: 25 }}/>
-        <img src={experienceImg} alt="Experience" style={{ objectFit: "contain", margin: 10 }} />
-        <img src={meat} alt="meat" style={{ objectFit: "contain", margin: 10 }} />
-
+      {/* Green value, 10 year Experience, local meat */}
+      <div className="green-values">
+        <div className="green-values-in">
+          <img src={greenValueImg} alt="Green Value" /> Green values
+        </div>
+        <div className="green-values-in">
+          <img src={experienceImg} alt="Experience" />  Over 10 years <br /> of experience
+        </div>
+        <div className="green-values-in">
+          <img src={meat} alt="meat" /> We use local <br /> meat
+        </div>
       </div>
 
-    {/* Google Review Image & and Button */}
+      {/* Google Review Image & and Button */}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
         <img src={GoogleReview} alt="Star Pattern" className="start-img"
           style={{ width: "auto", height: "auto" }} />
@@ -331,11 +436,14 @@ const Dashboard = () => {
           return reviewLink.startsWith('http') || reviewLink.startsWith('https')
             ? reviewLink : `https://${reviewLink}`;
         }
-        return '#'; })()} 
-      target="_blank"
-      style={{ backgroundColor: "rgb(42, 1, 129)", color: "white", borderRadius: "10px", width: '50%',
-        height: "50px", border: "none", cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.25) 0px 10px 10px 0px",
-        display: 'flex', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontSize: '16px', margin:"15px auto" }} > Leave a Review 
+        return '#';
+      })()}
+        target="_blank"
+        style={{
+          backgroundColor: "rgb(42, 1, 129)", color: "white", borderRadius: "10px", width: '50%',
+          height: "50px", border: "none", cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.25) 0px 10px 10px 0px",
+          display: 'flex', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontSize: '16px', margin: "15px auto"
+        }} > Leave a Review
       </a>
 
 
@@ -366,7 +474,6 @@ const Dashboard = () => {
           <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
             <button
               style={{
-                marginRight: 40,
                 padding: "8px 12px",
                 backgroundColor: "#FFFFFF",
                 color: "Black",
@@ -377,7 +484,7 @@ const Dashboard = () => {
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Added shadow here
                 transition: "box-shadow 0.3s ease", // Smooth transition for hover effect
               }}
-              onClick={() => { 
+              onClick={() => {
                 setIsSliderOpen(false);
                 setFreeCops(false);
               }} >
@@ -413,7 +520,7 @@ const Dashboard = () => {
 
       {(coupanPopup) && (
         <Reward
-          showPopup={coupanPopup}  timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          showPopup={coupanPopup} timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />
@@ -423,3 +530,18 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+// Loyality Card Formate
+{/* <div className="get-free-coupon-wrap">
+            <div className="get-free-coupon-content">
+              <div className="inner-wrap-free-coupon">
+                <span>Tagis ice cream</span>
+                <h2>GET FREE <br /> ICE CREAM</h2>
+                <span>Collect 9 stamps and get free ice cream.</span>
+              </div>
+            </div>
+            <div className="get-free-coupon-count">2/9</div>
+            <div className="get-free-coupon-bottom">
+              <p>Loyalty Card <span>VALID UNTIL <b>31st DECEMBER 2024</b></span></p>
+            </div>
+          </div> */}

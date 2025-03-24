@@ -3,7 +3,7 @@ import "./App.css";
 import BackgroundImg from "./assets/images/backgrounImg.png";
 import Logo from "./assets/icons/logo.png";
 import { BrowserRouter as Router } from "react-router-dom";
-import SplashImg from "./assets/images/splashScreen.png";
+import SplashLogo from "./assets/icons/splash-logo.png";
 import AppRoutes from "./AppRoutes";
 
 function App() {
@@ -11,18 +11,13 @@ function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Check if the user is on a mobile device
     const checkDeviceType = () => {
       const isMobileDevice = window.innerWidth <= 768; // Example breakpoint for mobile
       setIsMobile(isMobileDevice);
     };
-
-    // Initial check on component mount
     checkDeviceType();
-
-    // Listen for window resize to update the device type
     window.addEventListener("resize", checkDeviceType);
-
+    
     // Cleanup event listeners on unmount
     return () => {
       window.removeEventListener("resize", checkDeviceType);
@@ -58,14 +53,15 @@ function App() {
   if (showSplash && isMobile) {
     // Splash screen content with a background image
     return (
-      <div
+      <div className="splash-wrap"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundImage: `url(${SplashImg})`, // Add the background image
+          // backgroundImage: `url(${SplashImg})`,
+          background: "linear-gradient(180deg, #2F0093 0%, #240368 100%)",
           backgroundSize: "cover", // Cover the entire div
           backgroundPosition: "center", // Center the image
           backgroundRepeat: "no-repeat", // Prevent repetition
@@ -73,10 +69,15 @@ function App() {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
+          fontSize: "20px",
+          fontWeight: "500",
           color: "white",
           zIndex: 1000,
-        }}
-      ></div>
+        }} 
+      >
+        <img src={SplashLogo} alt="Tagis" />
+        Welcome to Tagis!
+      </div>
     );
   }
 

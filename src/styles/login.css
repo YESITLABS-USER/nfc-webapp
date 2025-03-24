@@ -6,6 +6,7 @@
   text-align: center;
   margin-top: 10px;
 }
+
 .txtWel {
   color: "#000000";
   font-size: "20px";
@@ -14,3 +15,7 @@
 }
 
 /* for login input */
+
+.all-btn button {
+  box-shadow: 0px 4px 4px 0px #FFFFFF52 inset !important;
+}

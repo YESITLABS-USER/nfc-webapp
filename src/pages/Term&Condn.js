@@ -43,7 +43,7 @@ function TermCondn() {
         <OnboardHeader />
       </div>
 
-      <div style={{ backgroundColor: "#E0E0E0", width: "100vw", height: "3px", padding: "0", boxSizing: "border-box", marginTop: -30, }} />
+      <div style={{ backgroundColor: "#E0E0E0", width: "100vw", height: "3px", padding: "0", boxSizing: "border-box", marginTop: 10, }} />
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
           <img src={Logo} alt="logo" />
 

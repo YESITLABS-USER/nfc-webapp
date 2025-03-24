@@ -2,7 +2,8 @@
   height: 50px;
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Vertically aligns items */
+  align-items: center;
+  /* Vertically aligns items */
   padding: 0 4%;
 }
 
@@ -16,7 +17,8 @@
 .header-buttons {
   display: flex;
   flex-direction: row;
-  gap: 15px; /* Adds spacing between buttons */
+  gap: 15px;
+  /* Adds spacing between buttons */
   /* margin-right: 20px; */
 }
 
@@ -28,14 +30,16 @@
   padding-left: 20px;
   border-bottom: 2px solid #e0e0e0;
 }
+
 .coupons-button {
   display: flex;
   align-items: center;
-  background-color: #2d008d !important; /* Custom background color */
+  background-color: #2d008d !important;
+  /* Custom background color */
   font-size: 16px;
 }
 
-.coupons-button span + span {
+.coupons-button span+span {
   border-left: 1px dotted white;
   padding-left: 8px;
   margin-left: 8px;
@@ -43,8 +47,10 @@
 
 .text-container {
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: flex-start; /* Align text to the left */
+  flex-direction: column;
+  /* Stack items vertically */
+  align-items: flex-start;
+  /* Align text to the left */
   margin-left: 10px;
 }
 
@@ -63,7 +69,596 @@
   .header-container {
     padding: 0 1%;
   }
+
   .header-buttons button {
     font-size: 14px;
   }
 }
+
+
+/* DK-CSS */
+
+.install-popup {
+  text-align: center;
+}
+
+.profile-header {
+  width: 100%;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+img.profile-image {
+  width: 40px;
+  height: 40px;
+}
+
+.green-values {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90%;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.green-values-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  text-align: center;
+  gap: 5px;
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+}
+
+/* DK-CSS */
+
+
+/* COUPON-SECTION */
+
+.coupon-wrap {
+  width: 90%;
+  /* height: auto; */ /* by Karan */
+  margin: 30px 0px 10px 0px;
+}
+
+.coupon-in {
+  display: flex;
+  margin-bottom: 20px;
+  width: 100%; /* by Karan */
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.coupon-left {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFE6D3;
+  position: relative;
+  justify-content: center;
+
+  &::before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    content: '';
+    background-image: url(../assets/images/coupon-left.svg);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: auto;
+    z-index: 0;
+    left: 0;
+  }
+}
+
+.coupon-left-text {
+  position: relative;
+  z-index: 1;
+  writing-mode: sideways-lr;
+  padding: 15px 0px 15px 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.blue-text p,
+  &.blue-text h3 {
+    color: #0602B6;
+  }
+
+  &.red-text p,
+  &.red-text h3 {
+    color: #B60202;
+  }
+
+  &.orange-text p,
+  &.orange-text h3 {
+    color: #FF6B00;
+  }
+
+  &.black-text p,
+  &.black-text h3 {
+    color: #000000;
+  }
+
+
+  p {
+    font-weight: 700;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 40px;
+    margin: 0;
+  }
+}
+
+.coupon-right {
+  width: 75%;
+  height: auto;
+  background-color: #aaa;
+  border-left: 2px dashed #fff;
+  position: relative;
+
+  &::before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    content: '';
+    background-image: url(../assets/images/coupon-right.svg);
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: auto;
+    z-index: 0;
+    right: 0;
+  }
+
+  &.blue-bg {
+    background-color: #0602B6;
+  }
+
+  &.red-bg {
+    background-color: #B60202;
+  }
+
+  &.orange-bg {
+    background-color: #FF6B00;
+  }
+
+  &.black-bg {
+    background-color: #000000;
+  }
+}
+
+.coupon-right-text {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 25px 10px 15px;
+  position: relative;
+  text-align: left;
+
+  h2 {
+    font-weight: 600;
+    font-size: 13px;
+    margin: 0;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 26px;
+    margin: 0;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-weight: 500;
+    font-size: 13px;
+    margin: 0;
+    color: #fff;
+
+    b {
+      font-weight: 600;
+    }
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 11px;
+    margin-top: 10px;
+    color: #fff;
+    text-align: right;
+  }
+}
+
+/* COUPON-SECTION */
+
+
+/* LOYALTY-CARD */
+
+.get-free-coupon-wrap {
+  width: 100%;
+  height: auto;
+  padding: 7rem 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../assets/images/loyalityCard2.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+.get-free-coupon-wrap img {
+  width: 100%;
+  height: 100%;
+}
+
+.get-free-coupon-content {
+  position: absolute;
+  height: auto;
+  background: #FFE6D3;
+  width: 70%;
+  padding: 0 8px 8px 8px;
+  top: 0;
+  border-radius: 0 0 8px 8px;
+
+  & .inner-wrap-free-coupon {
+    background: #FBF2EC;
+    border-radius: 0 0 8px 8px;
+    padding: 8px 5px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    span {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+
+  h2 {
+    text-align: center;
+    color: #25026E;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+}
+
+.get-free-coupon-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 20px;
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  span {
+    color: #fff;
+    font-weight: 400;
+    font-size: 14px;
+
+    b {
+      font-weight: 600;
+    }
+  }
+}
+
+.get-free-coupon-count {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 9;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "FivoSansModern", sans-serif;
+}
+
+/* LOYALTY-CARD */
+
+.splash-wrap {
+  flex-direction: column;
+  gap: 15px;
+
+  img {
+    width: 150px;
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 55%;
+    height: 25%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    background-image: url(../assets/icons/splash-left.png);
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    width: 65%;
+    height: 10%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    background-image: url(../assets/icons/splash-left-bottom.png);
+  }
+}
+
+
+/* RESPONSIVE */
+
+@media only screen and (min-width:425px) and (max-width:767px) {
+
+  /* COUPON-SECTION */
+  .coupon-left {
+    width: 30%;
+  }
+
+  .coupon-right {
+    width: 70%;
+  }
+
+  .coupon-left-text {
+    h3 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  .coupon-right-text {
+    padding: 10px 18px 10px 10px;
+
+    h2 {
+      font-size: 12px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  /* COUPON-SECTION */
+
+  /* LOYALTY-CARD */
+
+  .get-free-coupon-wrap {
+    padding: 6rem 0;
+  }
+
+  .get-free-coupon-bottom {
+    padding: 10px;
+
+    p {
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 11px;
+    }
+  }
+
+  .get-free-coupon-content {
+    width: 75%;
+
+    h2 {
+      font-size: 22px;
+    }
+
+    & .inner-wrap-free-coupon {
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .get-free-coupon-count {
+    font-size: 13px;
+  }
+
+  /* LOYALTY-CARD */
+}
+
+@media only screen and (min-width:375px) and (max-width:424px) {
+
+  /* COUPON-SECTION */
+  .coupon-left {
+    width: 30%;
+  }
+
+  .coupon-right {
+    width: 70%;
+  }
+
+  .coupon-left-text {
+    h3 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  .coupon-right-text {
+    padding: 10px 18px 10px 10px;
+
+    h2 {
+      font-size: 12px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  /* COUPON-SECTION */
+
+  /* LOYALTY-CARD */
+
+  .get-free-coupon-wrap {
+    padding: 6rem 0;
+  }
+
+  .get-free-coupon-bottom {
+    padding: 10px;
+
+    p {
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 11px;
+    }
+  }
+
+  .get-free-coupon-content {
+    width: 75%;
+
+    h2 {
+      font-size: 22px;
+    }
+
+    & .inner-wrap-free-coupon {
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .get-free-coupon-count {
+    font-size: 13px;
+  }
+
+  /* LOYALTY-CARD */
+}
+
+@media only screen and (min-width:320px) and (max-width:374px) {
+
+  /* COUPON-SECTION */
+  .coupon-left {
+    width: 30%;
+  }
+
+  .coupon-right {
+    width: 70%;
+  }
+
+  .coupon-left-text {
+    h3 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  .coupon-right-text {
+    padding: 10px 18px 10px 10px;
+
+    h2 {
+      font-size: 12px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+
+  /* COUPON-SECTION */
+
+  /* LOYALTY-CARD */
+
+  .get-free-coupon-wrap {
+    padding: 6.5rem 0;
+  }
+
+  .get-free-coupon-bottom {
+    padding: 10px;
+
+    p {
+      font-size: 12px;
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
+
+  .get-free-coupon-content {
+    h2 {
+      font-size: 20px;
+    }
+
+    & .inner-wrap-free-coupon {
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .get-free-coupon-count {
+    font-size: 13px;
+  }
+
+  /* LOYALTY-CARD */
+}
+
+/* RESPONSIVE */

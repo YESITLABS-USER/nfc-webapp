@@ -54,7 +54,7 @@ import React from "react";
 
 const CustomButton = ({ text, onClick, fullWidth, borderRadus }) => {
   return (
-    <div style={style.containerStyle}>
+    <div style={style.containerStyle} className="all-btn">
       <button 
         style={{
           backgroundColor: "#2A0181",

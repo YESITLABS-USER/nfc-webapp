@@ -18,29 +18,29 @@ import { getClientInfoWithoutLogin } from "../store/slices/clientSlice";
 
 const LoginPage = () => {
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState(false);
-  const [isModalOpen, setIsModalOpen ] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.user) 
+  const { loading } = useSelector((state) => state.user)
   const { clientData } = useSelector((state) => state.client)
-  
+
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required').min(3, 'Name should be at least 3 characters long'),
     phone_number: Yup.string().required('Phone number is required').matches(/^[0-9]{10}$/, 'Phone number must be 10 digits'),
   });
 
-    useEffect(() => {
-      const loggedInUser = JSON.parse(localStorage.getItem("nfc-app"))?.token
-      const clientId = localStorage.getItem("client_id");
-      dispatch(getClientInfoWithoutLogin({"client_table_id": Number(clientId)}));
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("nfc-app"))?.token
+    const clientId = localStorage.getItem("client_id");
+    dispatch(getClientInfoWithoutLogin({ "client_table_id": Number(clientId) }));
 
-      if(loggedInUser){
-        navigate('/dashboard')
-      }
-    }, [dispatch,navigate])
-    
-  const handleSubmit = async(values) => {
+    if (loggedInUser) {
+      navigate('/dashboard')
+    }
+  }, [dispatch, navigate])
+
+  const handleSubmit = async (values) => {
     try {
       const result = await dispatch(signIn(values));
       if (result.meta?.requestStatus === 'fulfilled') {
@@ -54,7 +54,7 @@ const LoginPage = () => {
   return (
     <>
       <div style={{ marginTop: 10 }}>
-        <Header chgName={true} data={clientData}/>
+        <Header chgName={true} data={clientData} />
       </div>
       <div className="login-container">
         <img src={Start} alt="Start Pattern" className="start-img" />
@@ -66,33 +66,33 @@ const LoginPage = () => {
 
       <div className="text-container">
         <span style={{
-            color: "#000000",
-            fontSize: "20px",
-            fontWeight: "bold",
-            alignSelf: "center",
-            marginTop: 20,
-          }} > 
+          color: "#000000",
+          fontSize: "20px",
+          fontWeight: "bold",
+          alignSelf: "center",
+          marginTop: 20,
+        }} >
           Welcome to Tagis!
         </span>
         <span style={{
-            fontSize: "16px",
-            textAlign: "center",
-            alignSelf: "center",
-          }} >
+          fontSize: "16px",
+          textAlign: "center",
+          alignSelf: "center",
+        }} >
           Review easily, enjoy benefits - It all <br /> happens with just{" "}
-          <span style={{ color: "#2C0089", fontWeight: "bold" }}>one tap!</span>
+          <span style={{ color: "#2C0089", fontWeight: "bold" }}> one tap!</span>
         </span>
       </div>
 
-      <Formik initialValues={{ name: "", phone_number: "" }}  validationSchema={validationSchema} 
+      <Formik initialValues={{ name: "", phone_number: "" }} validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, handleBlur,setFieldValue, errors, touched, handleSubmit }) => (
+        {({ values, handleBlur, setFieldValue, errors, touched, handleSubmit }) => (
           <div style={{ marginTop: 20 }}>
             <div style={{ marginTop: "20px", width: "80%", margin: "20px auto" }}>
               <CustomInput
                 value={values.name}
-                onChange={(e) => setFieldValue("name",e.target.value)}
+                onChange={(e) => setFieldValue("name", e.target.value)}
                 onBlur={handleBlur}
                 name="name"
                 label="Name"
@@ -108,7 +108,7 @@ const LoginPage = () => {
             <div style={{ marginTop: "20px", width: "80%", margin: "20px auto" }}>
               <CustomInput value={values.phone_number}
                 onChange={(e) => {
-                  setFieldValue("phone_number",(e.target.value));
+                  setFieldValue("phone_number", (e.target.value));
                   setSelectedPhoneNumber(Number(e.target.value))
                 }}
                 onBlur={handleBlur}
@@ -123,58 +123,58 @@ const LoginPage = () => {
               )}
             </div>
 
-            <CustomButton text={loading ? "Loading..." : "Log In"}  onClick={handleSubmit}  fullWidth={"40%"} />
+            <CustomButton text={loading ? "Loading..." : "Log In"} onClick={handleSubmit} fullWidth={"40%"} />
           </div>
         )}
       </Formik>
 
       <div style={{
-          backgroundColor: "#E0E0E0",
-          width: "100vw",
-          height: "3px",
-          padding: "0",
-          boxSizing: "border-box",
-          marginTop: "20px",
-        }} />
+        backgroundColor: "#E0E0E0",
+        width: "100vw",
+        height: "3px",
+        padding: "0",
+        boxSizing: "border-box",
+        marginTop: "20px",
+      }} />
 
       <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }} >
-        <img src={GoogleReview} alt="Star Pattern" className="start-img" style={{ width: "auto", height: "auto" }}/>
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "20px",
+      }} >
+        <img src={GoogleReview} alt="Star Pattern" className="start-img" style={{ width: "auto", height: "auto" }} />
       </div>
 
-      <CustomButton text="Leave a review" fullWidth="50%" 
+      <CustomButton text="Leave a review" fullWidth="50%"
         onClick={() => {
           const reviewLink = clientData?.google_review_link;
           if (reviewLink) {
             // Check if the link contains 'http' or 'https', and format accordingly
             const formattedLink = reviewLink.startsWith('http') || reviewLink.startsWith('https')
               ? reviewLink : `https://${reviewLink}`;
-            
+
             // Open the link in a new tab
             window.open(formattedLink, '_blank');
           }
-        }} 
+        }}
       />
 
       {/* for coopons */}
-      <Coopons setCallback={() => {}} value={false} />
+      <Coopons setCallback={() => { }} value={false} />
 
       <div style={{
-          backgroundColor: "#E0E0E0",
-          width: "100vw",
-          height: "3px",
-          padding: "0",
-          boxSizing: "border-box",
-          marginTop: "20px",
-        }} />
+        backgroundColor: "#E0E0E0",
+        width: "100vw",
+        height: "3px",
+        padding: "0",
+        boxSizing: "border-box",
+        marginTop: "20px",
+      }} />
 
       {/* social medias */}
-      <SocialMediaAbout signup={false} data={clientData}/>
-      <Verification isModalOpen={isModalOpen} data={{phone_number: selectedPhoneNumber}} setIsModalOpen={setIsModalOpen} />
+      <SocialMediaAbout signup={false} data={clientData} />
+      <Verification isModalOpen={isModalOpen} data={{ phone_number: selectedPhoneNumber }} setIsModalOpen={setIsModalOpen} />
 
     </>
   );

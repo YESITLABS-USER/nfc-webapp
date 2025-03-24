@@ -60,10 +60,10 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
             >
               <IoIosCloseCircle
                 color={"white"}
-                size={30}
+                size={25}
                 style={{
                   position: "absolute",
-                  right: "5px",
+                  right: "-8px",
                   cursor: "pointer",
                   top: "-10px",
                 }}
@@ -74,7 +74,7 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
             <img
               src={LogoutModalImg}
               alt="Logoutmodal"
-              style={{ objectFit: "contain", marginBottom: "20px" }}
+              style={{ width: "70px", objectFit: "contain", marginBottom: "20px" }}
             />
 
             <div>
@@ -95,14 +95,14 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
               <button
                 style={{
                   backgroundColor: "white",
-                  color: "#2E0090",
+                  color: "#000",
                   border: "none",
 
-                  padding: "10px 20px",
+                  padding: "5px 0px",
                   cursor: "pointer",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   borderRadius: "30px",
-                  width: "30%",
+                  width: "40%",
                 }}
                 onClick={closeModal}
               >
@@ -111,13 +111,13 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
               <button
                 style={{
                   backgroundColor: "white",
-                  color: "#2E0090",
+                  color: "#000",
                   border: "none",
-                  padding: "10px 20px",
+                  padding: "5px 0px",
                   cursor: "pointer",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   borderRadius: "30px",
-                  width: "30%",
+                  width: "40%",
                 }}
                 onClick={() => {
                   navigate("/");

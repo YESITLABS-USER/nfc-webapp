@@ -46,7 +46,7 @@ const Loyality = () => {
       "loyalty_card_table_id":data?.loyalty_card_table_id,
       "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id,
       "last_stamp_click_time": getMySQLFormattedTimestamp(),
-      "total_open_stamps": (Number(data?.total_open_stamps) === Number(data?.number_of_stamps)) ? Number(data?.number_of_stamps) : (Number(data?.total_open_stamps) === null || isNaN(Number(data?.total_open_stamps))) ? 1 
+      "total_open_stamps": (Number(data?.total_open_stamps) == Number(data?.number_of_stamps)) ? Number(data?.number_of_stamps) : (Number(data?.total_open_stamps) == null || isNaN(Number(data?.total_open_stamps))) ? 1 
         : Number(data?.total_open_stamps) + 1,
       "completed_status": completed_status,
     }
@@ -68,13 +68,16 @@ const Loyality = () => {
             {[...Array(Number(data?.number_of_stamps || 9))].map((_, index) => {
               const totalStamps = Number(user?.total_open_stamps) ?? 0;
               const isRedeemed = index < totalStamps;
-              const isClickable = index === totalStamps;
+              // const isClickable = index == totalStamps;
+              
+              // if condition is no of stamp + free item then add 1 [...Array(Number(data?.number_of_stamps || 9)+1)] and
+              // const isLastStamp = index === Number(data?.number_of_stamps); 
 
               return (
                 <div
                   key={index}
                   className={`loyality-item ${isRedeemed ? "redeemed" : ""}`}
-                  onClick={() => isClickable && handleFlip(index)}
+                  // onClick={() => isClickable && handleFlip(index)}
                 >
                   <div className="loyality-item-inner">
                     <div className="loyality-item-front">
@@ -83,7 +86,7 @@ const Loyality = () => {
                       ) : index + 1 == Number(data?.number_of_stamps) ? (
                         <span
                           style={{
-                            fontSize: "14px",
+                            fontSize: "12px",
                             border: "3px solid white",
                             width: "90%",
                             height: "90%",
@@ -98,7 +101,7 @@ const Loyality = () => {
                       ) : (
                         <>
                           {index + 1 == Number(data?.number_of_stamps) ? <span style={{
-                            fontSize:"14px",
+                            fontSize:"12px",
                             border: "3px solid white",
                             width:"90%",
                             height:"90%",
@@ -120,7 +123,7 @@ const Loyality = () => {
             <h5>After {data?.number_of_stamps || 9} Sessions You Can Get</h5>
             <p>{data?.free_items_name || "Free Ice Cream"}</p>
           </div>
-          <Button style={{ backgroundColor: (Number(data?.number_of_stamps) === Number(user?.total_open_stamps)) ? "#2A0181" : "#4F4F4F", border: "#4F4F4F" }} disabled={!(Number(data?.number_of_stamps) === Number(user?.total_open_stamps))} onClick={() => handleConfirm({completed_status : 1})}>
+          <Button style={{ backgroundColor: (Number(data?.number_of_stamps) <= Number(user?.total_open_stamps)) ? "#2A0181" : "#4F4F4F", border: "#4F4F4F" }} disabled={!(Number(data?.number_of_stamps) <= Number(user?.total_open_stamps))} onClick={() => handleConfirm({completed_status : 1})}>
             ACTIVATE
           </Button>
 

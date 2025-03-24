@@ -6,15 +6,14 @@ import OIO from "../assets/icons/header.png";
 import { Link } from "react-router-dom";
 import SlidingPage from "./SlidingPage";
 
-const Header = ({ chgName = false, data=null }) => {
+const Header = ({ chgName = false, data = null }) => {
   const [showPage, setShowPage] = useState(false);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   return (
     <div>
       <div className="header-container">
-        <div className="header-left">
-        </div>
+        <div className="header-left"></div>
         <div className="header-buttons">
           <Button variant="primary" style={{ backgroundColor: "#2D008D", borderRadius: "10px" }} >
             {chgName === true ? (
@@ -40,7 +39,7 @@ const Header = ({ chgName = false, data=null }) => {
       </div>
       <div className="header-extra">
         <img
-          src={ data?.company_logo ? (backendUrl+"/"+data?.company_logo) : OIO}
+          src={data?.company_logo ? (backendUrl + "/" + data?.company_logo) : OIO}
           alt="restaurent logo"
           style={{
             width: "auto",

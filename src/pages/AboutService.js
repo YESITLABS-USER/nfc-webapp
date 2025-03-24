@@ -30,7 +30,7 @@ function AboutService() {
           height: "3px",
           padding: "0",
           boxSizing: "border-box",
-          marginTop: -30,
+          marginTop: 10,
         }} />
 
       <div style={{

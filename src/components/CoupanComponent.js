@@ -9,7 +9,7 @@ import { MdDelete } from "react-icons/md";
 import { formatDate, formatTime, getRemainingTime, parseTime } from "../assets/common";
 
 const CoupanComponent = ({
-  allData,  
+  allData,
   clientData,
   occupied,
   onClick,
@@ -22,73 +22,102 @@ const CoupanComponent = ({
   };
 
   const remainingTime = getRemainingTime(allData?.coupon_last_activate_date_time, "00:15:00");
-  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : "00:15:00"))); 
+  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : "00:15:00")));
   // Effect to update the countdown timer
   useEffect(() => {
     if (timeLeft > 0) {
       const intervalId = setInterval(() => {
         setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
       }, 1000);
-      
+
       return () => clearInterval(intervalId); // Cleanup interval on component unmount or when timeLeft changes
     }
   }, [timeLeft]);
+  console.log(remainingTime)
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div  className="coupan-container" style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
-        onClick={occupied ? null : onClick} >
-        <img 
-        src={colorMapping[allData?.color_selection in colorMapping ? allData?.color_selection : "orange"]}
-        // src={colorMapping["orange"]} 
-          alt="Coupon" style={{width:"100%"}}
-          className="coupan-image"
-        />
-        <div className="coupan-content">
-          <div className="coupan-details">
-            <div className="coupan-vertical-text" style={{ color: "#FF6B00" }}>
-              <p className="coupan-description">
-                {allData?.campaign_name || "Beverages coupon"}
-              </p>
-              <h2 className="coupan-offer">
-                {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"} 
-              </h2>
+    <>
+      <div style={{ position: "relative" }}>
+        {remainingTime && <div style={{ position: 'absolute',right:0, backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex: 5 }} >
+          {formatTime(timeLeft)}
+        </div>}
+      </div>
+      
+      <div className="coupon-in"  style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
+          onClick={occupied ? null : onClick}>
+            <div className="coupon-left">
+              <div className={`coupon-left-text ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-text`}>
+                <p> {allData?.campaign_name || "Beverages coupon"} </p>
+                <h3> {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"}
+                 </h3>
+              </div>
             </div>
-            <div className="coupan-main-text">
-              <span style={{marginTop:"-12px", fontSize:"12px"}}> {clientData?.client_name ?? "OLO"} </span>
-
-              <h2 className="coupan-title" style={{textTransform:"uppercase"}}>
-                {allData?.coupon_name?.length <= 9
-                  ? allData?.coupon_name.split(" ").map((word, index) => (
-                      <span key={index} style={{ display: "block" }}>
-                        {word}
-                      </span>
-                    ))
-                  : allData?.coupon_name}
-              </h2>
-              <span className="coupan-validity"  style={{textTransform:"uppercase"}}>
-                <span style={{ color: "#d9d0d0" }}>VALID UNTIL </span>
-                {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
-              </span>
-              {allData?.campaign_age_restriction_start_age >= 18 && <span className="coupan-age"> Age : 18+ </span>}
+            <div className={`coupon-right ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-bg`}>
+              <div className="coupon-right-text">
+                <h2> {clientData?.client_name ?? "OLO"} </h2>
+                <h3> {allData?.coupon_name} </h3>
+                <p>VALID UNTIL <b> {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
+                </b></p>
+                {allData?.campaign_age_restriction_start_age >= 18 && <span>Age : 18+</span>}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+    </>
 
-      <div style={{position:"relative"}}>    
-      {remainingTime && <div style={{ position: 'absolute', top: '-4rem', left: '-20rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex:5}} >
-        {formatTime(timeLeft)}
-      </div>}
-      </div>
-      {/* <MdDelete style={{ fontSize: "25px", color: "red" }} /> */}
-    </div>
   );
 };
 
 export default CoupanComponent;
+
+{/* <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div className="coupan-container" style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
+          onClick={occupied ? null : onClick} >
+          <img
+            src={colorMapping[allData?.color_selection in colorMapping ? allData?.color_selection : "orange"]}
+            // src={colorMapping["orange"]} 
+            alt="Coupon" style={{ width: "100%" }}
+            className="coupan-image"
+          />
+          <div className="coupan-content">
+            <div className="coupan-details">
+              <div className="coupan-vertical-text" style={{ color: "#FF6B00" }}>
+                <p className="coupan-description">
+                  {allData?.campaign_name || "Beverages coupon"}
+                </p>
+                <h2 className="coupan-offer">
+                  {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"}
+                </h2>
+              </div>
+              <div className="coupan-main-text">
+                <span style={{ marginTop: "-12px", fontSize: "12px" }}> {clientData?.client_name ?? "OLO"} </span>
+
+                <h2 className="coupan-title" style={{ textTransform: "uppercase" }}>
+                  {allData?.coupon_name?.length <= 9
+                    ? allData?.coupon_name.split(" ").map((word, index) => (
+                      <span key={index} style={{ display: "block" }}>
+                        {word}
+                      </span>
+                    ))
+                    : allData?.coupon_name}
+                </h2>
+                <span className="coupan-validity" style={{ textTransform: "uppercase" }}>
+                  <span style={{ color: "#d9d0d0" }}>VALID UNTIL </span>
+                  {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
+                </span>
+                {allData?.campaign_age_restriction_start_age >= 18 && <span className="coupan-age"> Age : 18+ </span>}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ position: "relative" }}>
+          {remainingTime && <div style={{ position: 'absolute', top: '-4rem', left: '-20rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex: 5 }} >
+            {formatTime(timeLeft)}
+          </div>}
+        </div>
+      </div> */}

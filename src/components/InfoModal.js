@@ -143,6 +143,9 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
             alignItems: "center",
             justifyContent: "center",
             zIndex: "101",
+            flexWrap: "wrap",
+            overflowY: "scroll",
+            padding: "10px 0"
           }}
         >
           <div

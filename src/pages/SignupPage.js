@@ -134,7 +134,7 @@ const SignupPage = () => {
         </span>
         <span style={{ fontSize: "16px", textAlign: "center", alignSelf: "center" }}>
           Review easily, enjoy benefits – It all <br /> happens with just 
-          <span style={{ color: "#2C0089", fontWeight: "bold" }}>one tap!</span>
+          <span style={{ color: "#2C0089", fontWeight: "bold" }}> one tap!</span>
         </span>
       </div>
 

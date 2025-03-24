@@ -39,18 +39,17 @@ export const getClientInfoWithoutLogin = (formData) => API.post(`/api/v1/get-cli
 
 export const getClientInfo = (formData) => API.post(`/api/v1/get-client-detail`,formData);
 
-export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
+// export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
+export const getAllLoyalityCards = (formData) => API.post(`/api/v2/get-all-loyality-cards`,formData);
 
 
-export const getAllCoupans = (formData) => API.post(`/api/v1/show-all-coupon-of-particular-client-on-particular-location`,formData);
+export const getAllCoupans = (formData) => API.post(`/api/v2/show-all-coupon-of-particular-client-on-particular-location`,formData);
 
 export const addClientInUser = (formData) => API.post(`/api/v1/add-client-in-user`,formData);
 
 export const activateCoupan = (formData) => API.post(`/api/v1/activate-coupon-of-user`,formData);
 
 export const removeCoupan = (formData) => API.post(`/api/v1/remove-coupan`,formData);
-
-
 
 
 // ---------------------------------- Loyality Reedem Api --------------------------------
@@ -64,13 +63,6 @@ export const deleteLoyalityCard = (formData) => API.post(`/api/v1/remove-loyalit
 export const getAllClients = (formData) => API.post(`/api/v1/all-visited-clients-by-user`,formData);
 
 export const unfollowClient = (formData) => API.post(`/api/v1/follow-client`,formData);
-
-
-
-
-
-
-
 
 
 // ---------------------------------- About Tagis Api -----------------------------------------------

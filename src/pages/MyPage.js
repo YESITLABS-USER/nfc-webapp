@@ -167,13 +167,13 @@ const MyPage = () => {
           />
         </div>
         <div style={{ display: "flex",flexDirection: "column",gap: "10px", padding: "10px", borderRadius: "10px", 
-            width: "80%", alignItems: "center" }}>
+            width: "100%", alignItems: "center" }}>
         {/* <LoyaltyCard /> */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
-            width: "80%", alignItems: "center", }} >
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+          width: "98%", alignItems: "center" }} >
             {visibleLoyalityCards?.map((item, index) => {
               return (
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
+                <div style={{ display: "flex", gap:"5px", alignItems: "center", width: "100%" }} key={index} >   
                   <LoyaltyCardImgComponent 
                     allData = {item}
                     campaign_name={item?.campaign_name}
@@ -183,10 +183,10 @@ const MyPage = () => {
                     end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
                     url={"/mypage"}
                   />
-                <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => { 
-                  setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
-                  setShowDeleted(true); // Open the delete modal 
-                }}/>
+                  <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => { 
+                    setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
+                    setShowDeleted(true); // Open the delete modal 
+                  }}/>
                 </div>
               );
             })}
@@ -202,7 +202,41 @@ const MyPage = () => {
         {/* All Coupans*/}
        
       </div>
-        <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
+
+            <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
+            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
+              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+                <div style={{width:"95%"}} key={index} >
+                  <CoupanComponent
+                    allData={coupan} 
+                    clientData={clientData}
+                    occupied={coupan?.occupied}
+                    onClick={() => {
+                      coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                      setCurrentCoupanData(coupan);
+                      setCurrentCoupanData(coupan);
+                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                        setFreeCops(true);
+                        setAddlimitation(true);
+                      } else {
+                        setFreeCops(true);
+                        setAddlimitation(false);
+                      }
+                    }}
+                  />
+                <MdDelete style={{ fontSize: "35px", color: "red", float:'inline-end', position:'relative', bottom:"100px", right:"-35px"  }}  onClick={() => {
+                  setShowCoupanDeletepopup(true);
+                  setCurrentCoupanData(coupan); 
+                }}/>
+                {/* <MdDelete style={{ fontSize: "35px", color: "red", float:'left' }}  onClick={() => {
+                  setShowCoupanDeletepopup(true);
+                  setCurrentCoupanData(coupan); 
+                }}/> */}
+                </div>
+              ))
+            )}
+          </div>
+          {/* <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
           overflowX: "hidden", alignItems: "center" }} className={showAll ? "custom-scrollbar" : ""} >
             {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
               coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
@@ -231,8 +265,8 @@ const MyPage = () => {
                 </div>
               ))
             )}
-          </div>
-          </div>
+          </div> */}
+        </div>
           
         { coupansData?.length > 3 && (
           <button onClick={() => setShowAll(!showAll)} // Implement your logic here
@@ -318,7 +352,6 @@ const MyPage = () => {
           <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
             <button
               style={{
-                marginRight: 40,
                 padding: "8px 12px",
                 backgroundColor: "#FFFFFF",
                 color: "Black",

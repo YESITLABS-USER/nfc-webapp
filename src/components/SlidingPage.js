@@ -35,12 +35,13 @@ const SlidingPage = ({ showPage, setShowPage }) => {
           position: "fixed",
           top: 0,
           left: showPage ? 0 : "-100%",
-          width: "100%",
+          width: "100vw",
           height: "100%",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
           transition: "left 0.5s ease-in-out",
           zIndex: 1000,
           backgroundImage: `url(${BackgroundImg})`,
+          backgroundSize: "cover",
         }}
       >
 
@@ -57,6 +58,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             top: "20px",
             right: "20px",
             fontSize: "24px",
+            fontWeight: "500",
             color: "white",
             cursor: "pointer",
           }}
@@ -66,23 +68,24 @@ const SlidingPage = ({ showPage, setShowPage }) => {
           style={{
             display: "flex",
             justifyContent: "center",
+            width: "90%",
             height: "100%",
-            marginTop: "20px",
+            margin: "auto",
           }}
         >
           <ul
             style={{
+              width: "100%",
               listStyleType: "none",
               padding: 0,
-
               color: "white",
               fontSize: "18px",
               fontWeight: "bold",
-              margin: "20px",
+              margin: "20px 0px",
             }}
           >
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/myprofile")}
             >
               My Profile
@@ -90,15 +93,15 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             <div
               style={{
                 backgroundColor: "#1C0056",
-                width: "90%",
-                height: "2px",
+                width: "100%",
+                height: "1px",
                 padding: "0",
                 boxSizing: "border-box",
-                marginTop: "20px",
+                margin: "10px 0px",
               }}
             />
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/mypage")}
             >
               My Page
@@ -106,15 +109,15 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             <div
               style={{
                 backgroundColor: "#1C0056",
-                width: "90%",
-                height: "2px",
+                width: "100%",
+                height: "1px",
                 padding: "0",
                 boxSizing: "border-box",
-                marginTop: "20px",
+                margin: "10px 0px",
               }}
             />
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/aboutService")}
             >
               About Services
@@ -122,15 +125,15 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             <div
               style={{
                 backgroundColor: "#1C0056",
-                width: "90%",
-                height: "2px",
+                width: "100%",
+                height: "1px",
                 padding: "0",
                 boxSizing: "border-box",
-                marginTop: "20px",
+                margin: "10px 0px",
               }}
             />
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/privacy-policy")}
             >
               Terms and Condition & Privacy Policy
@@ -138,15 +141,15 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             <div
               style={{
                 backgroundColor: "#1C0056",
-                width: "90%",
-                height: "2px",
+                width: "100%",
+                height: "1px",
                 padding: "0",
                 boxSizing: "border-box",
-                marginTop: "20px",
+                margin: "10px 0px",
               }}
             />
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/contactFaq")}
             >
               Contact Us & FAQs
@@ -154,15 +157,15 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             <div
               style={{
                 backgroundColor: "#1C0056",
-                width: "90%",
-                height: "2px",
+                width: "100%",
+                height: "1px",
                 padding: "0",
                 boxSizing: "border-box",
-                marginTop: "20px",
+                margin: "10px 0px",
               }}
             />
             <li
-              style={{ marginBottom: "10px", margin: 20 }}
+              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => {
                 if (location.pathname !== "/") {
                   setIsLogoutModalOpen(true);

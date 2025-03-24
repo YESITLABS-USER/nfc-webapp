@@ -30,9 +30,11 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "center",
-            zIndex:3
+            zIndex:"3",
+            overflow: "auto",
+            padding: "10px 0",
           }}
         >
           <div
@@ -54,7 +56,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>Information</h2>
+              <h2 style={{ color: "#FFFFFF" }}>Informationn</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}

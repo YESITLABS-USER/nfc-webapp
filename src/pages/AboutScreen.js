@@ -21,7 +21,7 @@ function AboutScreen() {
 
   return (
     <div>
-      <div style={{ marginTop: 10 }}>
+      <div style={{ margin: "8px 0" }}>
         {/* <OnboardHeader bgrIcon={true} message={message} /> */}
         <OnboardHeader message={message} />
       </div>
@@ -31,7 +31,6 @@ function AboutScreen() {
           height: "3px",
           padding: "0",
           boxSizing: "border-box",
-          marginTop: -30,
         }} />
 
       <div style={{

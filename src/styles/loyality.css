@@ -1,215 +1,225 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-*{
+* {
   font-family: "Montserrat", serif;
 }
 
 .loyality-container {
-    font-family: Arial, sans-serif;
-  }
-  
-  .header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #25026E;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .user-name {
-    color: white;
-    margin: 0;
-  }
-  
-  .voucher-icons {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-  
-  .voucher-icon {
-    height: 50px;
-  }
-  
-  .voucher-icon-small {
-    height: 40px;
-  }
-  
-  .loyality-section {
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 16px;
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-  }
-  
-  .loyality-content {
-    text-align: center;
-    color: #25026E;
-  }
-  
-  .loyality-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-  }
- 
-  .loyality-item {
-    background-color: #25026E;
-    color: white;
-    text-align: center;
-    border-radius: 5px;
-    font-size: 38px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  /* .loyality-item:nth-child(9){
+  font-family: Arial, sans-serif;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #25026E;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-name {
+  color: white;
+  margin: 0;
+}
+
+.voucher-icons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.voucher-icon {
+  height: 50px;
+}
+
+.voucher-icon-small {
+  height: 40px;
+}
+
+.loyality-section {
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.loyality-content {
+  text-align: center;
+  color: #25026E;
+}
+
+.loyality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.loyality-item {
+  background-color: #25026E;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 38px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* .loyality-item:nth-child(9){
     font-size: 18px;
   } */
 
-  .loyality-item img{
-    background-color: #EAEAEA;
-    padding: 5px;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-  }
-  
-  .reward-info{
-    margin: 20px 0;
-    border: 5px solid #25026E;
-    border-radius: 10px;
-    padding-top: 15px;
-    color: black;
-  }
-  .reward-info h5 {
-    margin: 4px 0;
-    font-size: 16px;
-  }
-  .reward-info p {
-    margin: 4px 0;
-    font-size: 18px;
-    color: #25026E;
-    font-weight: 800;
-  }
-  
-  .activate-button {
-    background-color: gray;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .activate-button:hover {
-    background-color: #4b089e;
-  }
-  .loyality-item {
-    perspective: 1000px; /* Create 3D perspective */
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    display: inline-block;
-    position: relative;
-  }
-  
-  .loyality-item-inner {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d; /* Enable 3D transform */
-    transition: transform 0.6s ease-in-out; /* Smooth flip animation */
-  }
-  
-  .loyality-item.flipped .loyality-item-inner {
-    transform: rotateY(180deg); /* Flip effect */
-  }
-  
-  .loyality-item-front,
-  .loyality-item-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* Hide the back when facing front */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    /* border: 1px solid #ccc; */
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .loyality-item-front {
-    background-color: #25026E;
-    font-size: 36px;
-  }
-  /* .loyality-item:nth-child(9) div div{
+.loyality-item img {
+  background-color: #EAEAEA;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.reward-info {
+  margin: 20px 0;
+  border: 5px solid #25026E;
+  border-radius: 10px;
+  padding-top: 15px;
+  color: black;
+}
+
+.reward-info h5 {
+  margin: 4px 0;
+  font-size: 16px;
+}
+
+.reward-info p {
+  margin: 4px 0;
+  font-size: 18px;
+  color: #25026E;
+  font-weight: 800;
+}
+
+.activate-button {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.activate-button:hover {
+  background-color: #4b089e;
+}
+
+.loyality-item {
+  perspective: 1000px;
+  /* Create 3D perspective */
+  width: 90px;
+  height: 90px;
+  display: inline-block;
+  position: relative;
+}
+
+.loyality-item-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  /* Enable 3D transform */
+  transition: transform 0.6s ease-in-out;
+  /* Smooth flip animation */
+}
+
+.loyality-item.flipped .loyality-item-inner {
+  transform: rotateY(180deg);
+  /* Flip effect */
+}
+
+.loyality-item-front,
+.loyality-item-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  /* Hide the back when facing front */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  /* border: 1px solid #ccc; */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.loyality-item-front {
+  background-color: #25026E;
+  font-size: 36px;
+}
+
+/* .loyality-item:nth-child(9) div div{
     font-size: 14px;
     border: 3px solid white;
     width: 90%;
     height: 90%;
     margin: 5px;
   } */
-  
-  .loyality-item-back {
-    background-color: #f8f9fa;
-    transform: rotateY(180deg); /* Start flipped for back */
+
+.loyality-item-back {
+  background-color: #f8f9fa;
+  transform: rotateY(180deg);
+  /* Start flipped for back */
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  
-  @keyframes slideInFromBottom {
-    from {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  @keyframes slideOutToBottom {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(100%);
-      opacity: 0;
-    }
+}
+
+@keyframes slideOutToBottom {
+  from {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  .slide-in-modal .modal-dialog {
-    animation: slideInFromBottom 0.5s ease-out;
-    position: relative;
+
+  to {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  
-  .slide-out-modal .modal-dialog {
-    animation: slideOutToBottom 0.5s ease-out;
-    position: relative;
-  }
-  
+}
+
+.slide-in-modal .modal-dialog {
+  animation: slideInFromBottom 0.5s ease-out;
+  position: relative;
+}
+
+.slide-out-modal .modal-dialog {
+  animation: slideOutToBottom 0.5s ease-out;
+  position: relative;
+}

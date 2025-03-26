@@ -45,6 +45,8 @@ export const getAllLoyalityCards = (formData) => API.post(`/api/v2/get-all-loyal
 
 export const getAllCoupans = (formData) => API.post(`/api/v2/show-all-coupon-of-particular-client-on-particular-location`,formData);
 
+export const getAllActivatedCoupans = (formData) => API.post(`/api/v2/activated-15-min-coupon`,formData);
+
 export const addClientInUser = (formData) => API.post(`/api/v1/add-client-in-user`,formData);
 
 export const activateCoupan = (formData) => API.post(`/api/v1/activate-coupon-of-user`,formData);

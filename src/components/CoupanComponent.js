@@ -6,7 +6,7 @@ import red from "../assets/coupans/red-coupon.svg";
 import black from "../assets/coupans/black-coupon.svg";
 import "../styles/coupan.css";
 import { MdDelete } from "react-icons/md";
-import { formatDate, formatTime, getRemainingTime, parseTime } from "../assets/common";
+import { addValidity, formatDate, formatTime, getRemainingTime, parseTime } from "../assets/common";
 
 const CoupanComponent = ({
   allData,
@@ -21,9 +21,35 @@ const CoupanComponent = ({
     black: black,
   };
 
-  const remainingTime = getRemainingTime(allData?.coupon_last_activate_date_time, "00:15:00");
-  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : "00:15:00")));
-  // Effect to update the countdown timer
+  const [scanTime, setScanTime] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [validDob, setValidDob] = useState(false);
+
+  useEffect(() => {
+    if (allData?.activate_time_usa_zone) {
+      // If activate_time_usa_zone is present, calculate remaining time directly
+      const remainingTime = getRemainingTime(allData?.activate_time_usa_zone, "00:15:00");
+      const parsedTime = parseTime(String(remainingTime ?? "00:15:00"));
+      setTimeLeft(parsedTime);
+    } else {
+      // Otherwise, use addValidity to calculate scan time
+      const val = addValidity(
+        allData?.last_activation_date,
+        allData?.validity_select_number,
+        allData?.validity_select_time_unit
+      );
+      setScanTime(val);
+    }
+  }, [allData]);
+
+  useEffect(() => {
+    if (scanTime) {
+      const remainingTime = getRemainingTime(scanTime, "00:00:01");
+      const parsedTime = parseTime(String(remainingTime ?? "00:00:01"));
+      setTimeLeft(parsedTime);
+    }
+  }, [scanTime]);
+
   useEffect(() => {
     if (timeLeft > 0) {
       const intervalId = setInterval(() => {
@@ -31,93 +57,74 @@ const CoupanComponent = ({
       }, 1000);
 
       return () => clearInterval(intervalId); // Cleanup interval on component unmount or when timeLeft changes
+    } else {
+      setTimeLeft(0);
     }
   }, [timeLeft]);
-  console.log(remainingTime)
+
+  function isDobValid(allData) {
+    const currentDate = new Date();
+    const currentMonthDay = `${currentDate.getMonth() + 1}-${currentDate.getDate()}`; // Format as "MM-DD"
+
+    // Condition 1: If dob_coupon is true (non-zero), check if user_date_of_birth is available
+    if (allData.dob_coupon && !allData.user_date_of_birth) {
+        return true;
+    }
+
+    // Condition 2: If user_date_of_birth is available, check within days_before_dob and days_after_dob
+    if (allData.user_date_of_birth) {
+        const userDob = new Date(allData.user_date_of_birth);
+        const userMonthDay = `${userDob.getMonth() + 1}-${userDob.getDate()}`;
+
+        // Generate a list of valid dates (month-day format) around the DOB
+        let validDates = new Set();
+        for (let i = -allData.days_before_dob; i <= allData.days_after_dob; i++) {
+            let tempDate = new Date(userDob);
+            tempDate.setDate(userDob.getDate() + i);
+            validDates.add(`${tempDate.getMonth() + 1}-${tempDate.getDate()}`);
+        }
+        return validDates.has(currentMonthDay);
+    }
+
+    return true;
+}
+
+  // Using useEffect to validate the dob
+  useEffect(() => {
+    const res = isDobValid(allData);  // Pass the entire allData object
+    setValidDob(res);
+  }, [allData]);
+
   return (
     <>
       <div style={{ position: "relative" }}>
-        {remainingTime && <div style={{ position: 'absolute',right:0, backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex: 5 }} >
+        {(!(timeLeft == 0 || timeLeft == "NaN:NaN:NaN" || timeLeft == "00:00:00")) && <div style={{ position: 'absolute',right:0, backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex: 5 }} >
           {formatTime(timeLeft)}
         </div>}
       </div>
       
-      <div className="coupon-in"  style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
-          onClick={occupied ? null : onClick}>
-            <div className="coupon-left">
-              <div className={`coupon-left-text ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-text`}>
-                <p> {allData?.campaign_name || "Beverages coupon"} </p>
-                <h3> {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"}
-                 </h3>
-              </div>
-            </div>
-            <div className={`coupon-right ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-bg`}>
-              <div className="coupon-right-text">
-                <h2> {clientData?.client_name ?? "OLO"} </h2>
-                <h3> {allData?.coupon_name} </h3>
-                <p>VALID UNTIL <b> {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
-                </b></p>
-                {allData?.campaign_age_restriction_start_age >= 18 && <span>Age : 18+</span>}
-              </div>
+      
+      <div className="coupon-in" style={{ cursor: "pointer", filter: !allData?.activate_time_usa_zone ? (timeLeft|| (allData?.dob_coupon && !validDob)) ? "brightness(0.5)" : "" :"" }}
+          onClick={(timeLeft && !allData?.activate_time_usa_zone || (allData?.dob_coupon && !validDob)) ? null : onClick} >
+          <div className="coupon-left">
+            <div className={`coupon-left-text ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-text`}>
+              <p> {allData?.campaign_name || "Beverages coupon"} </p>
+              <h3> {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"}
+              </h3>
             </div>
           </div>
+          <div className={`coupon-right ${colorMapping[allData?.color_selection] || colorMapping["orange"]} ${allData?.color_selection}-bg`}>
+            <div className="coupon-right-text">
+              <h2> {clientData?.client_name ?? "OLO"} </h2>
+              <h3> {allData?.coupon_name} </h3>
+              <p>VALID UNTIL <b> {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
+              </b></p>
+              {allData?.campaign_age_restriction_start_age >= 18 && <span>Age : 18+</span>}
+            </div>
+          </div>
+      </div>
     </>
-
   );
 };
 
 export default CoupanComponent;
-
-{/* <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div className="coupan-container" style={{ cursor: "pointer", filter: occupied ? "brightness(0.5)" : "" }}
-          onClick={occupied ? null : onClick} >
-          <img
-            src={colorMapping[allData?.color_selection in colorMapping ? allData?.color_selection : "orange"]}
-            // src={colorMapping["orange"]} 
-            alt="Coupon" style={{ width: "100%" }}
-            className="coupan-image"
-          />
-          <div className="coupan-content">
-            <div className="coupan-details">
-              <div className="coupan-vertical-text" style={{ color: "#FF6B00" }}>
-                <p className="coupan-description">
-                  {allData?.campaign_name || "Beverages coupon"}
-                </p>
-                <h2 className="coupan-offer">
-                  {(allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage) ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"}
-                </h2>
-              </div>
-              <div className="coupan-main-text">
-                <span style={{ marginTop: "-12px", fontSize: "12px" }}> {clientData?.client_name ?? "OLO"} </span>
-
-                <h2 className="coupan-title" style={{ textTransform: "uppercase" }}>
-                  {allData?.coupon_name?.length <= 9
-                    ? allData?.coupon_name.split(" ").map((word, index) => (
-                      <span key={index} style={{ display: "block" }}>
-                        {word}
-                      </span>
-                    ))
-                    : allData?.coupon_name}
-                </h2>
-                <span className="coupan-validity" style={{ textTransform: "uppercase" }}>
-                  <span style={{ color: "#d9d0d0" }}>VALID UNTIL </span>
-                  {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
-                </span>
-                {allData?.campaign_age_restriction_start_age >= 18 && <span className="coupan-age"> Age : 18+ </span>}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ position: "relative" }}>
-          {remainingTime && <div style={{ position: 'absolute', top: '-4rem', left: '-20rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500', zIndex: 5 }} >
-            {formatTime(timeLeft)}
-          </div>}
-        </div>
-      </div> */}

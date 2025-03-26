@@ -4,7 +4,7 @@ import CancelModal from "./CancelModal";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../store/slices/userSlice";
 
-const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
+const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const closeModal = () => setIsModalOpen(false);
 
   const [value, setValue] = useState("");
@@ -109,16 +109,18 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, callBack }) => {
       if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
         age--;
       }
-
       // Show age result
-      if (age >= 18) {
+      if (age >= 18 || currentData?.dob_coupon && age >= 13) {
         dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setIsModalOpen(false);
-        callBack(true);
+        callBack({...currentData, validAge:true, is18: true});
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
         setCancelModal(true);
         setIsModalOpen(false);
-        callBack(false);
+        callBack({...currentData, validAge:false, is18: false});
       }
     }
   };

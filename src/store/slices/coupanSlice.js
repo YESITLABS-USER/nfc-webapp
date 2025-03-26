@@ -22,6 +22,16 @@ export const getAllCoupans = createAsyncThunk("client/getAllCoupans", async (for
   }
 });
 
+
+export const getAllActivatedCoupans = createAsyncThunk("client/getAllActivatedCoupans", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.getAllActivatedCoupans(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
 export const activateCoupan = createAsyncThunk("client/activateCoupan", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.activateCoupan(formData);
@@ -44,6 +54,7 @@ const coupanSlice = createSlice({
   name: "coupanSlice",
   initialState: {
     coupansData: [],
+    activatedCoupanData: [],
     coupanReward: null,
     loading: false,
     error: null,
@@ -65,6 +76,20 @@ const coupanSlice = createSlice({
         state.error = action.payload?.message || "Failed to fetch Coupans";
       }) 
 
+      // Get all Coupans
+      .addCase(getAllActivatedCoupans.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllActivatedCoupans.fulfilled, (state, action) => {
+        state.loading = false;
+        state.activatedCoupanData = action.payload?.data;
+      })
+      .addCase(getAllActivatedCoupans.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch Coupans";
+      }) 
+
       // reedem Coupans
       .addCase(activateCoupan.pending, (state) => {
         state.loading = true;
@@ -73,6 +98,9 @@ const coupanSlice = createSlice({
       .addCase(activateCoupan.fulfilled, (state, action) => {
         state.loading = false;
         state.coupanReward = action.payload?.data;
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .addCase(activateCoupan.rejected, (state, action) => {
         state.loading = false;

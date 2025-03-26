@@ -26,16 +26,17 @@ import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
 import { useNavigate } from "react-router-dom";
-import { activateCoupan, getAllCoupans } from "../store/slices/coupanSlice";
+import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { clientData, loyalityCards, loading } = useSelector((state) => state.client)
-  const { coupansData } = useSelector((state) => state.coupans)
+  const { coupansData, activatedCoupanData,coupanReward } = useSelector((state) => state.coupans);
+
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -54,6 +55,8 @@ const Dashboard = () => {
   const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
 
+  const [show, setShow ] = useState(false);
+
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
@@ -67,70 +70,9 @@ const Dashboard = () => {
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
     }
-  }, [dispatch, client_id, user_id, navigate]);
-
-
-  const coupans = [
-    {
-      coupan_type: "Beverages coupon",
-      coupan_discount: "FREE",
-      coupan_title: "FREE COFFEE",
-      coupan_validity: "31 DECEMBER 2025",
-      coupan_color: "orange",
-    },
-
-    {
-      coupan_type: "Beverages coupon",
-      coupan_discount: "FREE",
-      coupan_title: "FREE MOJITO ",
-      coupan_validity: "DECEMBER 2025",
-      coupan_color: "blue",
-      occupied: true,
-    },
-
-    {
-      coupan_type: "Liquors coupon",
-      coupan_discount: "25%",
-      coupan_title: "25% OFF ON LIQUORS",
-      coupan_validity: "25 DECEMBER 2025",
-      coupan_color: "blue",
-      coupan_age: true,
-    },
-
-    {
-      coupan_type: "Beverages coupon",
-      coupan_discount: "FREE",
-      coupan_title: "FREE COFFEE",
-      coupan_validity: "31 DECEMBER 2025",
-      coupan_color: "red",
-    },
-
-    {
-      coupan_type: "Beverages coupon",
-      coupan_discount: "FREE",
-      coupan_title: "FREE MOJITO",
-      coupan_validity: "DECEMBER 2025",
-      coupan_color: "black",
-    },
-
-    {
-      coupan_type: "Liquors coupon",
-      coupan_discount: "25%",
-      coupan_title: "25% OFF ON LIQUORS",
-      coupan_validity: "DECEMBER 2025",
-      coupan_color: "blue",
-      coupan_age: true,
-    },
-
-    {
-      coupan_type: "Beverages coupon",
-      coupan_discount: "FREE",
-      coupan_title: "FREE COFFEE",
-      coupan_validity: "31 DECEMBER 2025",
-      coupan_color: "orange",
-    },
-  ];
+  }, [dispatch,coupanReward, client_id, user_id, navigate]);
 
   // Toggle function to show/hide opening hours
   const toggleOpenHours = () => {
@@ -138,7 +80,21 @@ const Dashboard = () => {
   };
 
   const handleBottmSheet = (val) => {
-    setIsSliderOpen(val);
+    if (val?.dob_coupon && val?.user_date_of_birth == null) {
+      setIsSliderOpen(false);
+      if(val?.validAge) {
+        setShow(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } else {
+      if(val?.campaign_age_restriction_start_age >= 18 && !val?.user_date_of_birth) {
+        setIsSliderOpen(false)
+      } else {
+        setIsSliderOpen(val);
+      }
+    }
   };
 
   const handleActivateCoupanBtn = async (coupanData) => {
@@ -278,74 +234,7 @@ const Dashboard = () => {
               <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
             </button>
           )}
-          {/* <MdDelete style={{ fontSize: "25px", color: "red" }} /> */}
         </div>
-
-        {/* Coupan Section */}
-        {/* <div className="coupon-wrap">
-          <div className="coupon-in">
-            <div className="coupon-left">
-              <div className="coupon-left-text blue-text">
-                <p>Liquors coupon</p>
-                <h3>25%</h3>
-              </div>
-            </div>
-            <div className="coupon-right blue-bg">
-              <div className="coupon-right-text">
-                <h2>Skybags</h2>
-                <h3>25% OFF ON LIQUORS</h3>
-                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
-                <span>Age : 18+</span>
-              </div>
-            </div>
-          </div>
-          <div className="coupon-in">
-            <div className="coupon-left">
-              <div className="coupon-left-text red-text">
-                <p>Beverages coupon</p>
-                <h3>FREE</h3>
-              </div>
-            </div>
-            <div className="coupon-right red-bg">
-              <div className="coupon-right-text">
-                <h2>Skybags</h2>
-                <h3>FREE BEER</h3>
-                <p>VALID UNTIL <b>DECEMBER 2024</b></p>
-                <span>Age : 18+</span>
-              </div>
-            </div>
-          </div>
-          <div className="coupon-in">
-            <div className="coupon-left">
-              <div className="coupon-left-text orange-text">
-                <p>Beverages coupon</p>
-                <h3>FREE</h3>
-              </div>
-            </div>
-            <div className="coupon-right orange-bg">
-              <div className="coupon-right-text">
-                <h2>Skybags</h2>
-                <h3>FREE COFFEE</h3>
-                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
-              </div>
-            </div>
-          </div>
-          <div className="coupon-in">
-            <div className="coupon-left">
-              <div className="coupon-left-text black-text">
-                <p>Food coupon</p>
-                <h3>30%</h3>
-              </div>
-            </div>
-            <div className="coupon-right black-bg">
-              <div className="coupon-right-text">
-                <h2>Skybags</h2>
-                <h3>30% OFF ON FOOD</h3>
-                <p>VALID UNTIL <b>31st DECEMBER 2024</b></p>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
           {coupansData.length === 0 ? (<p>No coupon available</p>) : (
@@ -356,9 +245,9 @@ const Dashboard = () => {
                 clientData={clientData}
                 occupied={coupan?.occupied}
                 onClick={() => {
-                  coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  // coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
                   setCurrentCoupanData(coupan);
-                  if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1 && !(coupan?.user_date_of_birth))) {
                     setFreeCops(true);
                     setAddlimitation(true);
                   } else {
@@ -369,23 +258,18 @@ const Dashboard = () => {
               />
             ))
           )}
-        </div>
-
-        {/* <div style={{
-          maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop: "25px",
-          overflowX: "hidden", alignItems: "center", width: "80%"
-        }} className={showAll ? "custom-scrollbar" : ""} >
-          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
-            coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+          {activatedCoupanData.length == 0 ? "" : (
+            activatedCoupanData.map((coupan, index) => (
+              <>
               <CoupanComponent
                 key={index}
                 allData={coupan}
                 clientData={clientData}
                 occupied={coupan?.occupied}
                 onClick={() => {
-                  coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
                   setCurrentCoupanData(coupan);
-                  if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1)) {
                     setFreeCops(true);
                     setAddlimitation(true);
                   } else {
@@ -393,10 +277,10 @@ const Dashboard = () => {
                     setAddlimitation(false);
                   }
                 }}
-              />
+              /></>
             ))
           )}
-        </div> */}
+        </div>
 
         {coupansData?.length > 3 && (
           <button onClick={() => setShowAll(!showAll)} // Implement your logic here
@@ -446,11 +330,10 @@ const Dashboard = () => {
         }} > Leave a Review
       </a>
 
-
       {/* <CustomButton text="Leave a Review" onClick={} fullWidth={"50%"} borderRadus={true} /> */}
 
       <CopsActivation
-        isModalOpen={freeCops && !currentCoupanData?.coupon_last_activate_date_time}
+        isModalOpen={freeCops && !currentCoupanData?.activate_time_usa_zone}
         setIsModalOpen={setFreeCops}
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
@@ -458,13 +341,12 @@ const Dashboard = () => {
         currentCoupanData={currentCoupanData}
         clientData={clientData}
       />
+
       <BottomSheet isOpen={isSliderOpen}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", }} >
           <img src={Line22} alt="line22" style={{ marginTop: 20 }} />
 
-          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} >
-            Coupon Confirmation
-          </h2>
+          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} > Coupon Confirmation </h2>
 
           <img src={ThickLine} alt="thick tline" style={{ marginBottom: 30 }} />
           <p style={{ textAlign: "center", marginBottom: "10px", color: "black" }}>
@@ -507,12 +389,11 @@ const Dashboard = () => {
                 handleActivateCoupanBtn(isSliderOpen)
                 setFreeCops(false);
                 setCoupanPopup(true);
-              }}
-            >
+              }}>
               ACTIVATE
             </button>
           </div>
-          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }}           >
+          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }} >
             Note: The coupon is valid for 15 minutes after activation.
           </p>
         </div>
@@ -520,28 +401,28 @@ const Dashboard = () => {
 
       {(coupanPopup) && (
         <Reward
-          showPopup={coupanPopup} timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
+          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />
       )}
+      <BirthdayCampaign show={show} handleClose={() => setShow(false)} />
+
     </>
   );
 };
 
 export default Dashboard;
 
-// Loyality Card Formate
-{/* <div className="get-free-coupon-wrap">
-            <div className="get-free-coupon-content">
-              <div className="inner-wrap-free-coupon">
-                <span>Tagis ice cream</span>
-                <h2>GET FREE <br /> ICE CREAM</h2>
-                <span>Collect 9 stamps and get free ice cream.</span>
-              </div>
-            </div>
-            <div className="get-free-coupon-count">2/9</div>
-            <div className="get-free-coupon-bottom">
-              <p>Loyalty Card <span>VALID UNTIL <b>31st DECEMBER 2024</b></span></p>
-            </div>
-          </div> */}
+
+const BirthdayCampaign = ({ show, handleClose }) => {
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
+        <Button variant="light" onClick={handleClose} style={{ position: "absolute", top: "10px", right: "10px", borderRadius: "50%" }}>×</Button>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>Thank you for participating in the birthday campaign!</p>
+        <p style={{ fontSize: "14px" }}>Click your coupon to see detailed information, terms and conditions.</p>
+      </Modal.Body>
+    </Modal>
+  );
+};

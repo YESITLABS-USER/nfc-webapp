@@ -145,6 +145,7 @@ const CopsActivation = ({
       <AgeModal
         isModalOpen={ageModal}
         setIsModalOpen={setAgeModal}
+        currentData = {currentCoupanData}
         callBack={callBack}
       />
     </div>

@@ -20,7 +20,7 @@ import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { activateCoupan, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
+import { activateCoupan, getAllActivatedCoupans, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
 // import MyPlacesModal from "../components/MyPlacesModal";
 
 
@@ -40,17 +40,32 @@ const MyPage = () => {
   const [selectedCardId, setSelectedCardId] = useState(null); // State to store the card id for deletion
   const navigate = useNavigate()
 
-  
-  
   const handleBottmSheet = (val) => {
-    setIsSliderOpen(val);
-  };
+    if (val?.dob_coupon && val?.user_date_of_birth == null) {
+      setIsSliderOpen(false);
+      if(val?.validAge) {
+        setShow(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } else {
+      if(val?.campaign_age_restriction_start_age >= 18 && !val?.user_date_of_birth) {
+        setIsSliderOpen(false)
+      } else {
+        setIsSliderOpen(val);
+      }
+    }
+  };  
+  
+  // const handleBottmSheet = (val) => {
+  //   setIsSliderOpen(val);
+  // };
   
   const dispatch = useDispatch()
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const { allClientsData,clientData, loyalityCards, loading } = useSelector((state) => state.client)
-  const { coupansData } = useSelector((state) => state.coupans)
-  
+  const { coupansData, activatedCoupanData,coupanReward } = useSelector((state) => state.coupans);
   
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
@@ -58,7 +73,9 @@ const MyPage = () => {
   
   const [activeClient, setActiveClient] = useState(client_id);
   const [currentCoupanData, setCurrentCoupanData] = useState(null);
+  const [show, setShow ] = useState(false);
   
+
   useEffect(() => {
     if (!client_id || !user_id) {
       localStorage.removeItem("nfc-app");
@@ -69,9 +86,10 @@ const MyPage = () => {
       dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
       
     }
-  }, [dispatch, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
+  }, [dispatch,coupanReward, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
   
   
   const [visibleCount, setVisibleCount] = useState(3); // State to manage visible items
@@ -202,83 +220,70 @@ const MyPage = () => {
         {/* All Coupans*/}
        
       </div>
-
-            <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
-              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-                <div style={{width:"95%"}} key={index} >
-                  <CoupanComponent
-                    allData={coupan} 
-                    clientData={clientData}
-                    occupied={coupan?.occupied}
-                    onClick={() => {
-                      coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
-                      setCurrentCoupanData(coupan);
-                      setCurrentCoupanData(coupan);
-                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
-                        setFreeCops(true);
-                        setAddlimitation(true);
-                      } else {
-                        setFreeCops(true);
-                        setAddlimitation(false);
-                      }
-                    }}
-                  />
-                <MdDelete style={{ fontSize: "35px", color: "red", float:'inline-end', position:'relative', bottom:"100px", right:"-35px"  }}  onClick={() => {
+      <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
+          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
+            coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+              <div style={{width:"95%"}} key={index} >
+              
+              <CoupanComponent
+                key={index}
+                allData={coupan}
+                clientData={clientData}
+                occupied={coupan?.occupied}
+                onClick={() => {
+                  // coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  setCurrentCoupanData(coupan);
+                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1 && !(coupan?.user_date_of_birth))) {
+                    setFreeCops(true);
+                    setAddlimitation(true);
+                  } else {
+                    setFreeCops(true);
+                    setAddlimitation(false);
+                  }
+                }}
+              />
+              <MdDelete style={{ fontSize: "35px", color: "red", float:'inline-end', position:'relative', bottom:"100px", right:"-35px"  }}  onClick={() => {
                   setShowCoupanDeletepopup(true);
                   setCurrentCoupanData(coupan); 
                 }}/>
-                {/* <MdDelete style={{ fontSize: "35px", color: "red", float:'left' }}  onClick={() => {
-                  setShowCoupanDeletepopup(true);
-                  setCurrentCoupanData(coupan); 
-                }}/> */}
-                </div>
-              ))
-            )}
-          </div>
-          {/* <div style={{ maxHeight: "545px", display: "flex", flexDirection: "column", gap: "10px", paddingTop:"25px",
-          overflowX: "hidden", alignItems: "center" }} className={showAll ? "custom-scrollbar" : ""} >
-            {coupansData.length === 0 ? ( <p>No coupon available</p> ) : (
-              coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={index} >
-                  <CoupanComponent
-                    allData={coupan} 
-                    clientData={clientData}
-                    occupied={coupan?.occupied}
-                    onClick={() => {
-                      coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
-                      setCurrentCoupanData(coupan);
-                      setCurrentCoupanData(coupan);
-                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
-                        setFreeCops(true);
-                        setAddlimitation(true);
-                      } else {
-                        setFreeCops(true);
-                        setAddlimitation(false);
-                      }
-                    }}
-                  />
-                <MdDelete style={{ fontSize: "35px", color: "red" }}  onClick={() => {
-                  setShowCoupanDeletepopup(true);
-                  setCurrentCoupanData(coupan); 
-                }}/>
-                </div>
-              ))
-            )}
-          </div> */}
+              </div>
+            ))
+          )}
+          {activatedCoupanData.length == 0 ? "" : (
+            activatedCoupanData.map((coupan, index) => (
+              <>
+              <CoupanComponent
+                key={index}
+                allData={coupan}
+                clientData={clientData}
+                occupied={coupan?.occupied}
+                onClick={() => {
+                  coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  setCurrentCoupanData(coupan);
+                  if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                    setFreeCops(true);
+                    setAddlimitation(true);
+                  } else {
+                    setFreeCops(true);
+                    setAddlimitation(false);
+                  }
+                }}
+              /></>
+            ))
+          )}
         </div>
-          
-        { coupansData?.length > 3 && (
+
+        {coupansData?.length > 3 && (
           <button onClick={() => setShowAll(!showAll)} // Implement your logic here
-            style={{ marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
-              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} >
+            style={{
+              marginTop: "20px", padding: "10px 20px", backgroundColor: "#25026E", color: "white",
+              border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold",
+            }} >
             {showAll ? "See Less" : "See More"}
             <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAll ? "180deg" : "0deg"}`, }} />
-          </button> 
+          </button>
         )}
-          {/* <img src={FreeBeer} alt="Coupon 2" style={{ objectFit: "contain" }} />
-          <img src={Food} alt="Coupon 3" style={{ objectFit: "contain" }} /> */}
-
+      </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15, 
           zIndex: 100, }} >
         <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>
@@ -328,7 +333,7 @@ const MyPage = () => {
       </div>
 
       <CopsActivation
-        isModalOpen={freeCops && !currentCoupanData?.coupon_last_activate_date_time}
+        isModalOpen={freeCops && !currentCoupanData?.activate_time_usa_zone}
         setIsModalOpen={setFreeCops}
         callBack={handleBottmSheet}
         ageLimitaion={ageLimitaion}
@@ -406,10 +411,10 @@ const MyPage = () => {
       )} */}
       {coupanPopup && (
         <Reward
-          showPopup={coupanPopup}  timer={getRemainingTime(currentCoupanData?.coupon_last_activate_date_time, "00:15:00")} clientLogo={clientData?.company_logo ? backendUrl+"/"+clientData?.company_logo : null}
+          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
-        />
+      />
       )}
 
       <MyPageInfo isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} coops={coopn} />
@@ -424,6 +429,9 @@ const MyPage = () => {
         cardId={selectedCardId} name="loyality card"/> 
 
       <DeletePopup isModalOpen={showCoupanDeletepopup} setIsModalOpen={setShowCoupanDeletepopup} handleDelete={handleCoupanDelete} cardId={currentCoupanData?.coupon_table_id} name="coupan"/> 
+
+      <BirthdayCampaign show={show} handleClose={() => setShow(false)} />
+
     </>
   );
 };
@@ -452,6 +460,18 @@ function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }
   );
 }
 
+
+const BirthdayCampaign = ({ show, handleClose }) => {
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
+        <Button variant="light" onClick={handleClose} style={{ position: "absolute", top: "10px", right: "10px", borderRadius: "50%" }}>×</Button>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>Thank you for participating in the birthday campaign!</p>
+        <p style={{ fontSize: "14px" }}>Click your coupon to see detailed information, terms and conditions.</p>
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 const styles = {
   itemContent: {

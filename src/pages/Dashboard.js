@@ -25,7 +25,7 @@ import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
+import {  getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button, Modal } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
@@ -68,7 +68,6 @@ const Dashboard = () => {
     } else {
       dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
-      dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
     }

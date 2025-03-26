@@ -1,15 +1,22 @@
 import React, { useEffect } from 'react';
 import SplashImg from "../assets/images/splashScreen.png";
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addClientInUser } from '../store/slices/clientSlice';
 
 const NewScan = () => {
     const { id } = useParams(); 
     const navigate = useNavigate();
 
+    const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+    const { user_id } = storedData;
+
+    const dispatch = useDispatch();
     useEffect(() => {
         if (id) { // Ensure the id exists
             localStorage.setItem('client_id', id);
             navigate('/dashboard');
+            dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
         }
     }, [id, navigate]); 
 

@@ -117,7 +117,7 @@ const CoupanComponent = ({
             <div className="coupon-right-text">
               <h2> {clientData?.client_name ?? "OLO"} </h2>
               <h3> {allData?.coupon_name} </h3>
-              <p>VALID UNTIL <b> {allData?.validity_no_limit ? "No Expiration" : formatDate(allData?.validity_expiration_date) || ""}
+              <p>VALID UNTIL : <b> {allData?.validity_no_limit ? "No Expiration" : allData?.validity_expiration_date ? formatDate(allData?.validity_expiration_date) : "No Expiration"}
               </b></p>
               {allData?.campaign_age_restriction_start_age >= 18 && <span>Age : 18+</span>}
             </div>

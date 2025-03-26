@@ -15,7 +15,6 @@ const LoyaltyCardImgComponent = ({
   url = "/dashboard",
   clientLogo
 }) => {
-  
   const [coupanPopup, setCoupanPopup] = useState(false);
 
   const modifiedFreeItem = free_item.toLowerCase().startsWith("free ") 
@@ -63,7 +62,9 @@ const LoyaltyCardImgComponent = ({
             <span>Collect {total_stamps} stamps and get {free_item}.</span>
           </div>
         </div>
-        <div className="get-free-coupon-count">{open_stamps}/{total_stamps}</div>
+        <div className="get-free-coupon-count">
+        {Number(open_stamps) > Number(total_stamps) ? Number(total_stamps) : Number(open_stamps)}/{Number(total_stamps)}
+        </div>
         <div className="get-free-coupon-bottom">
           <p>Loyalty Card <span>VALID UNTIL <b>{end_date}</b></span></p>
         </div>

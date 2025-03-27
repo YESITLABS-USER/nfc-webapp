@@ -21,11 +21,14 @@ export const logout = (id) => API.post('/api/v1/logout', id, {
 
 export const signUp = (formData) => API.post(`/api/v1/send-otp`, formData);
 
-export const signIn = (formData) => API.post(`/api/v1/user-login`, formData);
+export const signIn = (formData) => API.post(`/api/v1/send-otp-login`, formData);
+// export const signIn = (formData) => API.post(`/api/v1/user-login`, formData);
 
 export const verifyOtp = (formData) => API.post(`/api/v1/verify-otp-signup`, formData);
 
-export const loginVerifyOtp = (formData) => API.post(`/api/v1/verify-otp`, formData);
+export const loginVerifyOtp = (formData) => API.post(`/api/v1/verify-otp-login`, formData);
+// export const loginVerifyOtp = (formData) => API.post(`/api/v1/verify-otp`, formData);
+
 export const resendOtp = (formData) => API.post(`/api/v1/resend-otp`, formData);
 
 export const getUser = (formData) => API.post(`/api/v1/my-profile-get`, formData);

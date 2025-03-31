@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import AddToCardImg from "../assets/icons/addToHome.svg";
+// import AddToCardImg from "../assets/icons/addToHome.svg";
 import AddToCardButton from "../assets/icons/button.svg";
 import { IoIosCloseCircle } from "react-icons/io";
 
@@ -71,11 +71,12 @@ const AddShortCut = ({
             {showInstallButton ? (
               "Already installed "
             ) : (
-              <img
-                src={AddToCardImg}
-                alt="Start Pattern"
-                style={{ width: "auto", height: "auto" }}
-              />
+              // <img
+              //   src={AddToCardImg}
+              //   alt="Start Pattern"
+              //   style={{ width: "auto", height: "auto" }}
+              // />
+              <p> No Image</p>
             )}
 
             <img

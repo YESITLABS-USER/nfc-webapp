@@ -177,6 +177,7 @@ const userSlice = createSlice({
           user_id: action.payload?.user?.id,
           token: action.payload?.token,
         }));
+        localStorage.setItem("nfc-shortcut", "true");
         toast.success(action.payload?.message || "Otp verified successfully")
         setTimeout(() => {
           window.location.href = "/dashboard";
@@ -201,6 +202,7 @@ const userSlice = createSlice({
           user_id: action.payload?.user?.id,
           token: action.payload?.token,
         }));
+        localStorage.setItem("nfc-shortcut", "true");
         toast.success(action.payload?.message || "Otp verified successfully")
         setTimeout(() => {
           window.location.href = "/dashboard";

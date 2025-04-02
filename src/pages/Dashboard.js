@@ -31,6 +31,7 @@ import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
+import AddShortCut from "../components/AddShortCut";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -119,6 +120,52 @@ const Dashboard = () => {
       setTimeout(() => {
         document.getElementById('see-more-button')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
+    }
+  };
+
+  // For Shortcut Popup
+  const isOpenPopup = localStorage.getItem('nfc-shortcut');
+  const [addToShort, setToShortCut] = useState(isOpenPopup ?? false);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isIos, setIsIos] = useState(false);
+
+  useEffect(() => {
+    // Detect if the user is on iOS
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    setIsIos(/iphone|ipad|ipod/.test(userAgent));
+
+    // Listen for the 'beforeinstallprompt' event (for Android)
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault(); // Prevent the mini-infobar from appearing
+      setDeferredPrompt(event);
+      setShowInstallButton(true); // Show the "Add to Home Screen" button
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+  const handleInstallClick = () => {
+    if (isIos) {
+      alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
+      localStorage.removeItem("nfc-shortcut")
+    } else if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the install prompt.");
+        } else {
+          console.log("User dismissed the install prompt.");
+        }
+        setDeferredPrompt(null); // Clear the prompt after use
+      });
     }
   };
 
@@ -407,6 +454,7 @@ const Dashboard = () => {
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />
 
+      <AddShortCut isModalOpen={addToShort} setIsModalOpen={setToShortCut} handleInstallClick={handleInstallClick} showInstallButton={showInstallButton} />
     </>
   );
 };

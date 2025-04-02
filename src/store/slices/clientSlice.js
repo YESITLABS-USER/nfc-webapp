@@ -206,7 +206,6 @@ const clientSlice = createSlice({
       .addCase(addClientInUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message;
-        toast.error("Failed to Add Client");
       }) 
   },
 });

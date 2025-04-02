@@ -88,14 +88,11 @@ const SignupPage = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required').min(3, 'Name should be at least 3 characters long'),
-    phone_number: Yup.string()
-    .required('Phone number is required')
-    .matches(
-      /^\+1\d{10}$/,
-      'Phone number must be a valid U.S. number starting with +1 and followed by 10 digits'
+    name: Yup.string().required('Name is required').min(2, 'Name should be at least 2 characters long').matches(/^[A-Za-z\s]+$/, 'Name should only contain letters and spaces'),    
+    
+    phone_number: Yup.string().required('Phone number is required').matches(/^(\+1\d{10}|\+358\d{10})$/,
+      'Phone number must be a valid US number starting with +1 (followed by 10 digits) or a Finnish number starting with +358 (followed by 10 digits)'
     )
-  
   });
 
   const handleSubmit = async (values) => {
@@ -110,7 +107,7 @@ const SignupPage = () => {
       if (result.meta?.requestStatus === 'fulfilled') {
         setIsModalOpen(true);
       }
-      if (result.meta?.requestStatus === 'rejected') {
+      if (result?.payload?.errors?.phone_number == "The phone number has already been taken.") {
         setAlreadyRegistered(true)
       } else {
         setAlreadyRegistered(false)

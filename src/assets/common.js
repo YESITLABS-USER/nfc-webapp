@@ -70,6 +70,13 @@ const formatTime = (seconds) => {
     .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
+const rewardFormatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+};
+
+
 // Parse a time string (HH:MM:SS) into total seconds
 const parseTime = (timeStr) => {
   const [hours, minutes, seconds] = timeStr.split(":").map(Number);
@@ -113,4 +120,4 @@ const formatDate = (dateString) => {
     return newDate;
   };
 
-export { getRemainingTime, getMySQLFormattedTimestamp, formatTime, parseTime, formatDate, addValidity };
+export { getRemainingTime, getMySQLFormattedTimestamp, formatTime, parseTime, formatDate, addValidity, rewardFormatTime };

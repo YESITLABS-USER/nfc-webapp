@@ -102,7 +102,8 @@ const CopsActivation = ({
                 {/* <img src={OLOLogo} alt="" /> */}
                 <h2>{clientData?.client_name ?? "OLO"}</h2>
                 <h3> {currentCoupanData?.coupon_name} </h3>
-                <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p>
+                {/* <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p> */}
+                <p>VALID UNTIL : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
                 {/* <span>Age : 18+</span> */}
               </div>
             </div>

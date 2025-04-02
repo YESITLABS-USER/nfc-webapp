@@ -117,14 +117,11 @@ const userSlice = createSlice({
         state.loading = false;
         const errorPayload = action.payload || "Failed to send OTP";
         state.error = errorPayload;
-    
-        if (errorPayload.errors) {
-            const errorMessages = Object.values(errorPayload.errors).flat().join(", ");
-            toast.error(errorMessages || "Failed to send OTP");
-        } else {
-            toast.error(errorPayload.error?.[0] || "Failed to send OTP");
+        if(action.payload?.errors?.phone_number != "The phone number has already been taken."){
+          toast.error("Failed to send OTP")
         }
       })
+
       .addCase(signIn.pending, (state) => {
         state.loading = true;
         state.error = null;

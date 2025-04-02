@@ -189,7 +189,7 @@ const Dashboard = () => {
 
       {/* About Client */}
       <div style={{ textAlign: "left", margin: "0 auto", width: "90%", padding: "10px 0" }}>
-        <span style={{ fontSize: 20, fontWeight: "bold" }}>About</span>
+        <span style={{ fontSize: 20, fontWeight: "bolder" }}>About</span>
 
         <div>
           <p> {isExpanded ? clientData?.business_about_us : clientData?.business_about_us?.slice(0, 180)}
@@ -203,7 +203,7 @@ const Dashboard = () => {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>
-        <h3 style={{ marginBottom: "20px" }}>EXPLORE OUR COUPONS</h3>
+        <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>EXPLORE OUR COUPONS</h3>
 
         {/* <LoyaltyCard /> */}
         <div style={{

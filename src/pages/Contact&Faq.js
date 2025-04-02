@@ -36,7 +36,6 @@ function ContactFaq() {
   };
 
   const handleSubmit = (values) => {
-    console.log(values)
     dispatch(createContact(values));
   }
 

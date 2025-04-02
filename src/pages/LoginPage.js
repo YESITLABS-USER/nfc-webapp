@@ -26,13 +26,11 @@ const LoginPage = () => {
 
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required').min(3, 'Name should be at least 3 characters long'),
-    phone_number: Yup.string()
-    .required('Phone number is required')
-    .matches(
-      /^\+1\d{10}$/,
-      'Phone number must be a valid U.S. number starting with +1 and followed by 10 digits'
-    )  });
+    name: Yup.string().required('Name is required').min(2, 'Name should be at least 2 characters long').matches(/^[A-Za-z\s]+$/, 'Name should only contain letters and spaces'),    
+      
+    phone_number: Yup.string().required('Phone number is required').matches(/^(\+1\d{10}|\+358\d{10})$/,
+      'Phone number must be a valid US number starting with +1 (followed by 10 digits) or a Finnish number starting with +358 (followed by 10 digits)')
+    });
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("nfc-app"))?.token

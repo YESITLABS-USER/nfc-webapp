@@ -131,7 +131,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
               </div>
               <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }}
                 onClick={() => selectLanguage("fin")} >
-                Finish
+                Finnish
               </div>
             </div>
           )}

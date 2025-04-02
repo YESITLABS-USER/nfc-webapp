@@ -175,8 +175,8 @@ const MyPage = () => {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }} >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px", width: "80%" }} >
-          <h3 style={{ marginLeft: "20px" }}>Coopons</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%", margin:"0 15px" }} >
+          <h3 style={{ fontWeight:"600" }}>Coopons</h3>
           <FaInfoCircle size={24} color="#25026E" 
             onClick={() => {
               setIsModalOpen(true);
@@ -184,6 +184,7 @@ const MyPage = () => {
             }} 
           />
         </div>
+        
         <div style={{ display: "flex",flexDirection: "column",gap: "10px", padding: "10px", borderRadius: "10px", 
             width: "100%", alignItems: "center" }}>
         {/* <LoyaltyCard /> */}
@@ -221,7 +222,7 @@ const MyPage = () => {
        
       </div>
       <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
+          {coupansData.length === 0 ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <div style={{width:"95%"}} key={index} >
               
@@ -307,7 +308,9 @@ const MyPage = () => {
             <div style={styles.itemContent}>
               <h3 style={styles.itemTitle}>{item?.client_name}</h3>
               <p style={styles.itemDescription}> 
-                {item?.location_name?.length > 20 ? `${item?.location_name.slice(0, 20)}...` : item?.location_name}
+                {item?.location_name?.length > 12 ? `${item?.location_name.slice(0, 12)}-` : item?.location_name}
+                <br />
+                {item?.location_name?.length > 12 ? item?.location_name.slice(12) : ''}
               </p>
             </div>
 

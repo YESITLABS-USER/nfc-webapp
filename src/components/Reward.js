@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import bg from "../assets/images/rewardBg.png";
 import header from "../assets/icons/header.png";
-import { formatTime, parseTime } from "../assets/common";
+import { formatTime, parseTime, rewardFormatTime } from "../assets/common";
 
 const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer || "00:15:00"))); // 15 minute in seconds
@@ -103,7 +103,7 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
           </h2>
 
           <div style={{ fontSize: "40px", marginTop: "20px", fontWeight: "bold" }}>
-            {formatTime(timeLeft)}
+            {rewardFormatTime(timeLeft)}
           </div>
 
           <span style={{ fontSize: "14px", marginTop: "0px", fontWeight: "600", display: "block",}} >

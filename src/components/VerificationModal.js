@@ -110,11 +110,9 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                 marginLeft: "30px",
               }}
             />
-            <p
-              style={{ fontSize: "20px", color: "#000000", fontWeight: "500" }}
-            >
-              Please type the verification code sent to{" "}
-              <strong style={{ fontWeight: "bold" }}>{data?.phone_number ?? "+1 999 999 9999"}</strong>
+            <p style={{ fontSize: "18px", color: "#000000", fontWeight: "500" }} >
+              Please type the verification code send to  
+              <strong style={{ fontWeight: "bold", paddingLeft:'5px' }}>{data?.phone_number ?  data?.phone_number : "+1 999 999 9999"}</strong>
             </p>
             <div
               style={{
@@ -164,7 +162,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                 Didn't receive the verification code?{" "}
                 <strong
                   style={{
-                    fontWeight: "bold",
+                    fontWeight: isDisable ? "normal" : "bold",
                     color: isDisable ? "#565656" : "#2A0181",
                     cursor: isDisable ? "not-allowed" : "pointer",
                   }}
@@ -178,12 +176,12 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                   Resend
                 </strong>
               </p>
-              <p style={{ margin: "0", fontSize: "14px", color: "#565656" }}>
+             {timeLeft > 0 && <p style={{ margin: "0", fontSize: "14px", color: "#565656" }}>
                 Resend verification code in{" "}
                 <span style={{ color: "#2B0186" }}>
                   {timeLeft < 10 ? `0${timeLeft}` : timeLeft} sec
                 </span>
-              </p>
+              </p>}
             </div>
           </div>
         </div>

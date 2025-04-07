@@ -10,7 +10,7 @@ const AddShortCut = ({
   handleInstallClick,
   showInstallButton,
 }) => {
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {localStorage.removeItem('nfc-shortcut'); setIsModalOpen(false);}
 
   useEffect(() => {
     if (isModalOpen) {

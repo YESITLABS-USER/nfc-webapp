@@ -19,6 +19,8 @@ export const logout = (id) => API.post('/api/v1/logout', id, {
 // ------------------------------ User Slice APi -----------------------------------------------
 
 
+export const locationChange = (formData) => API.post(`/api/v1/change-lang`, formData);
+
 export const signUp = (formData) => API.post(`/api/v1/send-otp`, formData);
 
 export const signIn = (formData) => API.post(`/api/v1/send-otp-login`, formData);

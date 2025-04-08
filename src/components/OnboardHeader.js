@@ -14,7 +14,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import SlidingPage from "./SlidingPage";
 import OnboaringInfo from "./OnboadingInfo";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../store/slices/userSlice";
+import { getUser, locationChange } from "../store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 // function OnboardHeader({ disabled, OLODISABLE, selectAvatar, bgrIcon = false, message, }) {
@@ -28,6 +28,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
   const activeUser = localStorage.getItem('nfc-app');
   const { user_id } = JSON?.parse(activeUser) || 0;
 
+  const client_id = localStorage.getItem('client_id')
 
   useEffect(() => {
     if (user_id) {
@@ -64,12 +65,33 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
     };
   }, []);
 
-  const selectLanguage = (language) => {
-    setSelectedLanguage(language);
-    setIsDropdownOpen(false);
-    localStorage.setItem('language', language);
-    window.location.reload(false);
-  };
+  // const selectLanguage = async (language) => { 
+  //   setSelectedLanguage(language);
+  //   setIsDropdownOpen(false);
+  //   localStorage.setItem('language', language);
+  //   window.location.reload(false);
+  // };
+
+  const selectLanguage = async (language) => {
+    try {
+      if(selectedLanguage == language) {
+        return;
+      }
+      // Dispatch the locationChange action to update the language in the backend
+      const response = await dispatch(locationChange({ client_table_id: client_id }));
+      
+      if (response && response.payload) {
+        setSelectedLanguage(language);
+        localStorage.setItem('language', language);
+        window.location.reload(false);
+      } else {
+        console.error('Failed to update language.');
+      }
+    } catch (error) {
+      console.error('Error during language selection:', error);
+    }
+  }
+  
 
   return (
     <div>

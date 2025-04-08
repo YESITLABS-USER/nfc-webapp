@@ -169,6 +169,19 @@ const Dashboard = () => {
     }
   };
 
+  if (!clientData || clientData.length === 0) {
+    return (
+      <>
+        <OnboardHeader disabled={true} OLODISABLE={true} />
+        <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems: "center", fontWeight:"bold", fontSize:"20px", height:"70vh"}}>
+          No Client information Found
+        <p style={{fontWeight:"normal", fontSize:"14px"}}> Please change the language </p>
+        </div>
+      </>
+    );
+  }
+  
+
   return (
     <>
       <OnboardHeader disabled={true} OLODISABLE={true} />
@@ -283,7 +296,7 @@ const Dashboard = () => {
         </div>
 
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {coupansData.length === 0 ? (<p>No coupon available</p>) : (
+          {coupansData.length === 0 ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <CoupanComponent
                 key={index}

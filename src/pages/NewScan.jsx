@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addClientInUser } from '../store/slices/clientSlice';
 
 const NewScan = () => {
-    const { id } = useParams(); 
+    const { id, lang } = useParams(); 
     const navigate = useNavigate();
 
     const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
@@ -15,6 +15,7 @@ const NewScan = () => {
     useEffect(() => {
         if (id) { // Ensure the id exists
             localStorage.setItem('client_id', id);
+            localStorage.setItem('language', lang)
             navigate('/dashboard');
             dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
         }

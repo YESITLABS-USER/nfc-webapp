@@ -13,6 +13,15 @@ function logouterror() {
 }
 
 //  User API
+export const locationChange = createAsyncThunk("user/locationChange", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.locationChange(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
 export const signUp = createAsyncThunk("user/signUp", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.signUp(formData);
@@ -21,6 +30,7 @@ export const signUp = createAsyncThunk("user/signUp", async (formData, { rejectW
     return rejectWithValue(error.response?.data || error.message);
   }
 });
+
 export const signIn = createAsyncThunk("user/signIn", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.signIn(formData);
@@ -103,6 +113,25 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Change Location
+      .addCase(locationChange.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(locationChange.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.loading = false;
+        if(action.payload?.client_table_id) {
+          localStorage.setItem('client_id', action.payload?.client_table_id);
+        }
+      })
+      .addCase(locationChange.rejected, (state, action) => {
+        state.loading = false;
+        const errorPayload = action.payload || "Failed to send OTP";
+        state.error = errorPayload;
+        
+      })
+
       // Sign-up user
       .addCase(signUp.pending, (state) => {
         state.loading = true;

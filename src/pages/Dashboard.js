@@ -152,10 +152,10 @@ const Dashboard = () => {
       );
     };
   }, []);
+
   const handleInstallClick = () => {
     if (isIos) {
       alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
-      localStorage.removeItem("nfc-shortcut")
     } else if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
@@ -167,6 +167,8 @@ const Dashboard = () => {
         setDeferredPrompt(null); // Clear the prompt after use
       });
     }
+    setToShortCut(false);
+    localStorage.removeItem('nfc-shortcut')
   };
 
   if (!clientData || clientData.length === 0) {

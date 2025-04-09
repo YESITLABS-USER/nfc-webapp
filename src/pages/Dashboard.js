@@ -188,7 +188,7 @@ const Dashboard = () => {
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <img src={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : OLO} alt="OLO" style={{ width: "72px", height: "72px" }} />
+          <img src={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : OLO} alt={clientData?.client_name || "OLO"} style={{ width: "72px", height: "72px", borderRadius:"10px" }} />
           <div style={{ display: "flex", flexDirection: "column", }}>
             <span className="restaurant-name" style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
               {clientData?.client_name?.length > 10 ? `${clientData?.client_name?.slice(0, 10)}...` : clientData?.client_name || "Olo"}
@@ -461,7 +461,12 @@ const Dashboard = () => {
       {(coupanPopup) && (
         <Reward
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
-          onClose={() => setCoupanPopup(false)}
+          onClose={() => {
+            setCoupanPopup(false);
+             dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
+             
+             dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+          }}
           countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
         />
       )}

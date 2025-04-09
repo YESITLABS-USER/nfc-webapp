@@ -9,7 +9,7 @@ import Reward from "../components/Reward";
 import { useLocation, useNavigate } from "react-router-dom";
 import Line22 from "../assets/icons/line222.png";
 import { useDispatch } from "react-redux";
-import { reedemLoyalityCard } from "../store/slices/clientSlice";
+import { getAllLoyalityCards, reedemLoyalityCard } from "../store/slices/clientSlice";
 import { getMySQLFormattedTimestamp } from "../assets/common";
 
 const Loyality = () => {
@@ -48,9 +48,15 @@ const Loyality = () => {
       "last_stamp_click_time": getMySQLFormattedTimestamp(),
       "total_open_stamps": (Number(data?.total_open_stamps) == Number(data?.number_of_stamps)) ? Number(data?.number_of_stamps) : (Number(data?.total_open_stamps) == null || isNaN(Number(data?.total_open_stamps))) ? 1 
         : Number(data?.total_open_stamps) + 1,
-      "completed_status": completed_status,
+      // "completed_status": completed_status,
+      "completed_status": 1,
     }
-    dispatch(reedemLoyalityCard(payload))
+    const res = dispatch(reedemLoyalityCard(payload))
+    if(res) {
+      const client_id = localStorage.getItem("client_id");
+
+      dispatch(getAllLoyalityCards({client_table_id: client_id, "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id}))
+    }
   }
 
   return (
@@ -202,7 +208,11 @@ const Loyality = () => {
               clientLogo={data?.clientLogo}
               onClose={() => {
                 setCoupanPopup(false);
-                navigate(data?.url);
+                const client_id = localStorage.getItem("client_id");
+                const res = dispatch(getAllLoyalityCards({client_table_id: client_id, "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id}))
+                if(res) {
+                  navigate(data?.url);
+                }
               }}
               timer = {data?.expiration_time}
               countText={ 

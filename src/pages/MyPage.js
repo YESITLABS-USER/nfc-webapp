@@ -85,8 +85,8 @@ const MyPage = () => {
       
       dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
-      dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
-      dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      dispatch(getAllCoupans({ client_table_id: activeClient ?? client_id, user_table_id: user_id }));
+      dispatch(getAllActivatedCoupans({ client_table_id: activeClient ?? client_id, user_table_id: user_id }));
       
     }
   }, [dispatch,coupanReward, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
@@ -295,7 +295,6 @@ const MyPage = () => {
         }} />
       </div>
 
-      
       <div style={styles.verticalList}>
           {
             allClientsData?.length <= 0 && <p style={{ display:"flex", justifyContent:'center', padding:"20px 0"}}> No Clients Available </p>

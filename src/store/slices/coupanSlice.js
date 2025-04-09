@@ -98,9 +98,9 @@ const coupanSlice = createSlice({
       .addCase(activateCoupan.fulfilled, (state, action) => {
         state.loading = false;
         state.coupanReward = action.payload?.data;
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
       })
       .addCase(activateCoupan.rejected, (state, action) => {
         state.loading = false;

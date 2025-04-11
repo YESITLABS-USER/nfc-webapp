@@ -342,7 +342,7 @@ const MyProfile = () => {
 
         <div style={{ marginTop: 30 }}> <hr /> </div>
 
-        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
+        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "8px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
           setShowDeletePopup(!showdeletePopup);
         }}> DELETE </Button>
 

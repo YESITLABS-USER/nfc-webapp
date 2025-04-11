@@ -4,7 +4,7 @@ import CancelModal from "./CancelModal";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../store/slices/userSlice";
 
-const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
+const AgeModal = ({ isModalOpen, setIsModalOpen, currentData, callBack }) => {
   const closeModal = () => setIsModalOpen(false);
 
   const [value, setValue] = useState("");
@@ -12,7 +12,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const [cancelModal, setCancelModal] = useState(false);
 
   const dispatch = useDispatch();
-  const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
+  const { user_id } = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
 
   useEffect(() => {
     if (isModalOpen) {
@@ -30,7 +30,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   function convertDateFormat(dateString) {
     const parts = dateString.split('/');
     return `${parts[2]}-${parts[1]}-${parts[0]}`;
-}
+  }
 
 
   const handleDateChange = (e) => {
@@ -111,16 +111,16 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
       }
       // Show age result
       if (age >= 18 || currentData?.dob_coupon && age >= 13) {
-        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
+        dispatch(updateUser({ date_of_birth: convertDateFormat(value), id: user_id }))
         setIsModalOpen(false);
-        callBack({...currentData, validAge:true, is18: true});
+        callBack({ ...currentData, validAge: true, is18: true });
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       } else {
         setCancelModal(true);
         setIsModalOpen(false);
-        callBack({...currentData, validAge:false, is18: false});
+        callBack({ ...currentData, validAge: false, is18: false });
       }
     }
   };
@@ -145,8 +145,8 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
           <div
             style={{
               backgroundColor: "#FFFFFF",
-              padding: "20px",
-              borderRadius: "10px",
+              padding: "40px 20px 20px 20px",
+              borderRadius: "15px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
               width: "90%",
@@ -161,31 +161,31 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
                 position: "relative",
               }}
             >
-              <h3 style={{ color: "black", fontWeight: "bold" }}>
+              <h3 style={{ color: "black", fontWeight: "600", fontSize: "17px" }}>
                 Confirm your age before proceeding further!!
               </h3>
               <IoIosCloseCircle
                 color={"#2A0181"}
-                size={30}
+                size={25}
                 style={{
                   position: "absolute",
                   right: "-15px",
                   cursor: "pointer",
-                  top: "-20px",
+                  top: "-35px",
                 }}
                 onClick={closeModal}
               />
             </div>
-            <h5
-              style={{
-                marginTop: 20,
-                textAlign: "start",
-                marginLeft: 60,
-                color: "#000000",
-              }}
-            >
-              DOB{" "}
-            </h5>
+            <div className="dob-in">
+              <h5
+                style={{
+                  marginTop: 20,
+                  textAlign: "start",
+                  color: "#000000",
+                }}
+              >
+                DOB{" "}
+              </h5>
             <span style={{ color: "#9A9A9A" }}>Enter your date of birth</span>
             <input
               type="text"
@@ -198,7 +198,6 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
                 border: "1px solid #2A0181",
                 borderRadius: "10px",
                 fontSize: "16px",
-                width: "200px",
                 marginBottom: "10px",
                 borderColor: "#2A0181",
               }}
@@ -222,6 +221,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
               >
                 Next
               </button>
+            </div>
             </div>
           </div>
         </div>

@@ -146,6 +146,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 marginTop: "45px",
                 zIndex: 100,
                 width: "100%",
+                fontWeight: "600"
               }} >
               <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }}
                 onClick={() => selectLanguage("eng")} >

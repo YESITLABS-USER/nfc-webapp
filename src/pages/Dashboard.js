@@ -130,6 +130,11 @@ const Dashboard = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIos, setIsIos] = useState(false);
 
+  const isInStandaloneMode = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+  
+
   useEffect(() => {
     // Detect if the user is on iOS
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -152,8 +157,14 @@ const Dashboard = () => {
       );
     };
   }, []);
-
+  
   const handleInstallClick = () => {
+    if (isInStandaloneMode()) {
+      alert("App is already installed. You can now add it to your device's shortcut.");
+      // Optionally show another modal or do shortcut logic here
+      return;
+    }
+  
     if (isIos) {
       alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
     } else if (deferredPrompt) {
@@ -164,12 +175,11 @@ const Dashboard = () => {
         } else {
           console.log("User dismissed the install prompt.");
         }
-        setDeferredPrompt(null); // Clear the prompt after use
+        setDeferredPrompt(null);
       });
     }
-    setToShortCut(false);
-    localStorage.removeItem('nfc-shortcut')
   };
+  
 
   if (!clientData || clientData.length === 0) {
     return (
@@ -484,11 +494,14 @@ export default Dashboard;
 
 const BirthdayCampaign = ({ show, handleClose }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered>
-      <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
+    <Modal show={show} onHide={handleClose} centered className="participating-modal">
+      <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative" }}>
         <Button variant="light" onClick={handleClose} style={{ position: "absolute", top: "10px", right: "10px", borderRadius: "50%" }}>×</Button>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>Thank you for participating in the birthday campaign!</p>
-        <p style={{ fontSize: "14px" }}>Click your coupon to see detailed information, terms and conditions.</p>
+        <h2><i>Welcome to Tagis!</i></h2>  
+        <p style={{ fontSize: "15px", fontWeight: "bold" }}>
+          <i>Thank you for participating in the birthday campaign!</i>
+          </p>
+        <p style={{ fontSize: "14px" }}><i>Click your coupon to see detailed information, terms and conditions.</i></p>
       </Modal.Body>
     </Modal>
   );

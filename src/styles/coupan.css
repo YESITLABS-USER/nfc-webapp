@@ -3,91 +3,173 @@
   src: url("./fonts/FivoSansModern-Regular.otf") format("opentype");
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   font-family: "FivoSansModern", sans-serif;
 }
 
-  .coupan-container {
-    width: fit-content;
-    height: fit-content;
-    position: relative;
-    z-index: 5;
-  }
-  
-  .coupan-image {
-    position: absolute;
-    z-index: 1;
-  }
-  
-  .coupan-content {
-    position: relative;
-    z-index: 2;
-  }
-  
-  .coupan-details {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 15px 10px;
-  }
-  
-  .coupan-vertical-text {
-    text-align: center;
-    transform: rotate(270deg);
-    color: black;
-    position: relative;
-    left: -8px;
-  }
-  
-  .coupan-description {
-    font-size: 12px;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .coupan-offer {
-    font-size: 34px;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .coupan-main-text {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    /* padding-top: 10px; */
-    color: white;
-    min-height: 90px;
-  }
-  
-  .coupan-title {
-    font-weight: 700;
-    font-size: 30px;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    left: -10px;
-  }
-  
-  .coupan-validity {
-    font-size: 10px;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    left: -10px;
-  }
-  .coupan-age {
-    font-size: 9px;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: end;
-    padding-right: 30px;
-  }
-  
+.coupan-container {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  z-index: 5;
+}
+
+.coupan-image {
+  position: absolute;
+  z-index: 1;
+}
+
+.coupan-content {
+  position: relative;
+  z-index: 2;
+}
+
+.coupan-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px 10px;
+}
+
+.coupan-vertical-text {
+  text-align: center;
+  transform: rotate(270deg);
+  color: black;
+  position: relative;
+  left: -8px;
+}
+
+.coupan-description {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.coupan-offer {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.coupan-main-text {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* padding-top: 10px; */
+  color: white;
+  min-height: 90px;
+}
+
+.coupan-title {
+  font-weight: 700;
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: -10px;
+}
+
+.coupan-validity {
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: -10px;
+}
+
+.coupan-age {
+  font-size: 9px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: end;
+  padding-right: 30px;
+}
+
+.reward-wrapper {
+  transform: scale(.80);
+}
+
+.reward-top {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  padding: 1.5rem 2rem;
+  transform: scale(1.05);
+}
+
+.reward-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  padding: 1.5rem 2rem;
+  transform: scale(1.05);
+}
+
+.cong-wrap {
+  background-image: url(../assets/images/confetti.svg);
+  background-size: auto;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+.dob-in {
+  width: 80%;
+  margin: auto;
+}
+
+.dob-in h5 {
+  font-size: 16px;
+}
+
+.dob-in span {
+  font-size: 14px;
+  text-align: start;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.dob-in input[type="text"] {
+  width: 100%;
+}
+
+.participating-modal .modal-content {
+  background-color: transparent;
+}
+
+.participating-modal .modal-content .modal-body {
+  padding: 30px 25px 20px 25px;
+  background-image: url(../assets/images/confetti.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.participating-modal .modal-content .modal-body button {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #25026E;
+}
+
+svg.co-delete-icon {
+  font-size: 25px !important;
+}
+
+.coupon-wrap svg.co-delete-icon {
+  right: -22px !important;
+  bottom: 90px !important;
+  font-size: 22px !important;
+}

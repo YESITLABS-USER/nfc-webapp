@@ -4,8 +4,6 @@ import OnboardHeader from "../components/OnboardHeader";
 import Line22 from "../assets/icons/line222.png";
 import Restro from "../assets/icons/restro.png";
 import ThickLine from "../assets/icons/thickLine.png";
-// import FreeBeer from "../assets/icons/freeBeer.png";
-// import Food from "../assets/icons/food30.png";
 import { FaChevronDown, FaInfoCircle } from "react-icons/fa";
 import MyPageInfo from "../components/MyPageInfo";
 import UnFollow from "../components/Unfollow";
@@ -18,11 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Placeholder, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
-// import MyPlacesModal from "../components/MyPlacesModal";
-
 
 const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,11 +53,7 @@ const MyPage = () => {
       }
     }
   };  
-  
-  // const handleBottmSheet = (val) => {
-  //   setIsSliderOpen(val);
-  // };
-  
+    
   const dispatch = useDispatch()
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const { allClientsData,clientData, loyalityCards, loading } = useSelector((state) => state.client)
@@ -75,14 +67,13 @@ const MyPage = () => {
   const [currentCoupanData, setCurrentCoupanData] = useState(null);
   const [show, setShow ] = useState(false);
   
-
   useEffect(() => {
     if (!client_id || !user_id) {
       localStorage.removeItem("nfc-app");
       navigate("/"); // Navigate to home if user_id or client_id is not found
     } else {
-      dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
-      
+      // dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getClientInfo({ client_table_id: activeClient, user_id: user_id }));
       dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: activeClient ?? client_id, user_table_id: user_id }));
@@ -90,7 +81,6 @@ const MyPage = () => {
       
     }
   }, [dispatch,coupanReward, activeClient, user_id, client_id, navigate]); // Ensure client_id is also in the dependency array
-  
   
   const [visibleCount, setVisibleCount] = useState(3); // State to manage visible items
   const [isExpanded, setIsExpanded] = useState(false);
@@ -174,7 +164,12 @@ const MyPage = () => {
         </p>
       </div>
 
+      { loading ? 
+        <Spinner animation="border" variant="primary" style={{display:'flex', margin:"auto"}}/> :
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }} >
+
+        <h1 style={{ display:"flex", justifyContent:'center', alignItems:"center", textAlign:"center", fontWeight:"700", padding:"12px 10px", borderBottom:"1px solid black", width:"90%", fontSize:"20px"}}> {clientData?.client_name} </h1>
+
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%", margin:"0 15px" }} >
           <h3 style={{ fontWeight:"600" }}>Coopons</h3>
           <FaInfoCircle size={24} color="#25026E" 
@@ -285,6 +280,9 @@ const MyPage = () => {
           </button>
         )}
       </div>
+
+      }
+
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15, 
           zIndex: 100, }} >
         <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>

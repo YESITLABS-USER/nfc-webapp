@@ -152,10 +152,10 @@ const Dashboard = () => {
       );
     };
   }, []);
+
   const handleInstallClick = () => {
     if (isIos) {
       alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
-      localStorage.removeItem("nfc-shortcut")
     } else if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
@@ -167,6 +167,8 @@ const Dashboard = () => {
         setDeferredPrompt(null); // Clear the prompt after use
       });
     }
+    setToShortCut(false);
+    localStorage.removeItem('nfc-shortcut')
   };
 
   if (!clientData || clientData.length === 0) {
@@ -186,7 +188,21 @@ const Dashboard = () => {
     <>
       <OnboardHeader disabled={true} OLODISABLE={true} />
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
+      <div style={{ display: "flex", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+          <img src={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : OLO} alt={clientData?.client_name || "OLO"} style={{ width: "72px", height: "72px", borderRadius:"10px" }} />
+          <div style={{ display: "flex", flexDirection: "column", }}>
+            <span className="restaurant-name" style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>
+              {clientData?.client_name || "Olo"}
+            </span>
+            <span className="location" style={{ fontSize: "14px", color: "#777" }}>
+              {clientData?.location_name || "Helsinki, Finland"}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      {/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "50px", paddingTop: "10px", paddingLeft: "15px", paddingRight: "15px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
           <img src={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : OLO} alt={clientData?.client_name || "OLO"} style={{ width: "72px", height: "72px", borderRadius:"10px" }} />
           <div style={{ display: "flex", flexDirection: "column", }}>
@@ -207,7 +223,7 @@ const Dashboard = () => {
           <img src={bell} alt="follow" style={{ width: "34px", height: "29px", marginRight: "5px" }} />
           <span>Follow</span>
         </Button>
-      </div>
+      </div> */}
 
       {/* For time */}
       <div style={{ backgroundColor: "#E0E0E0", width: "100%", height: "3px", padding: "0", boxSizing: "border-box", marginTop: -30, }} />

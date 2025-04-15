@@ -5,13 +5,16 @@ import { Card, Button } from "react-bootstrap";
 import Insta from "../assets/icons/instagramLogo.svg";
 import FaceBook from "../assets/icons/facebook.svg";
 import LinkedIn from "../assets/icons/linkedIn.svg";
+import youtube from "../assets/icons/youtube.png";
+import twitter from "../assets/icons/x.png";
+import tiktok from "../assets/icons/tiktok.png";
 import { useNavigate } from "react-router-dom";
 
 const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
   return (
     <div style={{ margin: "10px" }}>
-      <span
+      {(data?.facebook || data?.youtube || data?.instagram || data?.tiktok_link || data?.twitter_link) && <span
         style={{
           fontSize: "18px",
           fontWeight: "bold",
@@ -22,40 +25,40 @@ const SocialMediaAbout = ({ signup, data=null }) => {
         }}
       >
         Social Media
-      </span>
-      <div style={{ marginTop: "10px" }}>
-        {/* Facebook Icon */}
-        <a
-          href={data?.facebook || "https://www.facebook.com"}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ margin: "0 10px" }}
-        >
-          <img src={FaceBook} alt="facebbool" />
-        </a>
+      </span>}
+      { (data?.facebook || data?.youtube || data?.instagram || data?.tiktok_link || data?.twitter_link) && 
+        <div style={{ marginTop: "10px" }}>
+          
+          {data?.facebook && 
+            <a href={data?.facebook} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <img src={FaceBook} alt="facebbool" />
+          </a>}
 
-        {/* LinkedIn Icon */}
-        <a
-          href={"https://www.linkedin.com"}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ margin: "0 10px" }}
-        >
-          <img src={LinkedIn} alt="linked" />
-        </a>
+          {/* <a href={"https://www.linkedin.com"} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
+            <img src={LinkedIn} alt="linked" />
+          </a> */}
 
-        {/* Instagram Icon */}
-        <a
-          href={data?.instagram || "https://www.instagram.com"}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ margin: "0 10px" }}
-        >
-          {/* <FaInstagram size={40} />
-           */}
-          <img src={Insta} alt="insta" />
-        </a>
-      </div>
+          <a href={data?.youtube} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
+            <img src={youtube} alt="linked" style={{maxWidth:"45px"}}/>
+          </a>
+
+          {data?.instagram && 
+            <a href={data?.instagram} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <img src={Insta} alt="insta" />
+          </a>}
+
+          {data?.tiktok_link && 
+            <a href={data?.tiktok_link} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <img src={tiktok} alt="tiktok" style={{maxWidth:"45px", height:"45px"}}/>
+          </a>}
+
+          {data?.twitter_link && 
+            <a href={data?.twitter_link} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <img src={twitter} alt="twitter" style={{maxWidth:"45px", height:"45px"}}/>
+          </a>}
+
+        </div>
+      }
 
       {/* Card with About Us Text */}
       <Card

@@ -12,7 +12,6 @@ import LogoutModalImg from "../assets/icons/logoutModal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUser, updateUser } from "../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import AddShortCut from "../components/AddShortCut";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
@@ -58,57 +57,6 @@ const MyProfile = () => {
     dispatch(updateUser({ ...updateData, id: user_id }));
     console.log(updateData)
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isIos, setIsIos] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
-
-  useEffect(() => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const isIOSDevice = /iphone|ipad|ipod/.test(userAgent);
-    setIsIos(isIOSDevice);
-
-    const isInStandaloneMode =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
-    setIsStandalone(isInStandaloneMode);
-
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      setDeferredPrompt(event);
-
-      if (!isModalOpen) {
-        setIsModalOpen(true); // Automatically open modal when available
-      }
-    };
-
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    };
-  }, [isModalOpen]);
-
-  const handleInstallClick = () => {
-    if (isIos) {
-      // iOS: show modal with instructions
-      setIsModalOpen(true);
-    } else if (deferredPrompt) {
-      // Android
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the install prompt.");
-        } else {
-          console.log("User dismissed the install prompt.");
-        }
-        setDeferredPrompt(null);
-        setIsModalOpen(false);
-      });
-    }
-  };
-
 
   return (
     <>
@@ -401,17 +349,6 @@ const MyProfile = () => {
           <FaInfoCircle size={18} style={{ position: "absolute", right: "0", top: "-10px" }}
             onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
         </div>
-        <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
-          setIsModalOpen(!isModalOpen);
-        }}> Add to Shortcut </Button>
-
-<AddShortCut
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleInstallClick={handleInstallClick}
-        isIos={isIos}
-        canInstall={!!deferredPrompt}
-      />
 
         <InformationPopup show={informationPopup} onHide={() => setInformationPopup(false)} />
 

@@ -42,7 +42,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
           <div
             style={{
               backgroundColor: "#2E0090",
-              padding: "40px 20px 20px 20px",
+              padding: "20px",
               borderRadius: "10px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",

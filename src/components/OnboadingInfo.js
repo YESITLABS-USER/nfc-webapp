@@ -56,7 +56,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>Information</h2>
+              <h2 style={{ color: "#FFFFFF" }}>Informationn</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
@@ -69,7 +69,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 onClick={closeModal}
               />
             </div>
-            <div style={{ textAlign: "left", padding: "0 0px", fontSize: "14px" }}>
+            <div style={{ textAlign: "left", padding: "0 20px" }}>
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
                 Welcome to your Tagis Wallet! Here you’ll find a quick overview
                 of your collected rewards:

@@ -52,11 +52,11 @@ const CopsActivation = ({
             zIndex: "10",
           }}
         >
-          <div className="cong-wrap"
+          <div
             style={{
               backgroundColor: "#FFFFFF",
-              padding: "40px 15px 20px 15px",
-              borderRadius: "15px",
+              padding: "20px",
+              borderRadius: "25px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
               width: "90%",
@@ -67,20 +67,21 @@ const CopsActivation = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+
                 position: "relative",
               }}
             >
-              <h5 style={{ color: "black", marginBottom: "20px" }}>
+              <h5 style={{ color: "black" }}>
                 Congratulations, here is your coupon!
               </h5>
               <IoIosCloseCircle
                 color={"#2A0181"}
-                size={25}
+                size={20}
                 style={{
                   position: "absolute",
                   right: "-10px",
                   cursor: "pointer",
-                  top: "-32px",
+                  top: "-19px",
                 }}
                 onClick={closeModal}
               />
@@ -88,42 +89,40 @@ const CopsActivation = ({
 
             {/* <img src={FreeCops} alt="free cops" /> */}
             <div className="coupon-in">
-              <div className="coupon-left">
-                <div className={`coupon-left-text ${colorMapping.includes(currentCoupanData?.color_selection) || colorMapping["orange"]} ${currentCoupanData?.color_selection}-text`}>
+            <div className="coupon-left">
+              <div className={`coupon-left-text ${colorMapping.includes(currentCoupanData?.color_selection) || colorMapping["orange"]} ${currentCoupanData?.color_selection}-text`}>
 
-                  <p>{currentCoupanData?.campaign_name || "Beverages coupon"}</p>
-                  <h3> {(currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage) ? `${currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"} </h3>
-                </div>
-              </div>
-
-              <div className={`coupon-right ${colorMapping.includes(currentCoupanData?.color_selection) || colorMapping["orange"]} ${currentCoupanData?.color_selection}-bg`}>
-                <div className="coupon-right-text">
-                  {/* <img src={OLOLogo} alt="" /> */}
-                  <h2>{clientData?.client_name ?? "OLO"}</h2>
-                  <h3> {currentCoupanData?.coupon_name} </h3>
-                  {/* <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p> */}
-                  <p>VALID UNTIL : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
-                  {/* <span>Age : 18+</span> */}
-                </div>
+                <p>{currentCoupanData?.campaign_name || "Beverages coupon"}</p>
+                <h3> {(currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage) ? `${currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"} </h3>
               </div>
             </div>
-            <div style={{ display: "none" }}>
+
+            <div className={`coupon-right ${colorMapping.includes(currentCoupanData?.color_selection) || colorMapping["orange"]} ${currentCoupanData?.color_selection}-bg`}>
+              <div className="coupon-right-text">
+                {/* <img src={OLOLogo} alt="" /> */}
+                <h2>{clientData?.client_name ?? "OLO"}</h2>
+                <h3> {currentCoupanData?.coupon_name} </h3>
+                {/* <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p> */}
+                <p>VALID UNTIL : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
+                {/* <span>Age : 18+</span> */}
+              </div>
+            </div>
+          </div>
+            <div style={{display: "none"}}> 
               <CoupanComponent allData={currentCoupanData} clientData={clientData} occupied={currentCoupanData?.occupied} />
             </div>
-
-            <div>
-              <p style={{ color: "black", textAlign: "center", marginTop: "15", fontSize: "15px" }}>
+            
+            <div> 
+              <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
                 Activate the coupon in-store and show this at the checkout.
                 (Coupon is valid for 15 minutes after activation) <br />
               </p>
 
-              <p style={{ textAlign: "left" }} dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization }}></p>
+              <p style={{minHeight:'250px'}} dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
             </div>
 
-            <button style={{
-              padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none",
-              borderRadius: "4px", cursor: "pointer", fontWeight: "500",
-            }}
+            <button style={{ padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none", 
+                borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }}
               onClick={() => {
                 if (ageLimitaion) {
                   setAgeModal(true);
@@ -134,7 +133,7 @@ const CopsActivation = ({
               }} >
               ACTIVATE
             </button>
-            <p style={{ color: "black", textAlign: "center", marginTop: "15px", fontSize: "15px" }}>
+            <p style={{ color: "black", textAlign: "center", marginTop: 10 }}>
               Read the campaign{" "}
               <span style={{ color: "#25026E", textDecoration: "underline" }}>
                 terms and conditions
@@ -147,7 +146,7 @@ const CopsActivation = ({
       <AgeModal
         isModalOpen={ageModal}
         setIsModalOpen={setAgeModal}
-        currentData={currentCoupanData}
+        currentData = {currentCoupanData}
         callBack={callBack}
       />
     </div>

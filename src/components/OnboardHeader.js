@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 // function OnboardHeader({ disabled, OLODISABLE, selectAvatar, bgrIcon = false, message, }) {
 function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
+  const { coupansData } = useSelector((state) => state.coupans);
+  
   const [showPage, setShowPage] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -146,7 +148,6 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 marginTop: "45px",
                 zIndex: 100,
                 width: "100%",
-                fontWeight: "600"
               }} >
               <div style={{ padding: "5px 10px", cursor: "pointer", color: "black", }}
                 onClick={() => selectLanguage("eng")} >
@@ -189,7 +190,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 alignItems: "center",
                 padding: "0px",
                 gap: "10px",
-              }}
+              }} onClick={()=> navigate("/myprofile")}
             >
               {/* <img src={Profile} alt="OLO" style={style.oloimg} /> */}
               <img className="profile-image"
@@ -239,7 +240,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 }}
               >
                 <span style={{ paddingRight: "20px" }}>Coupons</span>
-                <span>0</span>
+                <span> {coupansData && coupansData?.length || "0"}</span>
               </Button>
             </div>
           </div>

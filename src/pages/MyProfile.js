@@ -12,6 +12,7 @@ import LogoutModalImg from "../assets/icons/logoutModal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUser, updateUser } from "../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import AddShortCut from "../components/AddShortCut";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,51 @@ const MyProfile = () => {
     dispatch(updateUser({ ...updateData, id: user_id }));
     console.log(updateData)
   }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isIos, setIsIos] = useState(false);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  useEffect(() => {
+    // Detect if the user is on iOS
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    setIsIos(/iphone|ipad|ipod/.test(userAgent));
+
+    // Listen for the 'beforeinstallprompt' event (for Android)
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault(); // Prevent the mini-infobar from appearing
+      setDeferredPrompt(event);
+      setShowInstallButton(true); // Show the "Add to Home Screen" button
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (isIos) {
+      alert(
+        'To install this app, tap the "Share" button in Safari and select "Add to Home Screen".'
+      );
+    } else if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the install prompt.");
+        } else {
+          console.log("User dismissed the install prompt.");
+        }
+        setDeferredPrompt(null); // Clear the prompt after use
+      });
+    }
+  };
 
   return (
     <>
@@ -342,13 +388,23 @@ const MyProfile = () => {
 
         <div style={{ marginTop: 30 }}> <hr /> </div>
 
-        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "8px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
+        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
           setShowDeletePopup(!showdeletePopup);
         }}> DELETE </Button>
 
           <FaInfoCircle size={18} style={{ position: "absolute", right: "0", top: "-10px" }}
             onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
         </div>
+        <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
+          setIsModalOpen(!isModalOpen);
+        }}> Add to Shortcut </Button>
+
+<AddShortCut
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleInstallClick={handleInstallClick}
+        showInstallButton={showInstallButton}
+      />
 
         <InformationPopup show={informationPopup} onHide={() => setInformationPopup(false)} />
 

@@ -134,22 +134,6 @@ const SlidingPage = ({ showPage, setShowPage }) => {
             />
             <li
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
-              onClick={() => handleNavigation("/about-tagis")}
-            >
-              About Tagis
-            </li>
-            <div
-              style={{
-                backgroundColor: "#1C0056",
-                width: "100%",
-                height: "1px",
-                padding: "0",
-                boxSizing: "border-box",
-                margin: "10px 0px",
-              }}
-            />
-            <li
-              style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/privacy-policy")}
             >
               Terms and Condition & Privacy Policy

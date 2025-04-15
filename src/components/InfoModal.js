@@ -152,7 +152,7 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
             style={{
               backgroundColor: "#2E0090",
               padding: "20px",
-              borderRadius: "15px",
+              borderRadius: "30px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
               width: "90%",
@@ -167,20 +167,20 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
                 textAlign: "start",
               }}
             >
-              <h2 style={{ color: "#FFFFFF", fontSize: "22", marginBottom: "15px" }}>Information</h2>
+              <h2 style={{ color: "#FFFFFF", fontSize: 22 }}>Information</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
                 style={{
                   position: "absolute",
-                  right: "-10px",
+                  right: "5px",
                   cursor: "pointer",
                   top: "-10px",
                 }}
                 onClick={closeModal}
               />
             </div>
-            <p style={{ color: "#FFFFFF", textAlign: "left", fontSize: "14px" }}>
+            <p style={{ color: "#FFFFFF", textAlign: "left" }}>
               <span style={{ display: "inline-block" }}>
                 Discover exclusive promotions from businesses on Tagis. By
                 following businesses, you can access special campaigns and
@@ -188,7 +188,7 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
                 can expect:
               </span>
             </p>
-            <p style={{ color: "#FFFFFF", textAlign: "left", fontSize: "14px" }}>
+            <p style={{ color: "#FFFFFF", textAlign: "left" }}>
               <ul>
                 <li>
                   Welcome Discounts: Many businesses offer first-time coupons as
@@ -208,7 +208,7 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
                 </li>
               </ul>
             </p>
-            <p style={{ color: "#FFFFFF", textAlign: "left", fontSize: "14px" }}>
+            <p style={{ color: "#FFFFFF", textAlign: "left" }}>
               Tap Follow on your favorite businesses to unlock their offers and
               receive updates directly to your Tagis Wallet.
             </p>

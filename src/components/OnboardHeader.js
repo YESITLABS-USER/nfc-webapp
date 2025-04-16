@@ -190,7 +190,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 alignItems: "center",
                 padding: "0px",
                 gap: "10px",
-              }} onClick={()=> navigate("/myprofile")}
+              }} onClick={()=> navigate("/mypage")}
             >
               {/* <img src={Profile} alt="OLO" style={style.oloimg} /> */}
               <img className="profile-image"

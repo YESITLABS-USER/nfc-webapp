@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
-import { Button, Modal, Placeholder, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans, removeCoupan } from "../store/slices/coupanSlice";
 
@@ -116,18 +116,42 @@ const MyPage = () => {
     }
   }
   
+  // const handleUnfollow = async (id) => {
+  //   try {
+  //     await dispatch(unfollowClient({ client_table_id : id, user_table_id : user_id }))
+
+  //     dispatch(getAllClients({ client_table_id : client_id, user_table_id : user_id}))
+      
+  //   } catch (error) {
+  //     console.error("Error unfollow client:", error);
+
+  //   }
+  // };
+  
   const handleUnfollow = async (id) => {
     try {
-      await dispatch(unfollowClient({ client_table_id : id, user_table_id : user_id }))
-
-      dispatch(getAllClients({ client_table_id : client_id, user_table_id : user_id}))
-      
+      // Unfollow the client
+      await dispatch(unfollowClient({ client_table_id: id, user_table_id: user_id }));
+  
+      // Fetch updated clients data
+      await dispatch(getAllClients({ client_table_id: client_id, user_table_id: user_id }));
+  
+      // Set the new active client from the updated clients data (index 1 in allClientsData)
+      if (allClientsData && allClientsData.length > 1) {
+        const newActiveClient = allClientsData[1]?.client_table_id; // Get client_table_id from the second client
+        setActiveClient(newActiveClient);
+  
+        // Fetch the updated loyalty cards and coupons for the newly active client
+        dispatch(getAllLoyalityCards({ client_table_id: newActiveClient, user_id: user_id }));
+        dispatch(getAllCoupans({ client_table_id: newActiveClient, user_table_id: user_id }));
+        dispatch(getAllActivatedCoupans({ client_table_id: newActiveClient, user_table_id: user_id }));
+      }
+  
     } catch (error) {
-      console.error("Error unfollow client:", error);
-
+      console.error("Error unfollowing client:", error);
     }
   };
-
+  
   const handleActivateCoupanBtn = async (coupanData) => {
     try {
       await dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: coupanData?.coupon_table_id }));

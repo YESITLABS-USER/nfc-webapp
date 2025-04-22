@@ -244,7 +244,7 @@ const MyPage = () => {
        
       </div>
       <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {coupansData.length === 0 ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
+          {(coupansData.length == 0 && activatedCoupanData?.length == 0) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             allClientsData?.length > 0 && coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <div style={{width:"95%"}} key={index} >
               

@@ -440,7 +440,7 @@ const MyPage = () => {
         <Reward
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
           onClose={() => setCoupanPopup(false)}
-          countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
+          countText={`Here is your ${currentCoupanData?.coupon_name || "Coupon from olo"} `}
       />
       )}
 

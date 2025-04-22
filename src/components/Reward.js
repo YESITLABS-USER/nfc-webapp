@@ -27,7 +27,6 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
   useEffect(() => {
     if (timeLeft == 0 && !hasDispatched.current) {
       hasDispatched.current = true;
-
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));

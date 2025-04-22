@@ -46,7 +46,7 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
     }
     closeModal();
   };
-  
+
   useEffect(() => {
     const savedDismissed = localStorage.getItem("nfc-shortcut");
     if (savedDismissed) {
@@ -76,7 +76,7 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
       window.removeEventListener("beforeinstallprompt", handler);
     };
   }, []);
-
+ 
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";

@@ -358,7 +358,6 @@ const MyProfile = () => {
 
         </div>
 
-
         <InformationPopup show={informationPopup} onHide={() => setInformationPopup(false)} />
 
         <DeletePopup show={showdeletePopup} onHide={() => setShowDeletePopup(false)} onDeleteConfirm={handleDeleteConfirm} />

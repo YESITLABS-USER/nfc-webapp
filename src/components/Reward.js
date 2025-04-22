@@ -14,7 +14,7 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
   const hasDispatched = useRef(false); // <-- Keeps track of dispatch status
 
 
-  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer || "00:15:00"))); // 15 minute in seconds
+  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer))); // 15 minute in seconds
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -25,7 +25,7 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
   }, []);
 
   useEffect(() => {
-    if (timeLeft === 0 && !hasDispatched.current) {
+    if (timeLeft == 0 && !hasDispatched.current) {
       hasDispatched.current = true;
 
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));

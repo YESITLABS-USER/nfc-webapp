@@ -15,6 +15,15 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
 
   useEffect(() => {
+    if(isModalOpen){
+      if(currentData?.campaign_age_restriction_start_age >= currentData?.user_age){
+        setCancelModal(true);
+        setIsModalOpen(false)
+      }
+    }
+  },[isModalOpen])
+
+  useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden"; // Disable scroll
     } else {
@@ -124,10 +133,10 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
       }
     }
   };
-
+if(cancelModal) return <CancelModal isModalOpen={cancelModal} setIsModalOpen={setCancelModal} />;
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      {isModalOpen && (
+      {(isModalOpen && !cancelModal) && (
         <div
           style={{
             position: "fixed",
@@ -226,7 +235,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
           </div>
         </div>
       )}
-      <CancelModal isModalOpen={cancelModal} setIsModalOpen={setCancelModal} />
+      
     </div>
   );
 };

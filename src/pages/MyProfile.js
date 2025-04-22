@@ -12,6 +12,7 @@ import LogoutModalImg from "../assets/icons/logoutModal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUser, updateUser } from "../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import AddShortCut from "../components/AddShortCut";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const MyProfile = () => {
   const [selectAvatar, setSelectAvator] = useState(userData?.profile_pic || 0);
   const [informationPopup, setInformationPopup] = useState(false);
   const [showdeletePopup, setShowDeletePopup] = useState(false);
+  const [showShortcut, setShowShortcut] = useState(false)
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
   const [updateData, setUpdateData] = useState({
@@ -350,11 +352,19 @@ const MyProfile = () => {
             onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
         </div>
 
+        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
+          setShowShortcut(!showShortcut);
+        }}> Add to Shortcut </Button>
+
+        </div>
+
+
         <InformationPopup show={informationPopup} onHide={() => setInformationPopup(false)} />
 
         <DeletePopup show={showdeletePopup} onHide={() => setShowDeletePopup(false)} onDeleteConfirm={handleDeleteConfirm} />
 
         <LogoutPopup show={showLogout} onHide={() => setShowLogout(false)} />
+          <AddShortCut isModalOpen={showShortcut} setIsModalOpen={setShowShortcut} />
       </div>
     </>
   );

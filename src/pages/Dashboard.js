@@ -4,22 +4,13 @@ import HomeImg from "../assets/icons/homeImg.png";
 import { FaChevronDown } from "react-icons/fa";
 import "../styles/header.css";
 import GoogleReview from "../assets/icons/googleReview.svg";
-// import LoyaltyCard from "../assets/icons/loyaltyCard.png";
-// import { MdDelete } from "react-icons/md"; 
 import OLO from "../assets/icons/header.png";
-import bell from "../assets/icons/bell.png";
-// import OLOLogo from "../assets/images/olo-logo.png"
-// import loyalityCard from "../assets/images/loyalityCard2.png"
 import OpeingHrs from "../assets/icons/openingHrs.svg";
-
 import Line22 from "../assets/icons/line222.png";
-
 import ThickLine from "../assets/icons/thickLine.png";
-
 import greenValueImg from "../assets/icons/img1.svg";
 import experienceImg from "../assets/icons/img2.svg";
 import meat from "../assets/icons/img3.svg";
-
 import CopsActivation from "../components/CopsActivation";
 import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
@@ -34,14 +25,17 @@ import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/
 import AddShortCut from "../components/AddShortCut";
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const client_id = localStorage.getItem("client_id");
+  const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+  const { user_id } = storedData;
+
   const { clientData, loyalityCards, loading } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward } = useSelector((state) => state.coupans);
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
-
   const [isExpanded, setIsExpanded] = useState(false);
-  const navigate = useNavigate()
 
   const [freeCops, setFreeCops] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -51,16 +45,9 @@ const Dashboard = () => {
   const [showAll, setShowAll] = useState(false);
   const [showAllLoyality, setShowAllLoyality] = useState(false);
   const [currentCoupanData, setCurrentCoupanData] = useState(null);
-
-  const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
-  const { user_id } = storedData;
-  const client_id = localStorage.getItem("client_id");
-
   const [show, setShow ] = useState(false);
 
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const handleToggle = () => { setIsExpanded(!isExpanded) };
 
   useEffect(() => {
     if (!client_id || !user_id) {
@@ -75,9 +62,7 @@ const Dashboard = () => {
   }, [dispatch,coupanReward, client_id, user_id, navigate]);
 
   // Toggle function to show/hide opening hours
-  const toggleOpenHours = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleOpenHours = () => { setIsOpen(!isOpen) };
 
   const handleBottmSheet = (val) => {
     if (val?.dob_coupon && val?.user_date_of_birth == null) {
@@ -110,7 +95,6 @@ const Dashboard = () => {
       setCoupanPopup(false)
     }
   }
-
 
   const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards?.slice(0, 2);
 
@@ -282,10 +266,8 @@ const Dashboard = () => {
         <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>EXPLORE OUR COUPONS</h3>
 
         {/* <LoyaltyCard /> */}
-        <div style={{
-          display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
-          width: "90%", alignItems: "center",
-        }} >
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+          width: "90%", alignItems: "center", }} >
           
           {visibleLoyalityCards?.map((item, index) => {
             return (
@@ -312,7 +294,7 @@ const Dashboard = () => {
         </div>
 
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {coupansData.length === 0 ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
+          {(coupansData.length == 0 && activatedCoupanData?.length == 0) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <CoupanComponent
                 key={index}
@@ -322,7 +304,7 @@ const Dashboard = () => {
                 onClick={() => {
                   // coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
                   setCurrentCoupanData(coupan);
-                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1 && !(coupan?.user_date_of_birth))) {
+                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon != 1 && !(coupan?.user_date_of_birth))) {
                     setFreeCops(true);
                     setAddlimitation(true);
                   } else {
@@ -333,6 +315,7 @@ const Dashboard = () => {
               />
             ))
           )}
+
           {activatedCoupanData.length == 0 ? "" : (
             activatedCoupanData.map((coupan, index) => (
               <>
@@ -483,7 +466,7 @@ const Dashboard = () => {
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
           }}
-          countText={`Here is your ${currentCoupanData?.coupon_name} Coupon from olo`}
+          countText={`Here is your ${currentCoupanData?.coupon_name || "Coupon from olo"} `}
         />
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />

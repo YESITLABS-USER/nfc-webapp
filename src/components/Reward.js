@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import bg from "../assets/images/rewardBg.png";
 import header from "../assets/icons/header.png";
 import { formatTime, parseTime, rewardFormatTime } from "../assets/common";
+import { useDispatch } from "react-redux";
+import {  getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
+import { getAllLoyalityCards } from "../store/slices/clientSlice";
 
 const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
+  const dispatch = useDispatch();
+  const client_id = localStorage.getItem("client_id");
+  const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+  const { user_id } = storedData;
+  const hasDispatched = useRef(false); // <-- Keeps track of dispatch status
+
+
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer || "00:15:00"))); // 15 minute in seconds
 
   useEffect(() => {
@@ -13,6 +23,17 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0 && !hasDispatched.current) {
+      hasDispatched.current = true;
+
+      dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
+    }
+  }, [timeLeft, dispatch, client_id, user_id]);
+
 
   const pFontSize = countText?.length <= 8 ? "26px" : "12px";
 

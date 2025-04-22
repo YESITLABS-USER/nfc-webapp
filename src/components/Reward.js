@@ -3,10 +3,10 @@ import bg from "../assets/images/rewardBg.png";
 import header from "../assets/icons/header.png";
 import { formatTime, parseTime, rewardFormatTime } from "../assets/common";
 import { useDispatch } from "react-redux";
-import {  getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
+import { getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 import { getAllLoyalityCards } from "../store/slices/clientSlice";
 
-const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
+const Reward = ({ showPopup, onClose, countText, clientLogo, timer }) => {
   const dispatch = useDispatch();
   const client_id = localStorage.getItem("client_id");
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
@@ -63,9 +63,13 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
           maxWidth: "500px",
           display: "flex",
           alignItems: "center",
+          textAlign: "center",
+          color: "white",
+          justifyContent: "center"
         }}
       >
-        <img
+          <div className="reward-wrapper">
+          <img
           src={bg}
           alt="background"
           style={{
@@ -79,61 +83,54 @@ const Reward = ({ showPopup, onClose, countText,clientLogo, timer }) => {
             justifyContent: "center",
           }}
         />
-
-        <div
-          style={{
-            position: "absolute",
-            width: "min-content",
-            top: "20px",
-            left: "0",
-            right: "0",
-            margin: "auto",
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          <span
+        <span
             style={{
               position: "absolute",
               width: "5%",
               top: "-15px",
-              right: "-35px",
+              right: "0",
               color: "white",
               fontSize: "25px",
               cursor: "pointer",
               fontWeight: "400",
               backgroundColor: "transparent",
+              zIndex: "1",
             }}
             onClick={onClose}
           >
             x
           </span>
+          <div className="reward-top">
+            <h4 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "10px" }} >
+              Congratulations
+            </h4>
 
-          <h4 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "10px" }} >
-            Congratulations
-          </h4>
-
-          <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0",textTransform:"uppercase" }} >
-            {countText || `3 / 9`}
-          </p>
-          <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "80px", height: "80px", marginBottom: "20px", marginTop: "10px", borderRadius: "5px"}} />
-
-          <h2 style={{ fontSize: "14px", margin: "50px 0 0 0", fontWeight: "bold" }}>
-            Coupon Valid 15 Minutes From Activation
-          </h2>
-
-          <div style={{ fontSize: "40px", marginTop: "20px", fontWeight: "bold" }}>
-            {rewardFormatTime(timeLeft)}
+            <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", textTransform: "uppercase" }} >
+              {countText || `3 / 9`}
+            </p>
+            <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "80px", height: "80px", marginBottom: "20px", marginTop: "10px", borderRadius: "5px" }} />
           </div>
+          <div className="reward-bottom">
 
-          <span style={{ fontSize: "14px", marginTop: "0px", fontWeight: "600", display: "block",}} >
-            Coupon is active
-          </span>
 
-          <div style={{ fontSize: "14px", marginTop: "20px", fontWeight: "bold",}}>
-            Show The Coupon To The Cashier After Activation
+
+            <h2 style={{ fontSize: "14px", margin: "50px 0 0 0", fontWeight: "bold" }}>
+              Coupon Valid 15 Minutes From Activation
+            </h2>
+
+            <div style={{ fontSize: "40px", marginTop: "20px", fontWeight: "bold" }}>
+              {rewardFormatTime(timeLeft)}
+            </div>
+
+            <span style={{ fontSize: "14px", marginTop: "0px", fontWeight: "600", display: "block", }} >
+              Coupon is active
+            </span>
+
+            <div style={{ fontSize: "14px", marginTop: "20px", fontWeight: "bold", }}>
+              Show The Coupon To The Cashier After Activation
+            </div>
           </div>
-        </div>
+          </div>
       </div>
     </div>
   );

@@ -198,13 +198,12 @@ const MyPage = () => {
         <h1 style={{ display:"flex", justifyContent:'center', alignItems:"center", textAlign:"center", fontWeight:"700", padding:"12px 10px", borderBottom:"1px solid black", width:"90%", fontSize:"20px"}}> {clientData?.client_name} </h1>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%", margin:"0 15px" }} >
-          <h3 style={{ fontWeight:"600" }}>Coopons</h3>
+          <h3 style={{ fontWeight:"600" }}> Coupon </h3>
           <FaInfoCircle size={24} color="#25026E" 
             onClick={() => {
               setIsModalOpen(true);
               setCoops(true);
-            }} 
-          />
+            }} />
         </div>
         
         <div style={{ display: "flex",flexDirection: "column",gap: "10px", padding: "10px", borderRadius: "10px", 

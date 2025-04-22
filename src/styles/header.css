@@ -125,14 +125,16 @@ img.profile-image {
 
 .coupon-wrap {
   width: 90%;
-  /* height: auto; */ /* by Karan */
+  /* height: auto; */
+  /* by Karan */
   margin: 30px 0px 10px 0px;
 }
 
 .coupon-in {
   display: flex;
   margin-bottom: 20px;
-  width: 100%; /* by Karan */
+  width: 100%;
+  /* by Karan */
 
   &:last-child {
     margin-bottom: 0;
@@ -509,6 +511,14 @@ img.profile-image {
 
 @media only screen and (min-width:375px) and (max-width:424px) {
 
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 45px) !important;
+  }
+
+  /* NEW-CSS */
+
   /* COUPON-SECTION */
   .coupon-left {
     width: 30%;
@@ -660,5 +670,70 @@ img.profile-image {
 
   /* LOYALTY-CARD */
 }
+
+
+/* FOR-REWARD-PAGE */
+
+@media only screen and (min-width:768px) and (max-width:999px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 200px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+@media only screen and (min-width:480px) and (max-width:767px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 200px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+@media only screen and (min-width:480px) and (max-width:767px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 200px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+@media only screen and (min-width:390px) and (max-width:479px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 110px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+@media only screen and (min-width:360px) and (max-width:389px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 80px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+@media only screen and (min-width:320px) and (max-width:359px) {
+  /* NEW-CSS */
+
+  .reward-in {
+    width: calc(100% - 45px) !important;
+  }
+
+  /* NEW-CSS */
+}
+
+/* FOR-REWARD-PAGE */
 
 /* RESPONSIVE */

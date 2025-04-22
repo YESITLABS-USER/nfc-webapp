@@ -42,7 +42,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
           <div
             style={{
               backgroundColor: "#2E0090",
-              padding: "20px",
+              padding: "40px 20px 20px 20px",
               borderRadius: "10px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
@@ -54,7 +54,6 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-
                 position: "relative",
               }}
             >
@@ -64,9 +63,9 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
                 size={30}
                 style={{
                   position: "absolute",
-                  right: "5px",
+                  right: "-10px",
                   cursor: "pointer",
-                  top: "-10px",
+                  top: "-30px",
                 }}
                 onClick={closeModal}
               />

@@ -16,7 +16,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
 
   useEffect(() => {
     if(isModalOpen){
-      if(currentData?.campaign_age_restriction_start_age >= currentData?.user_age){
+      if(currentData?.campaign_age_restriction_start_age >= currentData?.user_age && currentData?.user_age != null){
         setCancelModal(true);
         setIsModalOpen(false)
       }

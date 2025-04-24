@@ -16,7 +16,7 @@ import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
-import {  getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
+import {  addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button, Modal } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
@@ -58,6 +58,10 @@ const Dashboard = () => {
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      if(localStorage.getItem("scan-count")){
+        dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
+        localStorage.removeItem("scan-count")
+      }
     }
   }, [dispatch,coupanReward, client_id, user_id, navigate]);
 
@@ -459,7 +463,7 @@ const Dashboard = () => {
 
       {(coupanPopup) && (
         <Reward
-          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:00:01" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
+          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
           onClose={() => {
             setCoupanPopup(false);
              dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));

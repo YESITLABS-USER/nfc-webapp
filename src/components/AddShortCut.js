@@ -13,24 +13,6 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
     setIsModalOpen(false);
   };
 
-  // const handleInstallClick = () => {
-  //   if (isIos) {
-  //     // Show iOS-specific manual instructions
-  //     return;
-  //   }
-  //   if (deferredPrompt) {
-  //     deferredPrompt.prompt();
-  //     deferredPrompt.userChoice.then((choiceResult) => {
-  //       if (choiceResult.outcome == "accepted") {
-  //         console.log("User accepted the A2HS prompt");
-  //       }
-  //       setDeferredPrompt(null);
-  //       setIsModalOpen(false);
-  //     });
-  //   }
-  // };
-  
-  
   const handleInstallClick = () => {
     if (isIos) {
       alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
@@ -39,17 +21,19 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("User accepted the install prompt.");
+          localStorage.setItem("nfc-shortcut", "installed");
         } else {
           console.log("User dismissed the install prompt.");
         }
+        setDeferredPrompt(null);
       });
     }
     closeModal();
   };
 
   useEffect(() => {
-    const savedDismissed = localStorage.getItem("nfc-shortcut");
-    if (savedDismissed) {
+    const savedStatus = localStorage.getItem("nfc-shortcut");
+    if (savedStatus === "dismissed" || savedStatus === "installed") {
       setIsModalOpen(false);
       return;
     }
@@ -66,17 +50,21 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
 
     const handler = (e) => {
       e.preventDefault();
-      setDeferredPrompt(e);
-      setIsModalOpen(true);
+      setDeferredPrompt(e); // Don't open the modal yet
     };
 
     window.addEventListener("beforeinstallprompt", handler);
+
+    window.addEventListener("appinstalled", () => {
+      console.log("PWA installed");
+      localStorage.setItem("nfc-shortcut", "installed");
+    });
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handler);
     };
   }, []);
- 
+
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
@@ -90,6 +78,23 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
+      {/* External trigger button to open the modal */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        style={{
+          padding: "10px 20px",
+          fontSize: "16px",
+          borderRadius: "6px",
+          border: "none",
+          backgroundColor: "#2A0181",
+          color: "#fff",
+          cursor: "pointer",
+          marginBottom: "20px",
+        }}
+      >
+        Add to Home Screen
+      </button>
+
       {isModalOpen && !isInStandaloneMode && (
         <div
           style={{
@@ -102,6 +107,7 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            zIndex: 1000,
           }}
         >
           <div
@@ -112,15 +118,16 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
               width: "93%",
+              maxWidth: "400px",
+              position: "relative",
             }}
           >
             <h5
               style={{ color: "#000000", fontSize: "20px", fontWeight: "bold" }}
             >
-              {isIos
-                ? "Add Tagis To Your Home Screen"
-                : "Add Tagis To Your Home Screen"}
+              Add Tagis To Your Home Screen
             </h5>
+
             <IoIosCloseCircle
               color={"#2A0181"}
               size={30}
@@ -128,21 +135,21 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
               style={{
                 position: "absolute",
                 right: 15,
+                top: 15,
                 cursor: "pointer",
-                marginTop: -70,
               }}
             />
 
             <img
               src={AddToCardImg}
-              alt="Start Pattern"
-              style={{ width: "auto", height: "auto" }}
+              alt="Add to Home"
+              style={{ width: "auto", height: "auto", maxHeight: "150px" }}
             />
 
             <img
               src={AddToCardButton}
-              alt="Start Pattern"
-              style={{ width: "auto", height: "auto", marginTop: 20 }}
+              alt="Install Button"
+              style={{ width: "auto", height: "auto", marginTop: 20, cursor: "pointer" }}
               onClick={handleInstallClick}
             />
           </div>
@@ -153,6 +160,164 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
 };
 
 export default AddShortCut;
+
+
+
+// import React, { useEffect, useState } from "react";
+// import AddToCardImg from "../assets/icons/addToHome.svg";
+// import AddToCardButton from "../assets/icons/button.svg";
+// import { IoIosCloseCircle } from "react-icons/io";
+
+// const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
+//   const [deferredPrompt, setDeferredPrompt] = useState(null);
+//   const [isIos, setIsIos] = useState(false);
+//   const [isInStandaloneMode, setIsInStandaloneMode] = useState(false);
+
+//   const closeModal = () => {
+//     localStorage.setItem("nfc-shortcut", "dismissed");
+//     setIsModalOpen(false);
+//   };
+
+//   // const handleInstallClick = () => {
+//   //   if (isIos) {
+//   //     // Show iOS-specific manual instructions
+//   //     return;
+//   //   }
+//   //   if (deferredPrompt) {
+//   //     deferredPrompt.prompt();
+//   //     deferredPrompt.userChoice.then((choiceResult) => {
+//   //       if (choiceResult.outcome == "accepted") {
+//   //         console.log("User accepted the A2HS prompt");
+//   //       }
+//   //       setDeferredPrompt(null);
+//   //       setIsModalOpen(false);
+//   //     });
+//   //   }
+//   // };
+  
+  
+//   const handleInstallClick = () => {
+//     if (isIos) {
+//       alert('To install this app, tap the "Share" button in Safari and select "Add to Home Screen".');
+//     } else if (deferredPrompt) {
+//       deferredPrompt.prompt();
+//       deferredPrompt.userChoice.then((choiceResult) => {
+//         if (choiceResult.outcome === "accepted") {
+//           console.log("User accepted the install prompt.");
+//         } else {
+//           console.log("User dismissed the install prompt.");
+//         }
+//       });
+//     }
+//     closeModal();
+//   };
+
+//   useEffect(() => {
+//     const savedDismissed = localStorage.getItem("nfc-shortcut");
+//     if (savedDismissed) {
+//       setIsModalOpen(false);
+//       return;
+//     }
+
+//     const userAgent = window.navigator.userAgent.toLowerCase();
+//     const isIOSDevice =
+//       /iphone|ipad|ipod/.test(userAgent) && !window.navigator.standalone;
+//     const isStandalone =
+//       window.matchMedia("(display-mode: standalone)").matches ||
+//       window.navigator.standalone;
+
+//     setIsIos(isIOSDevice);
+//     setIsInStandaloneMode(isStandalone);
+
+//     const handler = (e) => {
+//       e.preventDefault();
+//       setDeferredPrompt(e);
+//       setIsModalOpen(true);
+//     };
+
+//     window.addEventListener("beforeinstallprompt", handler);
+
+//     return () => {
+//       window.removeEventListener("beforeinstallprompt", handler);
+//     };
+//   }, []);
+ 
+//   useEffect(() => {
+//     if (isModalOpen) {
+//       document.body.style.overflow = "hidden";
+//     } else {
+//       document.body.style.overflow = "auto";
+//     }
+//     return () => {
+//       document.body.style.overflow = "auto";
+//     };
+//   }, [isModalOpen]);
+
+//   return (
+//     <div style={{ textAlign: "center", marginTop: "50px" }}>
+//       {isModalOpen && !isInStandaloneMode && (
+//         <div
+//           style={{
+//             position: "fixed",
+//             top: "0",
+//             left: "0",
+//             width: "100%",
+//             height: "100%",
+//             backgroundColor: "rgba(0, 0, 0, 0.5)",
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "center",
+//           }}
+//         >
+//           <div
+//             style={{
+//               backgroundColor: "white",
+//               padding: "20px",
+//               borderRadius: "10px",
+//               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+//               textAlign: "center",
+//               width: "93%",
+//             }}
+//           >
+//             <h5
+//               style={{ color: "#000000", fontSize: "20px", fontWeight: "bold" }}
+//             >
+//               {isIos
+//                 ? "Add Tagis To Your Home Screen"
+//                 : "Add Tagis To Your Home Screen"}
+//             </h5>
+//             <IoIosCloseCircle
+//               color={"#2A0181"}
+//               size={30}
+//               onClick={closeModal}
+//               style={{
+//                 position: "absolute",
+//                 right: 15,
+//                 cursor: "pointer",
+//                 marginTop: -70,
+//               }}
+//             />
+
+//             <img
+//               src={AddToCardImg}
+//               alt="Start Pattern"
+//               style={{ width: "auto", height: "auto" }}
+//             />
+
+//             <img
+//               src={AddToCardButton}
+//               alt="Start Pattern"
+//               style={{ width: "auto", height: "auto", marginTop: 20 }}
+//               onClick={handleInstallClick}
+//             />
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AddShortCut;
 
 
 // import React, { useEffect } from "react";

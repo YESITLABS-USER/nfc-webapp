@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // For Unauthenticated User
 function logouterror() {
   toast.error("Token Expired")
-  localStorage.removeItem("nfc-admin");
+  localStorage.removeItem("nfc-app");
   setTimeout(() => {
     window.location.href = "/";
   }, 1000);

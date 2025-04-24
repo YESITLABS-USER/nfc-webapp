@@ -12,10 +12,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 
     <Provider store={store}>
-      <>
         <ToastContainer position="top-right" autoClose={5000} closeOnClick={true} theme="light" />
         <App />
-      </>
     </Provider>
  
 );

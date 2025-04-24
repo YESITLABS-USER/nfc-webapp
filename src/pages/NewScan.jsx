@@ -10,12 +10,16 @@ const NewScan = () => {
 
     const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
     const { user_id } = storedData;
+ 
 
     const dispatch = useDispatch();
     useEffect(() => {
         if (id) { // Ensure the id exists
             localStorage.setItem('client_id', id);
-            localStorage.setItem('language', lang)
+            localStorage.setItem('language', lang)   
+            if(!user_id){
+                localStorage.setItem("scan-count", true)
+            }
             navigate('/dashboard');
             dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
         }

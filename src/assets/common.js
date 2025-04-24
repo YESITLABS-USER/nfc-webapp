@@ -78,10 +78,25 @@ const rewardFormatTime = (seconds) => {
 
 
 // Parse a time string (HH:MM:SS) into total seconds
+// const parseTime = (timeStr) => {
+//   const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+//   return hours * 3600 + minutes * 60 + seconds;
+// };
 const parseTime = (timeStr) => {
-  const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+  // Ensure timeStr is a valid string
+  if (typeof timeStr !== "string") return 0;
+
+  // Split string by ":" and map to numbers
+  const parts = timeStr.split(":").map(Number);
+
+  // If there are not exactly 3 parts or if any part is NaN, return 0
+  if (parts.length !== 3 || parts.some(isNaN)) return 0;
+
+  const [hours, minutes, seconds] = parts;
+
   return hours * 3600 + minutes * 60 + seconds;
 };
+
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

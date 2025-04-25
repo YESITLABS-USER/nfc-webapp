@@ -136,7 +136,7 @@ const CoupanComponent = ({ allData, clientData, occupied, onClick }) => {
             <h3>
               {allData?.coupon_type_content?.[0]?.discount_value ||
               allData?.coupon_type_content?.[0]?.discount_percentage
-                ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}%`
+                ? `${allData?.coupon_type_content?.[0]?.discount_value || allData?.coupon_type_content?.[0]?.discount_percentage}% off`
                 : "FREE"}
             </h3>
           </div>

@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import bg from "../assets/images/rewardBg.png";
+import bgOrange from "../assets/images/rewardOrange.png";
+import bgBlack from "../assets/images/rewardBlack.png";
+import bgBlue from "../assets/images/rewardBlue.png";
+import bgRed from "../assets/images/rewardRed.png";
+
 import header from "../assets/icons/header.png";
-import { formatTime, parseTime, rewardFormatTime } from "../assets/common";
+import { parseTime, rewardFormatTime } from "../assets/common";
 import { useDispatch } from "react-redux";
 import { getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 import { getAllLoyalityCards } from "../store/slices/clientSlice";
 
-const Reward = ({ showPopup, onClose, countText, clientLogo, timer }) => {
+const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }) => {
   const dispatch = useDispatch();
   const client_id = localStorage.getItem("client_id");
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
@@ -70,7 +75,14 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer }) => {
       >
           <div className="reward-wrapper">
           <img
-          src={bg}
+          // src={bg}
+          src={
+            couponData?.color_selection == "orange" ? bgOrange :
+    couponData?.color_selection == "red" ? bgRed :
+    couponData?.color_selection == "blue" ? bgBlue :
+    couponData?.color_selection == "black" ? bgBlack :
+    bg
+          }
           alt="background"
           style={{
             width: "90%",
@@ -87,8 +99,8 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer }) => {
             style={{
               position: "absolute",
               width: "5%",
-              top: "0px",
-              right: "15px",
+              top: "-15px",
+              right: "0",
               color: "white",
               fontSize: "25px",
               cursor: "pointer",

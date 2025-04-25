@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Line22 from "../assets/icons/line222.png";
 import { useDispatch } from "react-redux";
 import { getAllLoyalityCards, reedemLoyalityCard } from "../store/slices/clientSlice";
-import { getMySQLFormattedTimestamp } from "../assets/common";
+import { getMySQLFormattedTimestamp, getRemainingTime } from "../assets/common";
 
 const Loyality = () => {
   const location = useLocation();
@@ -217,7 +217,9 @@ const Loyality = () => {
                   navigate(data?.url);
                 }
               }}
-              timer = {data?.expiration_time}
+
+              timer = {data?.last_stamp_click_time ? getRemainingTime(data?.last_stamp_click_time, "00:15:00") :"00:15:00" }
+              // timer = {data?.expiration_time}
               countText={ 
                 confirmCompleted
                   ? (data?.free_items_name || "Task Completed")

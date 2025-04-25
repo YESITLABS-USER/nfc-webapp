@@ -95,7 +95,7 @@ const CopsActivation = ({
                 position: "relative",
               }}
             >
-              <h5 style={{ color: "black" }}>
+              <h5 style={{ color: "black", fontWeight:"bold" }}>
                 Congratulations, here is your coupon!
               </h5>
               <IoIosCloseCircle

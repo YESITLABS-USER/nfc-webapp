@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // function OnboardHeader({ disabled, OLODISABLE, selectAvatar, bgrIcon = false, message, }) {
 function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
-  const { coupansData } = useSelector((state) => state.coupans);
+  const { coupansData,activatedCoupanData } = useSelector((state) => state.coupans);
   
   const [showPage, setShowPage] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -240,7 +240,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 }}
               >
                 <span style={{ paddingRight: "20px" }}>Coupons</span>
-                <span> {coupansData && coupansData?.length || "0"}</span>
+                <span> {coupansData && (coupansData?.length + activatedCoupanData?.length) || "0"}</span>
               </Button>
             </div>
           </div>

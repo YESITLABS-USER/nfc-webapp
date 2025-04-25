@@ -136,7 +136,7 @@ const CopsActivation = ({
               <CoupanComponent allData={currentCoupanData} clientData={clientData} occupied={currentCoupanData?.occupied} />
             </div>
             
-            <div> 
+            <div className="modal-data"> 
               <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
                 Activate the coupon in-store and show this at the checkout.
                 (Coupon is valid for 15 minutes after activation) <br />

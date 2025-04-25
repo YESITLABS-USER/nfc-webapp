@@ -224,3 +224,13 @@
   animation: slideOutToBottom 0.5s ease-out;
   position: relative;
 }
+
+.modal-data p {
+  word-break: break-all;
+}
+
+@media only screen and (min-width:360px) and (max-width:479px) {
+  .reward-wrapper {
+    transform: scale(.95);
+  }
+}

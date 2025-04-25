@@ -87,8 +87,8 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer }) => {
             style={{
               position: "absolute",
               width: "5%",
-              top: "-15px",
-              right: "0",
+              top: "0px",
+              right: "15px",
               color: "white",
               fontSize: "25px",
               cursor: "pointer",

@@ -107,7 +107,8 @@ const MyPage = () => {
   // For Loyality Delete
   const handleLoyalityDelete = async (id) => {
     try {
-      await dispatch(deleteLoyalityCard({'loyalty_card_table_id': id, 'user_table_id': user_id}));
+
+      await dispatch(deleteLoyalityCard({'loyalty_card_table_id': id, client_table_id: client_id, 'user_table_id': user_id}));
       // Dispatch getAllLoyalityCards after delete is successful
       dispatch(getAllLoyalityCards({ client_table_id : client_id, user_id : user_id }));
       setShowDeleted(false);

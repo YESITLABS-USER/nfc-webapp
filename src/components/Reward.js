@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import bg from "../assets/images/rewardBg.png";
-import bgOrange from "../assets/images/rewardOrange.png";
-import bgBlack from "../assets/images/rewardBlack.png";
-import bgBlue from "../assets/images/rewardBlue.png";
-import bgRed from "../assets/images/rewardRed.png";
+import bgOrange from "../assets/images/bgOrange.png";
+import bgBlack from "../assets/images/bgBlack.png";
+import bgBlue from "../assets/images/bgBlue.png";
+import bgRed from "../assets/images/bgRed.png";
 
 import header from "../assets/icons/header.png";
 import { parseTime, rewardFormatTime } from "../assets/common";

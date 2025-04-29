@@ -43,6 +43,7 @@ const Loyality = () => {
     setIsSliderOpen(false);
     setCoupanPopup(true);
     const payload = {
+      "client_table_id" : localStorage.getItem("client_id"),
       "loyalty_card_table_id":data?.loyalty_card_table_id,
       "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id,
       "last_stamp_click_time": getMySQLFormattedTimestamp(),
@@ -52,6 +53,7 @@ const Loyality = () => {
       "completed_status": 1,
     }
     const res = dispatch(reedemLoyalityCard(payload))
+
     if(res) {
       const client_id = localStorage.getItem("client_id");
 

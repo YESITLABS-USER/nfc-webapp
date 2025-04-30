@@ -172,7 +172,7 @@ const MyPage = () => {
 
   const handleCoupanDelete = async (id) => {
     try {
-      await dispatch(removeCoupan({ coupon_table_id: id, user_table_id: user_id }));
+      await dispatch(removeCoupan({ coupon_table_id: id,client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       setShowCoupanDeletepopup(false);
     } catch (error) {

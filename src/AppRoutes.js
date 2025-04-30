@@ -11,6 +11,7 @@ import MyProfile from "./pages/MyProfile";
 import Loyality from "./pages/Loyality";
 import AboutScreen from "./pages/AboutScreen";
 import NewScan from "./pages/NewScan";
+import ProfileById from "./pages/ProfileById";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route path="/privacy-policy" element={<TermCondn />} />
       <Route path="/aboutService" element={<AboutService />} />
       <Route path="/myprofile" element={<MyProfile />} />
+      <Route path="/userprofile/:id" element={<ProfileById />} />
       <Route path="/loyality" element={<Loyality />} />
       <Route path="/about-tagis" element={<AboutScreen />} />
       <Route path="*" element={<h1>Page Not Found</h1>} />

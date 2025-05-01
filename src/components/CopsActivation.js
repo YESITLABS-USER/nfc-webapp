@@ -8,6 +8,7 @@ import { formatDate } from "../assets/common";
 import { updateUser } from "../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { getAllCoupans } from "../store/slices/coupanSlice";
+import { Button, Modal } from "react-bootstrap";
 
 const CopsActivation = ({
   isModalOpen,
@@ -20,6 +21,7 @@ const CopsActivation = ({
 }) => {
   const closeModal = () => setIsModalOpen(false);
   const [ageModal, setAgeModal] = useState(false);
+  const [showCampaignTerms, setShowCampaignTerms] = useState(false)
   const dispatch = useDispatch();
 
   const [userDob, setUserDob] = useState(null);
@@ -183,7 +185,7 @@ const CopsActivation = ({
             }
             <p style={{ color: "black", textAlign: "center", marginTop: 10 }}>
               Read the campaign{" "}
-              <span style={{ color: "#25026E", textDecoration: "underline" }}>
+              <span style={{ color: "#25026E", textDecoration: "underline" }} onClick={() => setShowCampaignTerms(true)}>
                 terms and conditions
               </span>
               .
@@ -200,11 +202,26 @@ const CopsActivation = ({
         currentData = {currentCoupanData}
         callBack={callBack}
       />
+      <Campaign_term_condition show={showCampaignTerms} handleClose={() => setShowCampaignTerms(false)} currentCoupanData={currentCoupanData}/>
     </div>
   );
 };
 
 export default CopsActivation;
+
+const Campaign_term_condition = ({ show, handleClose, currentCoupanData }) => {
+  console.log(show)
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
+        <IoIosCloseCircle color={"#2A0181"} size={30} style={{ position: "absolute", right: "0", cursor: "pointer",
+          top: "5px", fontSize:"30px", color:"white" }} onClick={handleClose} />
+        <h5 style={{paddingTop:"20px"}}> Campaign Term's & Condition</h5>
+        <p style={{ fontSize: "14px" }}> {currentCoupanData?.campaign_term_and_condition || "No term's and Condition "} </p>
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 
 const BirthdayPopup = ({ onClose }) => (

@@ -23,6 +23,7 @@ import { formatDate, getRemainingTime } from "../assets/common";
 import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 import AddShortCut from "../components/AddShortCut";
+import SocialMediaAbout from "../components/SocialMediaAbout";
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -356,8 +357,11 @@ const Dashboard = () => {
         )}
       </div>
 
+        {/* Social Media Url  */}
+        <SocialMediaAbout data={clientData}/>
+
       {/* Green value, 10 year Experience, local meat */}
-      <div className="green-values">
+      {/* <div className="green-values">
         <div className="green-values-in">
           <img src={greenValueImg} alt="Green Value" /> Green values
         </div>
@@ -367,7 +371,7 @@ const Dashboard = () => {
         <div className="green-values-in">
           <img src={meat} alt="meat" /> We use local <br /> meat
         </div>
-      </div>
+      </div> */}
 
       {/* Google Review Image & and Button */}
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
@@ -470,7 +474,7 @@ const Dashboard = () => {
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
           }}
-          countText={`Here is your ${currentCoupanData?.coupon_name || "Coupon from olo"} `}
+          countText={`Here is your ${(currentCoupanData?.coupon_type_content?.[0]?.free_item) || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage + "% off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.discount_value + "off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value + "off Coupon")  || "Coupon from olo"} `}
         />
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />

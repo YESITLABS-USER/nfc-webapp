@@ -4,17 +4,19 @@ import { Card, Button } from "react-bootstrap";
 
 import Insta from "../assets/icons/instagramLogo.svg";
 import FaceBook from "../assets/icons/facebook.svg";
-import LinkedIn from "../assets/icons/linkedIn.svg";
 import youtube from "../assets/icons/youtube.png";
 import twitter from "../assets/icons/x.png";
 import tiktok from "../assets/icons/tiktok.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { formatUrl } from "../assets/common";
 
 const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
+  const currentPage = useLocation();
+
   return (
     <div style={{ margin: "10px" }}>
-      {(data?.facebook || data?.youtube || data?.instagram || data?.tiktok_link || data?.twitter_link) && <span
+      {(data?.facebook || data?.youtube || data?.instagam || data?.tiktok_link || data?.twitter_link) && <span
         style={{
           fontSize: "18px",
           fontWeight: "bold",
@@ -22,38 +24,37 @@ const SocialMediaAbout = ({ signup, data=null }) => {
           margin: "10px",
           display: "flex",
           flexDirection: "column",
-        }}
-      >
+        }} >
         Social Media
       </span>}
-      { (data?.facebook || data?.youtube || data?.instagram || data?.tiktok_link || data?.twitter_link) && 
+      { (data?.facebook || data?.youtube || data?.instagam || data?.tiktok_link || data?.twitter_link) && 
         <div style={{ marginTop: "10px" }}>
           
           {data?.facebook && 
-            <a href={data?.facebook} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <a href={formatUrl(data?.facebook)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
             <img src={FaceBook} alt="facebbool" />
           </a>}
 
-          {/* <a href={"https://www.linkedin.com"} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
+          {/* <a href={formatUrl("https://)www.linkedin.com"} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
             <img src={LinkedIn} alt="linked" />
           </a> */}
 
-          <a href={data?.youtube} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
+          <a href={formatUrl(data?.youtube)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }}>
             <img src={youtube} alt="linked" style={{maxWidth:"45px"}}/>
           </a>
 
-          {data?.instagram && 
-            <a href={data?.instagram} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+          {data?.instagam && 
+            <a href={formatUrl(data?.instagam)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
             <img src={Insta} alt="insta" />
           </a>}
 
           {data?.tiktok_link && 
-            <a href={data?.tiktok_link} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <a href={formatUrl(data?.tiktok_link)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
             <img src={tiktok} alt="tiktok" style={{maxWidth:"45px", height:"45px"}}/>
           </a>}
 
           {data?.twitter_link && 
-            <a href={data?.twitter_link} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
+            <a href={formatUrl(data?.twitter_link)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >
             <img src={twitter} alt="twitter" style={{maxWidth:"45px", height:"45px"}}/>
           </a>}
 
@@ -61,64 +62,66 @@ const SocialMediaAbout = ({ signup, data=null }) => {
       }
 
       {/* Card with About Us Text */}
-      <Card
-        style={{
-          zIndex: "100",
-          backgroundColor: "#25026E",
-          color: "white",
-          marginTop: "30px",
-          borderRadius: "20px",
-        }}
-      >
-        <Card.Body
+      {currentPage?.pathname != "/dashboard" && 
+        <Card
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
+            zIndex: "100",
+            backgroundColor: "#25026E",
+            color: "white",
+            marginTop: "30px",
+            borderRadius: "20px",
           }}
         >
-          <Card.Title
+          <Card.Body
             style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
             }}
           >
-            About Us
-          </Card.Title>
-          <Card.Text style={{ fontSize: "16px", lineHeight: "1.6" }}>
-            Membership in Tagis is completely free and risk-free. You can
-            collect coupons, participate in raffles, and can join fun events
-            like tag hunts. In return, we ask you to review businesses you want
-            to and where you go – helping them improve their services while you
-            enjoy great rewards!
-          </Card.Text>
+            <Card.Title
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              About Us
+            </Card.Title>
+            <Card.Text style={{ fontSize: "16px", lineHeight: "1.6" }}>
+              Membership in Tagis is completely free and risk-free. You can
+              collect coupons, participate in raffles, and can join fun events
+              like tag hunts. In return, we ask you to review businesses you want
+              to and where you go – helping them improve their services while you
+              enjoy great rewards!
+            </Card.Text>
 
-          {/* Know More Button */}
-          <Button
-            variant="light" // Makes the button background white with black text
-            style={{
-              marginTop: "15px", // Adds spacing between text and button
-              padding: "10px 20px", // Adds padding inside the button
-              fontSize: "16px", // Adjusts button text size
-              borderColor: "black", // Makes the button border black
-              alignSelf: "center",
-              borderRadius: 30,
-              color: "black", // Sets the font color to black
-              fontWeight: "600",
-            }}
-            onClick={() =>
-              navigate("/about-tagis", {
-                state: { message: signup ? "signup" : "login" },
-              })
-            } // Example onClick handler
-          >
-            Know more
-          </Button>
-        </Card.Body>
-      </Card>
+            {/* Know More Button */}
+            <Button
+              variant="light" // Makes the button background white with black text
+              style={{
+                marginTop: "15px", // Adds spacing between text and button
+                padding: "10px 20px", // Adds padding inside the button
+                fontSize: "16px", // Adjusts button text size
+                borderColor: "black", // Makes the button border black
+                alignSelf: "center",
+                borderRadius: 30,
+                color: "black", // Sets the font color to black
+                fontWeight: "600",
+              }}
+              onClick={() =>
+                navigate("/about-tagis", {
+                  state: { message: signup ? "signup" : "login" },
+                })
+              } // Example onClick handler
+            >
+              Know more
+            </Button>
+          </Card.Body>
+        </Card>
+      }
     </div>
   );
 };

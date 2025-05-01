@@ -26,7 +26,7 @@ const LoginPage = () => {
 
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required').min(2, 'Name should be at least 2 characters long').matches(/^[A-Za-z\s]+$/, 'Name should only contain letters and spaces'),    
+    // name: Yup.string().required('Name is required').min(2, 'Name should be at least 2 characters long').matches(/^[A-Za-z\s]+$/, 'Name should only contain letters and spaces'),    
       
     phone_number: Yup.string().required('Phone number is required').matches(/^\+?\d+$/, 'Phone number must only contain numbers')    // .matches(/^(\+1\d{10}|\+358\d{10})$/,'Phone number must be a valid US number starting with +1 (followed by 10 digits) or a Finnish number starting with +358 (followed by 10 digits)')
     });
@@ -85,12 +85,13 @@ const LoginPage = () => {
         </span>
       </div>
 
-      <Formik initialValues={{ name: "", phone_number: "" }} validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
+      <Formik initialValues={{ phone_number: "" }} validationSchema={validationSchema}
+        onSubmit={handleSubmit} >
+      {/* <Formik initialValues={{ name: "", phone_number: "" }} validationSchema={validationSchema}
+        onSubmit={handleSubmit} > */}
         {({ values, handleBlur, setFieldValue, errors, touched, handleSubmit }) => (
           <div style={{ marginTop: 20 }}>
-            <div style={{ marginTop: "20px", width: "80%", margin: "20px auto" }}>
+            {/* <div style={{ marginTop: "20px", width: "80%", margin: "20px auto" }}>
               <CustomInput
                 value={values.name}
                 onChange={(e) => setFieldValue("name", e.target.value)}
@@ -104,7 +105,7 @@ const LoginPage = () => {
                   {errors.name}
                 </p>
               )}
-            </div>
+            </div> */}
 
             <div style={{ marginTop: "20px", width: "80%", margin: "20px auto" }}>
               <CustomInput value={values.phone_number}

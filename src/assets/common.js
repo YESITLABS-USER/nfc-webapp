@@ -135,4 +135,12 @@ const formatDate = (dateString) => {
     return newDate;
   };
 
-export { getRemainingTime, getMySQLFormattedTimestamp, formatTime, parseTime, formatDate, addValidity, rewardFormatTime };
+
+  const formatUrl = (url) => {
+    if (url?.startsWith('http://') || url?.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  };
+
+export { getRemainingTime, getMySQLFormattedTimestamp, formatTime, parseTime, formatDate, addValidity, rewardFormatTime, formatUrl };

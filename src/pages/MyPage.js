@@ -192,11 +192,71 @@ const MyPage = () => {
         </p>
       </div>
 
+      {/* For My Places */}
+      <>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15, 
+            zIndex: 100, }} >
+          <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>
+          <FaInfoCircle size={24} color="#25026E" style={{ marginRight: "30px" }}
+            onClick={() => {
+              setIsModalOpen(true);
+              setCoops(false);
+          }} />
+        </div>
+        <div style={styles.verticalList}>
+            {
+              allClientsData?.length <= 0 && <p style={{ display:"flex", justifyContent:'center', padding:"20px 0"}}> No Clients Available </p>
+            }
+
+          {allClientsData?.slice(0, visibleCount).map((item, index) => (
+            <div style={styles.listItem} key={index}>
+              <img src={ item?.company_logo ? (backendUrl+"/"+ item?.company_logo) : Restro} alt={item?.client_name} style={styles.itemImage} />
+
+              <div style={styles.itemContent}>
+                {/* <h3 style={styles.itemTitle}>{item?.client_name}</h3> */}
+                <h3 style={styles.itemTitle}>
+                  {item?.client_name?.length > 12 ? (
+                    <> {item?.client_name?.slice(0, 12)}-<br /> {item?.client_name?.slice(12)} </>
+                      ) : (item?.client_name)}
+                </h3>
+                <p style={styles.itemDescription}> 
+                  {item?.city}
+                </p>
+                {/* <p style={styles.itemDescription}> 
+                  {item?.location_name?.length > 12 ? `${item?.location_name.slice(0, 12)}-` : item?.location_name}
+                  <br />
+                  {item?.location_name?.length > 12 ? item?.location_name.slice(12) : ''}
+                </p> */}
+              </div>
+
+              <div style={styles.itemButtons}>
+                <button style={{
+                    padding: 10, border: "none", borderRadius: "8px", cursor: "pointer", backgroundColor: "#25026E",
+                    color: "#fff", textAlign: "center", fontSize: 12, fontWeight: "600", }} onClick={() => setActiveClient(item?.client_table_id)}>
+                  VIEW COUPONS
+                </button>
+                <button style={styles.button} onClick={() => {
+                  setSelectedCardId(item?.client_table_id); 
+                  setIsUnfollow(true);
+                }}>
+                  {item?.follow_status ? "UNFOLLOW" : "FOLLOW"}
+                </button>
+              </div>
+            </div>
+          ))}
+          {(allClientsData?.length > 3) && <button style={styles.showMore} onClick={toggleVisibility}>
+            {isExpanded ? "Show Less" : "See More"}
+            <FaChevronDown style={{ marginLeft: "10px", transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }} />
+            </button>}
+        </div>
+      </>
+
+      {/* For Coupons */}
       { loading ? 
         <Spinner animation="border" variant="primary" style={{display:'flex', margin:"auto"}}/> :
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }} >
 
-        <h1 style={{ display:"flex", justifyContent:'center', alignItems:"center", textAlign:"center", fontWeight:"700", padding:"12px 10px", borderBottom:"1px solid black", width:"90%", fontSize:"20px"}}> {clientData?.client_name} </h1>
+        <h1 style={{ display:"flex", justifyContent:'center', alignItems:"center", textAlign:"center", fontWeight:"700", padding:"12px 10px",marginTop:"30px", borderBottom:"1px solid black", width:"90%", fontSize:"20px"}}> {clientData?.client_name} </h1>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%", margin:"0 15px" }} >
           <h3 style={{ fontWeight:"600" }}> Coupon </h3>
@@ -309,55 +369,6 @@ const MyPage = () => {
       </div>
 
       }
-
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15, 
-          zIndex: 100, }} >
-        <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>
-        <FaInfoCircle size={24} color="#25026E" style={{ marginRight: "30px" }}
-          onClick={() => {
-            setIsModalOpen(true);
-            setCoops(false);
-        }} />
-      </div>
-
-      <div style={styles.verticalList}>
-          {
-            allClientsData?.length <= 0 && <p style={{ display:"flex", justifyContent:'center', padding:"20px 0"}}> No Clients Available </p>
-          }
-
-        {allClientsData?.slice(0, visibleCount).map((item, index) => (
-          <div style={styles.listItem} key={index}>
-            <img src={ item?.company_logo ? (backendUrl+"/"+ item?.company_logo) : Restro} alt={item?.client_name} style={styles.itemImage} />
-
-            <div style={styles.itemContent}>
-              <h3 style={styles.itemTitle}>{item?.client_name}</h3>
-              <p style={styles.itemDescription}> 
-                {item?.location_name?.length > 12 ? `${item?.location_name.slice(0, 12)}-` : item?.location_name}
-                <br />
-                {item?.location_name?.length > 12 ? item?.location_name.slice(12) : ''}
-              </p>
-            </div>
-
-            <div style={styles.itemButtons}>
-              <button style={{
-                  padding: 10, border: "none", borderRadius: "8px", cursor: "pointer", backgroundColor: "#25026E",
-                  color: "#fff", textAlign: "center", fontSize: 12, fontWeight: "600", }} onClick={() => setActiveClient(item?.client_table_id)}>
-                VIEW COUPONS
-              </button>
-              <button style={styles.button} onClick={() => {
-                setSelectedCardId(item?.client_table_id); 
-                setIsUnfollow(true);
-              }}>
-                {item?.follow_status ? "UNFOLLOW" : "FOLLOW"}
-              </button>
-            </div>
-          </div>
-        ))}
-        {(allClientsData?.length > 3) && <button style={styles.showMore} onClick={toggleVisibility}>
-          {isExpanded ? "Show Less" : "See More"}
-          <FaChevronDown style={{ marginLeft: "10px" }} />
-        </button>}
-      </div>
 
       <CopsActivation
         isModalOpen={freeCops && !currentCoupanData?.activate_time_usa_zone}
@@ -519,7 +530,7 @@ const styles = {
   },
 
   verticalList: {
-    maxHeight: "300px", // Fixed height for the list container
+    maxHeight: "400px", // Fixed height for the list container
     overflowY: "auto", // Enable scrolling
     border: "1px solid #ccc",
     padding: "15px",
@@ -553,7 +564,7 @@ const styles = {
     cursor: "pointer",
     backgroundColor: "#25026E",
     color: "#fff",
-    fontSize: "14px", // Consistent font size
+    fontSize: "12px", // Consistent font size
     fontWeight: "600",
     textAlign: "center",
     transition: "background-color 0.3s ease", // Add transition for hover effect

@@ -17,11 +17,11 @@ const Header = ({ chgName = false, data = null }) => {
         <div className="header-buttons">
           <Button variant="primary" style={{ backgroundColor: "#2D008D", borderRadius: "10px" }} >
             {chgName === true ? (
-              <Link to="/signup" style={{ textDecoration: "none", color: "white" }} >
+              <Link to="/" style={{ textDecoration: "none", color: "white" }} >
                 Sign Up
               </Link>
             ) : (
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              <Link to="/login" style={{ textDecoration: "none", color: "white" }}>
                 Log In
               </Link>
             )}

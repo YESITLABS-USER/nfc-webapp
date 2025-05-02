@@ -91,7 +91,7 @@ const clientSlice = createSlice({
     allClientsData: null,
     loyalityCards: [],
     loyalityReward: null,
-    loading: false,
+    couponLoading: false,
     error: null,
   },
   reducers: {},
@@ -99,112 +99,112 @@ const clientSlice = createSlice({
     builder
       // Single Client Info user
       .addCase(getClientInfoWithoutLogin.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(getClientInfoWithoutLogin.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.clientData = action.payload?.data;
       })
       .addCase(getClientInfoWithoutLogin.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch client information";
       }) 
 
       // Single Client Info user
       .addCase(getClientInfo.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(getClientInfo.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.clientData = action.payload?.data;
       })
       .addCase(getClientInfo.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch client information";
       }) 
 
       // Sign-up user
       .addCase(unfollowClient.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(unfollowClient.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         toast.success(action.payload?.message || "Client unfollowed successfully")
       })
       .addCase(unfollowClient.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch client information";
       }) 
 
       // Sign-up user
       .addCase(getAllClients.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(getAllClients.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.allClientsData = action.payload?.data;
       })
       .addCase(getAllClients.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch client information";
       }) 
 
       // Get all loyality cards
       .addCase(getAllLoyalityCards.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(getAllLoyalityCards.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.loyalityCards = action.payload?.data;
       })
       .addCase(getAllLoyalityCards.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
       }) 
 
       // reedem loyality cards
       .addCase(reedemLoyalityCard.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(reedemLoyalityCard.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.loyalityReward = action.payload?.data;
       })
       .addCase(reedemLoyalityCard.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
       }) 
       // reedem loyality cards
       .addCase(deleteLoyalityCard.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(deleteLoyalityCard.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         toast.success("Loyalty card deleted successfully!");
       })
       .addCase(deleteLoyalityCard.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
         toast.error("Failed to delete loyalty card!");
       }) 
       // Add Client in User
       .addCase(addClientInUser.pending, (state) => {
-        state.loading = true;
+        state.couponLoading = true;
         state.error = null;
       })
       .addCase(addClientInUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.message = action.payload?.message;
       })
       .addCase(addClientInUser.rejected, (state, action) => {
-        state.loading = false;
+        state.couponLoading = false;
         state.error = action.payload?.message;
       }) 
   },

@@ -3,6 +3,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import CancelModal from "./CancelModal";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../store/slices/userSlice";
+import { getAllCoupans } from "../store/slices/coupanSlice";
 
 const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const closeModal = () => setIsModalOpen(false);
@@ -13,6 +14,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
 
   const dispatch = useDispatch();
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
+  const client_id = localStorage.getItem("client_id");
 
   useEffect(() => {
     if(isModalOpen){
@@ -119,14 +121,18 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
         age--;
       }
       // Show age result
-      dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
       if (age >= 18 || currentData?.dob_coupon && age >= 13) {
+        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setIsModalOpen(false);
         callBack({...currentData, validAge:true, is18: true});
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       } else {
+        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);        
         setCancelModal(true);
         setIsModalOpen(false);
         callBack({...currentData, validAge:false, is18: false});

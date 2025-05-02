@@ -33,8 +33,8 @@ const Dashboard = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
 
-  const { clientData, loyalityCards, loading } = useSelector((state) => state.client)
-  const { coupansData, activatedCoupanData,coupanReward } = useSelector((state) => state.coupans);
+  const { clientData, loyalityCards } = useSelector((state) => state.client)
+  const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -298,8 +298,9 @@ const Dashboard = () => {
           )}
         </div>
  
+        {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {(coupansData.length == 0 && activatedCoupanData?.length == 0) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
+          {(coupansData.length == 0 && activatedCoupanData?.length == 0 && !couponLoading) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <CoupanComponent
                 key={index}

@@ -33,7 +33,6 @@ const CopsActivation = ({
   const handleDobUpdate = async () => {
     try {
       const response = await dispatch(updateUser({ date_of_birth: userDob, id: user_id }));
-      console.log(response)
       if (response?.payload?.status == "success") {
         setShowBirthdayPopup(true);
 
@@ -210,7 +209,6 @@ const CopsActivation = ({
 export default CopsActivation;
 
 const Campaign_term_condition = ({ show, handleClose, currentCoupanData }) => {
-  console.log(show)
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>

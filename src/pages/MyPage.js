@@ -464,9 +464,9 @@ const MyPage = () => {
         onUnfollow={handleUnfollow}
       />
       <DeletePopup isModalOpen={showDeleted} setIsModalOpen={setShowDeleted} handleDelete={handleLoyalityDelete} 
-        cardId={selectedCardId} name="loyality card"/> 
+        cardId={selectedCardId} name="loyalty card"/> 
 
-      <DeletePopup isModalOpen={showCoupanDeletepopup} setIsModalOpen={setShowCoupanDeletepopup} handleDelete={handleCoupanDelete} cardId={currentCoupanData?.coupon_table_id} name="coupan"/> 
+      <DeletePopup isModalOpen={showCoupanDeletepopup} setIsModalOpen={setShowCoupanDeletepopup} handleDelete={handleCoupanDelete} cardId={currentCoupanData?.coupon_table_id} name="coupon"/> 
 
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />
 

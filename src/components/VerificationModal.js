@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginVerifyOtp, resendOtp, verifyOtp } from "../store/slices/userSlice";
 const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {setIsModalOpen(false); setOtp("")};
   const [isDisable, setDisable] = useState(false);
 
   const [otp, setOtp] = useState("");

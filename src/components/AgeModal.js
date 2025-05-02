@@ -119,8 +119,8 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
         age--;
       }
       // Show age result
+      dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
       if (age >= 18 || currentData?.dob_coupon && age >= 13) {
-        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setIsModalOpen(false);
         callBack({...currentData, validAge:true, is18: true});
         setTimeout(() => {

@@ -468,7 +468,7 @@ const Dashboard = () => {
 
       {(coupanPopup) && (
         <Reward
-          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:15:00") :"00:15:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
+          showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") :"00:10:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
           onClose={() => {
             setCoupanPopup(false);
              dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
@@ -490,7 +490,7 @@ export default Dashboard;
 
 const BirthdayCampaign = ({ show, handleClose }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal className="campaign-term" show={show} onHide={handleClose} centered>
       <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
         <Button variant="light" onClick={handleClose} style={{ position: "absolute", top: "10px", right: "10px", borderRadius: "50%" }}>×</Button>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>Thank you for participating in the birthday campaign!</p>

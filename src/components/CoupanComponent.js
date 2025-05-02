@@ -27,8 +27,8 @@ const CoupanComponent = ({ allData, clientData, occupied, onClick }) => {
 
   useEffect(() => {
     if (allData?.activate_time_usa_zone) {
-      const remainingTimeStr = getRemainingTime(allData?.activate_time_usa_zone, "00:15:00");
-      const remainingSeconds = parseTime(remainingTimeStr ?? "00:15:00");
+      const remainingTimeStr = getRemainingTime(allData?.activate_time_usa_zone, "00:10:00");
+      const remainingSeconds = parseTime(remainingTimeStr ?? "00:10:00");
       const targetEndTime = Date.now() + remainingSeconds * 1000;
       setEndTime(targetEndTime);
     } else {
@@ -202,8 +202,8 @@ export default CoupanComponent;
 //   useEffect(() => {
 //     if (allData?.activate_time_usa_zone) {
 //       // If activate_time_usa_zone is present, calculate remaining time directly
-//       const remainingTime = getRemainingTime(allData?.activate_time_usa_zone, "00:15:00");
-//       const parsedTime = parseTime(String(remainingTime ?? "00:15:00"));
+//       const remainingTime = getRemainingTime(allData?.activate_time_usa_zone, "00:10:00");
+//       const parsedTime = parseTime(String(remainingTime ?? "00:10:00"));
 //       setTimeLeft(parsedTime);
 //     } else {
 //       // Otherwise, use addValidity to calculate scan time

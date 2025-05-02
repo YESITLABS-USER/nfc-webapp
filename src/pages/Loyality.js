@@ -220,7 +220,7 @@ const Loyality = () => {
                 }
               }}
 
-              timer = {data?.last_stamp_click_time ? getRemainingTime(data?.last_stamp_click_time, "00:15:00") :"00:15:00" }
+              timer = {data?.last_stamp_click_time ? getRemainingTime(data?.last_stamp_click_time, "00:10:00") :"00:10:00" }
               // timer = {data?.expiration_time}
               countText={ 
                 confirmCompleted

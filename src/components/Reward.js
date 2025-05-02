@@ -4,7 +4,7 @@ import bgOrange from "../assets/images/bgOrange.png";
 import bgBlack from "../assets/images/bgBlack.png";
 import bgBlue from "../assets/images/bgBlue.png";
 import bgRed from "../assets/images/bgRed.png";
-
+import cross from "../assets/icons/cross-icon.svg";
 import header from "../assets/icons/header.png";
 import { parseTime, rewardFormatTime } from "../assets/common";
 import { useDispatch } from "react-redux";
@@ -99,8 +99,8 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }
             style={{
               position: "absolute",
               width: "5%",
-              top: "-15px",
-              right: "0",
+              top: "0",
+              right: "15px",
               color: "white",
               fontSize: "25px",
               cursor: "pointer",
@@ -110,7 +110,7 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }
             }}
             onClick={onClose}
           >
-            x
+            <img src={cross} alt="" style={{ width: "100%", height: "100%" }} />
           </span>
           <div className="reward-top">
             <h4 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "10px" }} >
@@ -120,17 +120,19 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }
             <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", textTransform: "uppercase" }} >
               {countText || `3 / 9`}
             </p>
-            <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "80px", height: "80px", marginBottom: "20px", marginTop: "10px", borderRadius: "5px" }} />
+            <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", textTransform: "uppercase", marginTop: "auto" }} >
+              {countText || `3 / 9`}
+            </p>
           </div>
           <div className="reward-bottom">
+          <img src={clientLogo ? clientLogo : header} alt="header" style={{ width: "80px", height: "80px", marginBottom: "10px", marginTop: "10px", borderRadius: "5px" }} />
 
 
-
-            <h2 style={{ fontSize: "14px", margin: "50px 0 0 0", fontWeight: "bold" }}>
+            {/* <h2 style={{ fontSize: "14px", margin: "10px 0 0 0", fontWeight: "bold" }}>
               Coupon Valid 15 Minutes From Activation
-            </h2>
+            </h2> */}
 
-            <div style={{ fontSize: "40px", marginTop: "20px", fontWeight: "bold" }}>
+            <div style={{ fontSize: "40px", marginTop: "0px", fontWeight: "bold" }}>
               {rewardFormatTime(timeLeft)}
             </div>
 

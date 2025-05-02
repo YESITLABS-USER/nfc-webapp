@@ -80,7 +80,7 @@ const CopsActivation = ({
           <div
             style={{
               backgroundColor: "#FFFFFF",
-              padding: "20px",
+              padding: "30px 20px 20px 20px",
               borderRadius: "25px",
               boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
@@ -143,7 +143,7 @@ const CopsActivation = ({
                 (Coupon is valid for 15 minutes after activation) <br />
               </p>
 
-              <p style={{minHeight: (!currentCoupanData?.user_date_of_birth && currentCoupanData?.dob_coupon) ?'100px' : "250px"}} dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
+              <p dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
             </div>
 
             {/* For Dob */}
@@ -210,9 +210,9 @@ export default CopsActivation;
 
 const Campaign_term_condition = ({ show, handleClose, currentCoupanData }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal className="campaign-term" show={show} onHide={handleClose} centered>
       <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
-        <IoIosCloseCircle color={"#2A0181"} size={30} style={{ position: "absolute", right: "0", cursor: "pointer",
+        <IoIosCloseCircle color={"#2A0181"} size={30} style={{ position: "absolute", right: "5px", cursor: "pointer",
           top: "5px", fontSize:"30px", color:"white" }} onClick={handleClose} />
         <h5 style={{paddingTop:"20px"}}> Campaign Term's & Condition</h5>
         <p style={{ fontSize: "14px" }}> {currentCoupanData?.campaign_term_and_condition || "No term's and Condition "} </p>

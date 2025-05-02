@@ -28,7 +28,7 @@ const SocialMediaAbout = ({ signup, data=null }) => {
         Social Media
       </span>}
       { (data?.facebook || data?.youtube || data?.instagam || data?.tiktok_link || data?.twitter_link) && 
-        <div style={{ marginTop: "10px" }}>
+        <div className="dash-social" style={{ marginTop: "10px" }}>
           
           {data?.facebook && 
             <a href={formatUrl(data?.facebook)} target="_blank" rel="noopener noreferrer" style={{ margin: "0 10px" }} >

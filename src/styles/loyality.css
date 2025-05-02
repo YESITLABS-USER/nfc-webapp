@@ -231,6 +231,11 @@
 
 @media only screen and (min-width:360px) and (max-width:479px) {
   .reward-wrapper {
-    transform: scale(.95);
+    transform: scale(.86);
   }
+}
+
+.campaign-term .modal-content
+{
+  background: none;
 }

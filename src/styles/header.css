@@ -199,6 +199,7 @@ img.profile-image {
     font-weight: 700;
     font-size: 12px;
     margin: 0;
+    max-height: 90px;
   }
 
   h3 {

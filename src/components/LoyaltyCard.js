@@ -22,7 +22,7 @@ const LoyaltyCardImgComponent = ({
     : free_item;
 
     
-  const remainingTime = getRemainingTime(allData?.last_stamp_click_time, "00:15:00");
+  const remainingTime = getRemainingTime(allData?.last_stamp_click_time, "00:10:00");
 
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : allData?.expiration_time))); 
   const navigate = useNavigate();
@@ -81,8 +81,8 @@ const LoyaltyCardImgComponent = ({
           onClose={() => {
             setCoupanPopup(!coupanPopup); 
           }}
-          // timer={allData?.last_stamp_click_time + "00:15:00"}
-          timer={getRemainingTime(allData?.last_stamp_click_time, "00:15:00")}
+          // timer={allData?.last_stamp_click_time + "00:10:00"}
+          timer={getRemainingTime(allData?.last_stamp_click_time, "00:10:00")}
           countText={allData?.free_items_name || "Task Completed"}
         />
       )}

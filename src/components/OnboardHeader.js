@@ -170,7 +170,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
               display: "flex",
               justifyContent: "space-between",
               // height: "80px",
-              padding: "18px 10px",
+              padding: "30px 10px 15px 10px",
               alignItems: "center",
             }}
           >
@@ -226,7 +226,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
 
               <Button
                 style={{
-                  marginRight: 10,
+                  marginRight: 0,
                   color: "black",
                   borderColor: "black",
                   height: 30,

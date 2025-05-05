@@ -7,10 +7,11 @@ import Reward from './Reward';
 const LoyaltyCardImgComponent = ({
   campaign_name = "Tagis ice cream",
   free_item = "FREE ICE CREAM",
-  total_stamps = "9",
-  open_stamps = "2",
+  total_stamps = null,
+  open_stamps = null,
   end_date = "31st DECEMBER 2024",
   backgroundImage = BGImage,
+  completed_status = 0,
   allData = null,
   url = "/dashboard",
   clientLogo
@@ -24,18 +25,39 @@ const LoyaltyCardImgComponent = ({
     
   const remainingTime = getRemainingTime(allData?.last_stamp_click_time, "00:10:00");
 
-  const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : allData?.expiration_time))); 
+  // const [timeLeft, setTimeLeft] = useState(() => parseTime(String(remainingTime ? remainingTime : allData?.expiration_time))); 
   const navigate = useNavigate();
-  // Effect to update the countdown timer
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const intervalId = setInterval(() => {
-        setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-      }, 1000);
+  // // Effect to update the countdown timer
+  // useEffect(() => {
+  //   if (timeLeft > 0) {
+  //     const intervalId = setInterval(() => {
+  //       setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+  //     }, 1000);
       
-      return () => clearInterval(intervalId); // Cleanup interval on component unmount or when timeLeft changes
-    }
+  //     return () => clearInterval(intervalId); // Cleanup interval on component unmount or when timeLeft changes
+  //   }
+  // }, [timeLeft,remainingTime]);
+
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const remaining = getRemainingTime(allData?.last_stamp_click_time, "00:10:00");
+    const endTime = Date.now() + (parseTime(String(remaining || allData?.expiration_time)) * 1000);
+    return endTime;
+  });
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const remaining = Math.max(0, Math.floor((timeLeft - Date.now()) / 1000));
+      setCurrentTimeLeft(remaining);
+    }, 1000);
+  
+    return () => clearInterval(intervalId);
   }, [timeLeft]);
+  
+  const [currentTimeLeft, setCurrentTimeLeft] = useState(() => {
+    const remaining = getRemainingTime(allData?.last_stamp_click_time, "00:10:00");
+    return parseTime(String(remaining || allData?.expiration_time));
+  });
+  
 
     
   return (
@@ -44,11 +66,11 @@ const LoyaltyCardImgComponent = ({
       }}
       onClick={() => {
         // Check if remainingTime is greater than 0 and if the completed_status is "1"
-        if (remainingTime > "00:00:00" && allData?.completed_status == "1") {
+        if (remainingTime > "00:00:00" && allData?.completed_status == "1" || completed_status == 1) {
           setCoupanPopup(!coupanPopup); // Toggle the coupon popup
         } 
         // If remaining time is 0 or completed_status is not "1", just navigate to the loyalty page
-        else if (remainingTime <= 0 && allData?.completed_status != "1") {
+        else if (remainingTime <= 0 && allData?.completed_status != "1" || completed_status == 1) {
           navigate("/loyality", { state: { data: { ...allData, url, clientLogo } } });
         } else {
           return null;
@@ -62,17 +84,33 @@ const LoyaltyCardImgComponent = ({
             <span>Collect {total_stamps} stamps and get {free_item}.</span>
           </div>
         </div>
-        <div className="get-free-coupon-count">
-        {Number(open_stamps) > Number(total_stamps) ? Number(total_stamps) : Number(open_stamps)}/{Number(total_stamps)}
-        </div>
+        {(open_stamps && total_stamps) &&<div className="get-free-coupon-count">
+          {Number(open_stamps) > Number(total_stamps) ? Number(total_stamps) : Number(open_stamps)}/{Number(total_stamps)}
+        </div>}
         <div className="get-free-coupon-bottom">
           <p>Loyalty Card <span>VALID UNTIL <b>{end_date}</b></span></p>
         </div>
 
         {/* Stamp counter indicator */}
-       {remainingTime && <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500'}} >
+       {/* {remainingTime && <div style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', backgroundColor: '#4338CA', color: '#FFFFFF', padding: '0.25rem 0.5rem', borderRadius: '0.375rem', fontSize: '0.875rem', fontWeight: '500'}} >
          {formatTime(timeLeft)}
-       </div>}
+       </div>} */}
+       {remainingTime && (
+  <div style={{
+    position: 'absolute',
+    top: '0.5rem',
+    left: '0.5rem',
+    backgroundColor: '#4338CA',
+    color: '#FFFFFF',
+    padding: '0.25rem 0.5rem',
+    borderRadius: '0.375rem',
+    fontSize: '0.875rem',
+    fontWeight: '500'
+  }}>
+    {formatTime(currentTimeLeft)}
+  </div>
+)}
+
 
       {coupanPopup && (
         <Reward
@@ -83,7 +121,8 @@ const LoyaltyCardImgComponent = ({
           }}
           // timer={allData?.last_stamp_click_time + "00:10:00"}
           timer={getRemainingTime(allData?.last_stamp_click_time, "00:10:00")}
-          countText={allData?.free_items_name || "Task Completed"}
+          countText={`Here is your free ${allData?.free_items_name}` || "Task Completed"}
+          countText2={""}
         />
       )}
 

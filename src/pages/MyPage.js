@@ -13,7 +13,7 @@ import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteLoyalityCard, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
+import { deleteLoyalityCard, getAllActivatedLoyalityCards, getAllClients, getAllLoyalityCards, getClientInfo, unfollowClient } from "../store/slices/clientSlice";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
 import { Button, Modal, Spinner } from "react-bootstrap";
@@ -56,7 +56,7 @@ const MyPage = () => {
 
   const dispatch = useDispatch()
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const { allClientsData, clientData, loyalityCards, loading } = useSelector((state) => state.client)
+  const { allClientsData, clientData, loyalityCards, activatedLoyalityCard, loading } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData, coupanReward } = useSelector((state) => state.coupans);
 
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
@@ -76,6 +76,7 @@ const MyPage = () => {
       dispatch(getClientInfo({ client_table_id: activeClient, user_id: user_id }));
       dispatch(getAllClients({ client_table_id: activeClient, user_table_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
+      dispatch(getAllActivatedLoyalityCards({ client_table_id: activeClient, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: activeClient ?? client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: activeClient ?? client_id, user_table_id: user_id }));
 
@@ -107,10 +108,16 @@ const MyPage = () => {
   // For Loyality Delete
   const handleLoyalityDelete = async (id) => {
     try {
-
-      await dispatch(deleteLoyalityCard({ 'loyalty_card_table_id': id, client_table_id: client_id, 'user_table_id': user_id }));
+      const cardFromLoyalty = loyalityCards.find(card => card.loyalty_card_table_id == id) || activatedLoyalityCard.find(card => card.loyalty_card_table_id == id);
+      // Fallback to 0 if either object or total_open_stamps is not found
+      const totalOpenStamps = cardFromLoyalty?.total_open_stamps;
+      const totalStamps = cardFromLoyalty?.number_of_stamps;
+      const minStamps = Math.min(totalOpenStamps, totalStamps);
+      
+      await dispatch(deleteLoyalityCard({ 'loyalty_card_table_id': id, client_table_id: client_id, 'user_table_id': user_id, opned_stamp : minStamps }));
       // Dispatch getAllLoyalityCards after delete is successful
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getAllActivatedLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       setShowDeleted(false);
     } catch (error) {
       console.error("Error deleting loyalty card:", error);
@@ -147,6 +154,7 @@ const MyPage = () => {
 
         // Fetch the updated loyalty cards and coupons for the newly active client
         dispatch(getAllLoyalityCards({ client_table_id: newActiveClient, user_id: user_id }));
+        dispatch(getAllActivatedLoyalityCards({ client_table_id: newActiveClient, user_id: user_id }));
         dispatch(getAllCoupans({ client_table_id: newActiveClient, user_table_id: user_id }));
         dispatch(getAllActivatedCoupans({ client_table_id: newActiveClient, user_table_id: user_id }));
       }
@@ -306,6 +314,41 @@ const MyPage = () => {
                 </button>
               )}
             </div>
+
+            <div style={{
+              display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+              width: "98%", alignItems: "center"
+            }} >
+              {allClientsData?.length > 0 && activatedLoyalityCard?.map((item, index) => {
+                return (
+                  <div style={{ display: "flex", gap: "5px", alignItems: "center", width: "100%" }} key={index} >
+                    <LoyaltyCardImgComponent
+                      allData={item}
+                      completed_status = {1}
+                      campaign_name={item?.campaign_name}
+                      free_item={item?.free_items_name}
+                      total_stamps={null}
+                      open_stamps={null}
+                      end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
+                      url={"/mypage"}
+                    />
+                    {/* <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => {
+                      setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
+                      setShowDeleted(true); // Open the delete modal 
+                    }} /> */}
+                  </div>
+                );
+              })}
+
+              {activatedLoyalityCard?.length > 2 && (
+                <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
+                  {showAllLoyality ? "See Less" : "See More"}
+                  <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
+                </button>
+              )}
+            </div>
+
+            
 
             {/* All Coupans*/}
 

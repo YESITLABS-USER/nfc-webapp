@@ -48,6 +48,8 @@ export const getClientInfo = (formData) => API.post(`/api/v1/get-client-detail`,
 // export const getAllLoyalityCards = (formData) => API.post(`/api/v1/get-all-loyality-cards`,formData);
 export const getAllLoyalityCards = (formData) => API.post(`/api/v2/get-all-loyality-cards`,formData);
 
+export const getAllActivatedLoyalityCards = (formData) => API.post(`/api/v2/loyality-card-10-min`,formData);
+
 
 export const getAllCoupans = (formData) => API.post(`/api/v2/show-all-coupon-of-particular-client-on-particular-location`,formData);
 

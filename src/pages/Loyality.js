@@ -9,7 +9,7 @@ import Reward from "../components/Reward";
 import { useLocation, useNavigate } from "react-router-dom";
 import Line22 from "../assets/icons/line222.png";
 import { useDispatch } from "react-redux";
-import { getAllLoyalityCards, reedemLoyalityCard } from "../store/slices/clientSlice";
+import { getAllActivatedLoyalityCards, getAllLoyalityCards, reedemLoyalityCard } from "../store/slices/clientSlice";
 import { getMySQLFormattedTimestamp, getRemainingTime } from "../assets/common";
 
 const Loyality = () => {
@@ -58,6 +58,7 @@ const Loyality = () => {
       const client_id = localStorage.getItem("client_id");
 
       dispatch(getAllLoyalityCards({client_table_id: client_id, "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id}))
+      dispatch(getAllActivatedLoyalityCards({client_table_id: client_id, "user_id": JSON.parse(localStorage.getItem("nfc-app"))?.user_id}))
     }
   }
 

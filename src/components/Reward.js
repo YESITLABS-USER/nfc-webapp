@@ -9,9 +9,9 @@ import header from "../assets/icons/header.png";
 import { parseTime, rewardFormatTime } from "../assets/common";
 import { useDispatch } from "react-redux";
 import { getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
-import { getAllLoyalityCards } from "../store/slices/clientSlice";
+import { getAllActivatedLoyalityCards, getAllLoyalityCards } from "../store/slices/clientSlice";
 
-const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }) => {
+const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, couponData }) => {
   const dispatch = useDispatch();
   const client_id = localStorage.getItem("client_id");
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
@@ -33,6 +33,7 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }
     if (timeLeft == 0 && !hasDispatched.current) {
       hasDispatched.current = true;
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getAllActivatedLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
     }
@@ -121,7 +122,7 @@ const Reward = ({ showPopup, onClose, countText, clientLogo, timer, couponData }
               {countText || `3 / 9`}
             </p>
             <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", textTransform: "uppercase", marginTop: "auto" }} >
-              {countText || `3 / 9`}
+              {countText2 || ""}
             </p>
           </div>
           <div className="reward-bottom">

@@ -16,7 +16,7 @@ import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
 import CoupanComponent from "../components/CoupanComponent";
 import { useDispatch, useSelector } from "react-redux";
-import {  addClientInUser, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
+import {  addClientInUser, getAllActivatedLoyalityCards, getAllLoyalityCards, getClientInfo } from "../store/slices/clientSlice";
 import { Button, Modal } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
@@ -33,7 +33,7 @@ const Dashboard = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
 
-  const { clientData, loyalityCards } = useSelector((state) => state.client)
+  const { clientData, loyalityCards, activatedLoyalityCard } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -57,6 +57,7 @@ const Dashboard = () => {
     } else {
       dispatch(getClientInfo({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllLoyalityCards({ client_table_id: client_id, user_id: user_id }));
+      dispatch(getAllActivatedLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
       if(localStorage.getItem("scan-count")){
@@ -297,6 +298,34 @@ const Dashboard = () => {
             </button>
           )}
         </div>
+
+        {/* Activated Loyality Card */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px",paddingTop:"10px", borderRadius: "10px",
+          width: "90%", alignItems: "center", }} >
+          {activatedLoyalityCard && activatedLoyalityCard?.map((item, index) => {
+            return (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }} key={index} >
+                <LoyaltyCardImgComponent
+                  allData={item}
+                  completed_status = {1}
+                  clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null}
+                  campaign_name={item?.campaign_name}
+                  free_item={item?.free_items_name}
+                  total_stamps={null}
+                  open_stamps={null}
+                  end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
+                />
+              </div>
+            );
+          })}
+
+          {activatedLoyalityCard?.length > 2 && (
+            <button style={{ padding: "10px 20px", backgroundColor: "#25026E", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold", }} onClick={handleSeeMore} >
+              {showAllLoyality ? "See Less" : "See More"}
+              <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
+            </button>
+          )}
+        </div>
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
@@ -471,11 +500,13 @@ const Dashboard = () => {
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") :"00:10:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
           onClose={() => {
             setCoupanPopup(false);
-             dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
+            //  dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
           }}
           countText={`Here is your ${(currentCoupanData?.coupon_type_content?.[0]?.free_item) || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage + "% off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.discount_value + "off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value + "off Coupon") || currentCoupanData?.coupon_name  || "Coupon from olo"} `}
+
+          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `DOES NOT INCLUDE ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
         />
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />

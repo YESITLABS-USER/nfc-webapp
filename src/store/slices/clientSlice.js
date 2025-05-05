@@ -58,6 +58,15 @@ export const getAllLoyalityCards = createAsyncThunk("client/getAllLoyalityCards"
   }
 });
 
+export const getAllActivatedLoyalityCards = createAsyncThunk("client/getAllActivatedLoyalityCards", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.getAllActivatedLoyalityCards(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
 export const reedemLoyalityCard = createAsyncThunk("client/reedemLoyalityCard", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.reedemLoyalityCard(formData);
@@ -90,6 +99,7 @@ const clientSlice = createSlice({
     clientData: null,
     allClientsData: null,
     loyalityCards: [],
+    activatedLoyalityCard: [],
     loyalityReward: null,
     couponLoading: false,
     error: null,
@@ -163,6 +173,20 @@ const clientSlice = createSlice({
         state.loyalityCards = action.payload?.data;
       })
       .addCase(getAllLoyalityCards.rejected, (state, action) => {
+        state.couponLoading = false;
+        state.error = action.payload?.message || "Failed to fetch loyality cards";
+      }) 
+
+      // Get all loyality cards
+      .addCase(getAllActivatedLoyalityCards.pending, (state) => {
+        state.couponLoading = true;
+        state.error = null;
+      })
+      .addCase(getAllActivatedLoyalityCards.fulfilled, (state, action) => {
+        state.couponLoading = false;
+        state.activatedLoyalityCard = action.payload?.data;
+      })
+      .addCase(getAllActivatedLoyalityCards.rejected, (state, action) => {
         state.couponLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
       }) 

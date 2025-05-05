@@ -115,7 +115,7 @@ const LoyaltyCardImgComponent = ({
       {coupanPopup && (
         <Reward
           showPopup={coupanPopup} 
-          clientLogo={allData?.clientLogo}
+          clientLogo={allData?.free_item_logo && (process.env.REACT_APP_BACKEND_URL+"/"+allData?.free_item_logo)}
           onClose={() => {
             setCoupanPopup(!coupanPopup); 
           }}

@@ -9,6 +9,7 @@ import { updateUser } from "../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { getAllCoupans } from "../store/slices/coupanSlice";
 import { Button, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const CopsActivation = ({
   isModalOpen,
@@ -25,21 +26,27 @@ const CopsActivation = ({
   const dispatch = useDispatch();
 
   const [userDob, setUserDob] = useState(null);
+  const [dobError, setDobError] = useState(null);
   const [showBirthdayPopup, setShowBirthdayPopup] = useState(false);
 
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
   const client_id = localStorage.getItem("client_id");
 
   const handleDobUpdate = async () => {
-    try {
-      const response = await dispatch(updateUser({ date_of_birth: userDob, id: user_id }));
-      if (response?.payload?.status == "success") {
-        setShowBirthdayPopup(true);
-
-        dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+    if(userDob){
+      try {
+        
+        const response = await dispatch(updateUser({ date_of_birth: userDob, id: user_id }));
+        if (response?.payload?.status == "success") {
+          setShowBirthdayPopup(true);
+  
+          dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
+        }
+      } catch (error) {
+        console.error("DOB update failed", error);
       }
-    } catch (error) {
-      console.error("DOB update failed", error);
+    } else {
+      setDobError(true)
     }
   };
 
@@ -160,7 +167,7 @@ const CopsActivation = ({
                 <input type="date" placeholder="DD/MM/YYYY" maxLength="10" 
                 style={{ padding: "8px 12px", border: "1px solid #2A0181", borderRadius: "10px", fontSize: "16px",
                   width: "200px", marginBottom: "10px", borderColor: "#2A0181", }} onChange={(e) => setUserDob(e.target.value)}/>
-
+                {dobError && <div style={{color:"red", fontSize:"14px"}}> DOB is required</div>}
                 <div style={{ marginTop: "20px" }}>
                   <button style={{ padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none",
                       borderRadius: "40px", cursor: "pointer", fontWeight: "bold", width: "40%" }} onClick={handleDobUpdate} 
@@ -172,7 +179,7 @@ const CopsActivation = ({
             <button style={{ padding: "8px 12px", backgroundColor: ("#2A0181" || "#6c757d"), color: "white", border: "none", 
                 borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }}
               onClick={() => {
-                if (ageLimitaion) {
+                if (ageLimitaion && currentCoupanData.campaign_age_restriction_start_age > 15) {
                   setAgeModal(true);
                   setIsModalOpen(false);
                 } else {

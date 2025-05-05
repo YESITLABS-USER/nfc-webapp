@@ -167,7 +167,7 @@ const CopsActivation = ({
                 <input type="date" placeholder="DD/MM/YYYY" maxLength="10" 
                 style={{ padding: "8px 12px", border: "1px solid #2A0181", borderRadius: "10px", fontSize: "16px",
                   width: "200px", marginBottom: "10px", borderColor: "#2A0181", }} onChange={(e) => setUserDob(e.target.value)}/>
-                {dobError && <div style={{color:"red", fontSize:"14px"}}> DOB is required</div>}
+                {dobError && <div style={{color:"red", fontSize:"14px"}}> DOB is required*</div>}
                 <div style={{ marginTop: "20px" }}>
                   <button style={{ padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none",
                       borderRadius: "40px", cursor: "pointer", fontWeight: "bold", width: "40%" }} onClick={handleDobUpdate} 

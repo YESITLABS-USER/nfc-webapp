@@ -501,7 +501,16 @@ const MyPage = () => {
         <Reward
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") : "00:10:00"} clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
           onClose={() => setCoupanPopup(false)}
-          countText={`Here is your ${(currentCoupanData?.coupon_type_content?.[0]?.free_item) || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage + "% off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.discount_value + "off Coupon") || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value + "off Coupon") || currentCoupanData?.coupon_name || "Coupon from olo"} `}
+          countText={`Here is your ${
+            currentCoupanData?.coupon_type_content?.[0]?.free_item
+              || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage && `${currentCoupanData.coupon_type_content[0].discount_percentage}% off Coupon`)
+              || (currentCoupanData?.coupon_type_content?.[0]?.discount_value && `${currentCoupanData.coupon_type_content[0].discount_value} off Coupon`)
+              || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value && `${currentCoupanData.coupon_type_content[0].fixedAmount_value} off Coupon`)
+              || currentCoupanData?.coupon_name
+              || "Coupon from olo"
+          }`}
+
+          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `DOES NOT INCLUDE ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
         />
       )}
 

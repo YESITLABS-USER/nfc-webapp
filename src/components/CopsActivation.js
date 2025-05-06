@@ -179,7 +179,8 @@ const CopsActivation = ({
             <button style={{ padding: "8px 12px", backgroundColor: ("#2A0181" || "#6c757d"), color: "white", border: "none", 
                 borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }}
               onClick={() => {
-                if (ageLimitaion && currentCoupanData.campaign_age_restriction_start_age > 15) {
+                // if (ageLimitaion && currentCoupanData.campaign_age_restriction_start_age > 15) {
+                if (currentCoupanData.campaign_age_restriction_start_age >= 14 && currentCoupanData?.user_age == null) {
                   setAgeModal(true);
                   setIsModalOpen(false);
                 } else {

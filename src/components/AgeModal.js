@@ -100,7 +100,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if (!error && value) {
       const [day, month, year] = value.split("/");
 
@@ -122,20 +122,20 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
       }
       // Show age result
       if (age >= 18 || currentData?.dob_coupon && age >= 13) {
-        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
+        await dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setIsModalOpen(false);
         callBack({...currentData, validAge:true, is18: true});
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 200);
       } else {
-        dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
+        await dispatch(updateUser({date_of_birth: convertDateFormat(value), id: user_id}))
         setTimeout(() => {
           window.location.reload();
-        }, 1000);        
+        }, 200);        
         setCancelModal(true);
         setIsModalOpen(false);
-        callBack({...currentData, validAge:false, is18: false});
+        // callBack({...currentData, validAge:false, is18: false});
       }
     }
   };

@@ -73,7 +73,7 @@ const coupanSlice = createSlice({
       })
       .addCase(getAllCoupans.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch Coupans";
+        state.error = action.payload?.message || "Failed to fetch Coupons";
       }) 
 
       // Get all Coupans
@@ -87,7 +87,7 @@ const coupanSlice = createSlice({
       })
       .addCase(getAllActivatedCoupans.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch Coupans";
+        state.error = action.payload?.message || "Failed to fetch Coupons";
       }) 
 
       // reedem Coupans
@@ -104,7 +104,7 @@ const coupanSlice = createSlice({
       })
       .addCase(activateCoupan.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch Coupans";
+        state.error = action.payload?.message || "Failed to fetch Coupons";
       }) 
       // reedem Coupans
       .addCase(removeCoupan.pending, (state) => {
@@ -113,12 +113,12 @@ const coupanSlice = createSlice({
       })
       .addCase(removeCoupan.fulfilled, (state, action) => {
         state.loading = false;
-        toast.success("Coupan card deleted successfully!");
+        toast.success("Coupon card deleted successfully!");
       })
       .addCase(removeCoupan.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch Coupans";
-        toast.error("Failed to delete coupan card!");
+        state.error = action.payload?.message || "Failed to fetch Coupons";
+        toast.error("Failed to delete coupon card!");
       }) 
       
   },

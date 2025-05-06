@@ -356,7 +356,7 @@ const MyPage = () => {
           <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto" }}>
             {(coupansData.length == 0 && activatedCoupanData?.length == 0) ? (<p style={{ textAlign: "center" }}>No coupon available</p>) : (
               allClientsData?.length > 0 && coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-                <div style={{ width: "98%", position: "relative", display: "flex", alignItems: "center", marginBottom: "20px"}} key={index} >
+                <div style={{ width: "95%", position: "relative", display: "flex", alignItems: "center", marginBottom: "20px"}} key={index} >
 
                   <CoupanComponent
                     key={index}
@@ -375,7 +375,7 @@ const MyPage = () => {
                       }
                     }}
                   />
-                  <MdDelete style={{ fontSize: "25px", color: "red", float: 'inline-end', position: 'absolute', bottom: "auto", right: "-15px" }} onClick={() => {
+                  <MdDelete style={{ fontSize: "25px", color: "red", float: 'inline-end', position: 'absolute', bottom: "auto", right: "-25px" }} onClick={() => {
                     setShowCoupanDeletepopup(true);
                     setCurrentCoupanData(coupan);
                   }} />

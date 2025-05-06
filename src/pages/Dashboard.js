@@ -331,6 +331,7 @@ const Dashboard = () => {
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
           {(coupansData.length == 0 && activatedCoupanData?.length == 0 && !couponLoading) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
+              <div style={{marginBottom: "20px"}}>    
               <CoupanComponent
                 key={index}
                 allData={coupan}
@@ -348,6 +349,7 @@ const Dashboard = () => {
                   }
                 }}
               />
+              </div>
             ))
           )}
 

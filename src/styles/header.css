@@ -134,6 +134,7 @@ img.profile-image {
   display: flex;
   margin-bottom: 20px;
   width: 100%;
+  position: relative;
   /* by Karan */
 
   &:last-child {

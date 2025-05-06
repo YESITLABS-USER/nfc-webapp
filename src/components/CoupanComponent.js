@@ -88,13 +88,14 @@ const CoupanComponent = ({ allData, clientData, occupied, onClick }) => {
   }, [allData]);
 
   return (
-    <>
-      <div style={{ position: "relative" }}>
-        {timeLeft > 0 && (
+    <div style={{position: 'relative', marginBottom: "0px", width: "100%", display: "flex", alignItems: "center"}}>
+      {/* <div style={{ position: "relative" }}> */}
+      {timeLeft > 0 && (
           <div
             style={{
               position: "absolute",
               right: 0,
+              top: 0,
               backgroundColor: "#4338CA",
               color: "#FFFFFF",
               padding: "0.25rem 0.5rem",
@@ -107,8 +108,7 @@ const CoupanComponent = ({ allData, clientData, occupied, onClick }) => {
             {formatTime(timeLeft)}
           </div>
         )}
-      </div>
-
+      {/* </div> */}
       <div
         className="coupon-in"
         style={{
@@ -166,7 +166,7 @@ const CoupanComponent = ({ allData, clientData, occupied, onClick }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

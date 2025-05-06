@@ -104,38 +104,77 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-GB', options); 
 };
 
-  const addValidity = (lastActivationDate, validitySelectNumber, validitySelectTimeUnit) => {
-    // Convert last_activation_date to a JavaScript Date object
-    const lastActivationDateObj = new Date(lastActivationDate?.replace(" ", "T"));
+  // const addValidity = (lastActivationDate, validitySelectNumber, validitySelectTimeUnit) => {
+  //   // Convert last_activation_date to a JavaScript Date object
+  //   const lastActivationDateObj = new Date(lastActivationDate?.replace(" ", "T"));
 
-    // Adjust the date based on the time unit
+  //   // Adjust the date based on the time unit
+  //   switch (validitySelectTimeUnit) {
+  //     case "day":
+  //       lastActivationDateObj.setDate(lastActivationDateObj.getDate() + Number(validitySelectNumber));
+  //       break;
+  //     case "week":
+  //       lastActivationDateObj.setDate(lastActivationDateObj.getDate() + (Number(validitySelectNumber) * 7));
+  //       break;
+  //     case "month":
+  //       lastActivationDateObj.setMonth(lastActivationDateObj.getMonth() + Number(validitySelectNumber));
+  //       break;
+  //     case "hour":
+  //       lastActivationDateObj.setHours(lastActivationDateObj.getHours() + Number(validitySelectNumber));
+  //       break;
+  //     case "minute":
+  //       lastActivationDateObj.setMinutes(lastActivationDateObj.getMinutes() + Number(validitySelectNumber));
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+  //   // Format the new date as "YYYY-MM-DD HH:mm:ss"
+  //   const newDate = lastActivationDateObj.toISOString().replace('T', ' ').substring(0, 19);
+    
+  //   return newDate;
+  // };
+
+  const addValidity = (lastActivationDate, validitySelectNumber, validitySelectTimeUnit) => {
+    // Parse date in UTC (assumes input is in "YYYY-MM-DD HH:mm:ss" format)
+    const parts = lastActivationDate.split(/[- :]/);
+    const lastActivationDateObj = new Date(Date.UTC(
+      parts[0], // year
+      parts[1] - 1, // month (0-indexed)
+      parts[2], // day
+      parts[3], // hour
+      parts[4], // minute
+      parts[5] // second
+    ));
+  
+    // Adjust the date based on the time unit (using UTC methods)
     switch (validitySelectTimeUnit) {
       case "day":
-        lastActivationDateObj.setDate(lastActivationDateObj.getDate() + Number(validitySelectNumber));
+        lastActivationDateObj.setUTCDate(lastActivationDateObj.getUTCDate() + Number(validitySelectNumber));
         break;
       case "week":
-        lastActivationDateObj.setDate(lastActivationDateObj.getDate() + (Number(validitySelectNumber) * 7));
+        lastActivationDateObj.setUTCDate(lastActivationDateObj.getUTCDate() + (Number(validitySelectNumber) * 7));
         break;
       case "month":
-        lastActivationDateObj.setMonth(lastActivationDateObj.getMonth() + Number(validitySelectNumber));
+        lastActivationDateObj.setUTCMonth(lastActivationDateObj.getUTCMonth() + Number(validitySelectNumber));
         break;
       case "hour":
-        lastActivationDateObj.setHours(lastActivationDateObj.getHours() + Number(validitySelectNumber));
+        lastActivationDateObj.setUTCHours(lastActivationDateObj.getUTCHours() + Number(validitySelectNumber));
         break;
       case "minute":
-        lastActivationDateObj.setMinutes(lastActivationDateObj.getMinutes() + Number(validitySelectNumber));
+        lastActivationDateObj.setUTCMinutes(lastActivationDateObj.getUTCMinutes() + Number(validitySelectNumber));
         break;
       default:
         break;
     }
-
-    // Format the new date as "YYYY-MM-DD HH:mm:ss"
-    const newDate = lastActivationDateObj.toISOString().replace('T', ' ').substring(0, 19);
+  
+    // Format as "YYYY-MM-DD HH:mm:ss" in UTC
+    const pad = (n) => n.toString().padStart(2, '0');
+    const newDate = `${lastActivationDateObj.getUTCFullYear()}-${pad(lastActivationDateObj.getUTCMonth() + 1)}-${pad(lastActivationDateObj.getUTCDate())} ${pad(lastActivationDateObj.getUTCHours())}:${pad(lastActivationDateObj.getUTCMinutes())}:${pad(lastActivationDateObj.getUTCSeconds())}`;
     
     return newDate;
   };
-
-
+  
   const formatUrl = (url) => {
     if (url?.startsWith('http://') || url?.startsWith('https://')) {
       return url;

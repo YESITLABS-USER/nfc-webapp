@@ -18,12 +18,15 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
 
   useEffect(() => {
     if(isModalOpen){
-      if(currentData?.campaign_age_restriction_start_age >= currentData?.user_age && currentData?.user_age != null){
+      if(currentData?.campaign_age_restriction_start_age >= currentData?.user_age && currentData?.user_age != null && currentData?.campaign_age_restriction_start_age != 13){
         setCancelModal(true);
         setIsModalOpen(false)
       }
+    } 
+    if(currentData?.campaign_age_restriction_start_age == 13){
+      setIsModalOpen(false)
     }
-  },[isModalOpen])
+  },[isModalOpen,currentData])
 
   useEffect(() => {
     if (isModalOpen) {

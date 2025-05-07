@@ -103,7 +103,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
             size={30}
             style={{ marginLeft: "20px" }}
             onClick={() => {
-              navigate(message === "signup" ? "/signup" : "/");
+              navigate(message === "signup" ? "/" : "/login");
             }}
           />
         ) : (

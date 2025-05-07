@@ -185,6 +185,9 @@ const CopsActivation = ({
                 if (currentCoupanData.campaign_age_restriction_start_age >= 14 && currentCoupanData?.user_age == null) {
                   setAgeModal(true);
                   setIsModalOpen(false);
+                } else if(currentCoupanData.campaign_age_restriction_start_age >= currentCoupanData?.user_age && currentCoupanData?.campaign_age_restriction_start_age != 13) {
+                  setAgeModal(true);
+                  setIsModalOpen(false);
                 } else {
                   callBack(currentCoupanData);
                 }

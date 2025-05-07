@@ -326,11 +326,44 @@ const Dashboard = () => {
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-          {(coupansData.length == 0 && activatedCoupanData?.length == 0 && !couponLoading) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
+        {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
+            <p style={{ textAlign: "center" }}>No coupon available</p>
+          ) : (
+            [...coupansData]
+              .sort((a, b) => {
+                const aIsBlur = a.show_blur_dob === 1 || a.show_blur_validity === 1;
+                const bIsBlur = b.show_blur_dob === 1 || b.show_blur_validity === 1;
+                return aIsBlur - bIsBlur; // false < true, so blur items go to the end
+              })
+              .slice(0, showAll ? coupansData.length : 3)
+              .map((coupan, index) => (
+                <div style={{ marginBottom: "20px" }} key={index}>
+                  <CoupanComponent
+                    allData={coupan}
+                    clientData={clientData}
+                    onClick={() => {
+                      setCurrentCoupanData(coupan);
+                      if (
+                        (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) ||
+                        (coupan?.dob_coupon !== 1 && !(coupan?.user_date_of_birth))
+                      ) {
+                        setFreeCops(true);
+                        setAddlimitation(true);
+                      } else {
+                        setFreeCops(true);
+                        setAddlimitation(false);
+                      }
+                    }}
+                  />
+                </div>
+              ))
+          )}
+
+          {/* {(coupansData.length == 0 && activatedCoupanData?.length == 0 && !couponLoading) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
               <div style={{marginBottom: "20px"}} key={index}>    
               <CoupanComponent
-               allData={coupan}
+                allData={coupan}
                 clientData={clientData}
                 onClick={() => {
                   // coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
@@ -346,7 +379,7 @@ const Dashboard = () => {
               />
               </div>
             ))
-          )}
+          )} */}
 
           {activatedCoupanData.length == 0 ? "" : (
             activatedCoupanData.map((coupan, index) => (

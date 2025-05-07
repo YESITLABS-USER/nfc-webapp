@@ -354,12 +354,34 @@ const MyPage = () => {
 
           </div>
           <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto" }}>
-            {(coupansData.length == 0 && activatedCoupanData?.length == 0) ? (<p style={{ textAlign: "center" }}>No coupon available</p>) : (
-              allClientsData?.length > 0 && coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-                <div style={{ width: "95%", position: "relative", display: "flex", alignItems: "center", marginBottom: "20px"}} key={index} >
+          {(coupansData.length === 0 && activatedCoupanData?.length === 0) ? (
+            <p style={{ textAlign: "center" }}>No coupon available</p> ) : 
+            (
+              allClientsData?.length > 0 && [
+                ...coupansData.filter(c => !(c.show_blur_dob === 1 || c.show_blur_validity === 1)),
+                ...coupansData.filter(c => c.show_blur_dob === 1 || c.show_blur_validity === 1)].slice(0, showAll ? coupansData.length : 3).map((coupan, index) => (
+                  <div style={{ width: "95%", position: "relative", display: "flex", alignItems: "center", marginBottom: "20px"}} key={index} >
+                    <CoupanComponent allData={coupan} clientData={clientData} occupied={coupan?.occupied}
+                      onClick={() => { 
+                        setCurrentCoupanData(coupan);
+                        if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon !== 1 && !coupan?.user_date_of_birth) ) {
+                          setFreeCops(true);
+                          setAddlimitation(true);
+                          } else {
+                            setFreeCops(true);
+                            setAddlimitation(false);
+                            }
+                    }} />
+                    <MdDelete style={{ fontSize: "25px", color: "red", float: 'inline-end', position: 'absolute', right: "-25px" }} onClick={() => { 
+                      setShowCoupanDeletepopup(true);
+                      setCurrentCoupanData(coupan);
+                      }}/>
+                  </div>
+                ))
+            )}
 
+{/* <div style={{ width: "95%", position: "relative", display: "flex", alignItems: "center", marginBottom: "20px"}} key={index} >
                   <CoupanComponent
-                    key={index}
                     allData={coupan}
                     clientData={clientData}
                     occupied={coupan?.occupied}
@@ -379,9 +401,7 @@ const MyPage = () => {
                     setShowCoupanDeletepopup(true);
                     setCurrentCoupanData(coupan);
                   }} />
-                </div>
-              ))
-            )}
+                </div> */}
             {activatedCoupanData.length == 0 ? "" : (
               activatedCoupanData.map((coupan, index) => (
                 <>

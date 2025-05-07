@@ -3,42 +3,68 @@ import CustomButton from "./custom/CustomButton";
 
 import OtpInput from "react-otp-input";
 import { IoIosCloseCircle } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginVerifyOtp, resendOtp, verifyOtp } from "../store/slices/userSlice";
 const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
-  const closeModal = () => {setIsModalOpen(false); setOtp("")};
-  const [isDisable, setDisable] = useState(false);
-
-  const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
-  const { otpError } = useSelector((state) => state.user)
-
+  const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(59); // Initial time in seconds
+  const [isDisable, setDisable] = useState(false);
+  const { otpError } = useSelector((state) => state.user)
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setOtp("");
+  };
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      setDisable(false); // Enable when countdown ends
-      return;
-    }
+  // useEffect(() => {
+  //   if (timeLeft === 0) {
+  //     setDisable(false); // Enable when countdown ends
+  //     return;
+  //   }
 
-    setDisable(true); // Disable while counting down
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer); // Stop the timer when it reaches 0
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+  //   setDisable(true); // Disable while counting down
+  //   const timer = setInterval(() => {
+  //     setTimeLeft((prevTime) => {
+  //       if (prevTime <= 1) {
+  //         clearInterval(timer); // Stop the timer when it reaches 0
+  //         return 0;
+  //       }
+  //       return prevTime - 1;
+  //     });
+  //   }, 1000);
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+  //   // Cleanup interval on component unmount
+  //   return () => clearInterval(timer);
+  // }, [timeLeft]);
 
   ///
 
+  useEffect(() => {
+    let timer;
+  
+    if (isModalOpen) {
+      setTimeLeft(59); // Reset timer when modal opens
+      setDisable(true);
+  
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            setDisable(false);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+  
+    return () => {
+      clearInterval(timer); // Clear on unmount or when modal closes
+    };
+  }, [isModalOpen]);
+
+  
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden"; // Disable scroll
@@ -51,6 +77,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
       document.body.style.overflow = "auto";
     };
   }, [isModalOpen]);
+  
   const handleSubmit = () => {
     // const finalData = {"otp": otp, "phone_number": data?.phone_number}
     const finalData = {"otp": otp, ...data};
@@ -159,7 +186,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
 
             <div style={{ fontSize: "16px", color: "#000000", marginTop: 10 }}>
               <p style={{ margin: "0", color: "#565656" }}>
-                Didn't receive the verification code?{" "}
+                Didn't receive the verification code?
                 <strong
                   style={{
                     fontWeight: isDisable ? "normal" : "bold",
@@ -171,15 +198,14 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                       dispatch(resendOtp({phone_number : data?.phone_number}));
                       setTimeLeft(59);
                     }
-                  }}
-                >
+                  }} >
                   Resend
                 </strong>
               </p>
              {timeLeft > 0 && <p style={{ margin: "0", fontSize: "14px", color: "#565656" }}>
                 Resend verification code in{" "}
                 <span style={{ color: "#2B0186" }}>
-                  {timeLeft < 10 ? `0${timeLeft}` : timeLeft} sec
+                  {timeLeft < 0 ? `0${timeLeft}` : timeLeft} sec
                 </span>
               </p>}
             </div>

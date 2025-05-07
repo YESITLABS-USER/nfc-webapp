@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AddToCardImg from "../assets/icons/addToHome.svg";
 import AddToCardButton from "../assets/icons/button.svg";
 import { IoIosCloseCircle } from "react-icons/io";
+import logo from "../assets/logo_white.png"
 
 const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -139,12 +140,13 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
               style={{ width: "auto", height: "auto" }}
             />
 
-            <img
+            <button style={{backgroundColor:"rgb(42, 1, 129)", padding:"6px",width:"78%",fontSize:"15px", color:"white", borderRadius:"50px", marginTop:20}}> Add <img src={logo} style={{maxWidth:"25px", marginRight:"-9px", marginTop:"-10px"}} onClick={handleInstallClick}/> agis Shortcut</button>
+            {/* <img
               src={AddToCardButton}
               alt="Start Pattern"
               style={{ width: "auto", height: "auto", marginTop: 20 }}
               onClick={handleInstallClick}
-            />
+            /> */}
           </div>
         </div>
       )}

@@ -8,9 +8,6 @@ import OLO from "../assets/icons/header.png";
 import OpeingHrs from "../assets/icons/openingHrs.svg";
 import Line22 from "../assets/icons/line222.png";
 import ThickLine from "../assets/icons/thickLine.png";
-import greenValueImg from "../assets/icons/img1.svg";
-import experienceImg from "../assets/icons/img2.svg";
-import meat from "../assets/icons/img3.svg";
 import CopsActivation from "../components/CopsActivation";
 import BottomSheet from "../components/BottomSheet";
 import Reward from "../components/Reward";
@@ -331,12 +328,10 @@ const Dashboard = () => {
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
           {(coupansData.length == 0 && activatedCoupanData?.length == 0 && !couponLoading) ? (<p style={{textAlign:"center"}}>No coupon available</p>) : (
             coupansData.slice(0, showAll ? coupansData?.length : 3).map((coupan, index) => (
-              <div style={{marginBottom: "20px"}}>    
+              <div style={{marginBottom: "20px"}} key={index}>    
               <CoupanComponent
-                key={index}
-                allData={coupan}
+               allData={coupan}
                 clientData={clientData}
-                occupied={coupan?.occupied}
                 onClick={() => {
                   // coupan?.coupon_last_activate_date_time != null ? setCoupanPopup(true) : setCoupanPopup(false)
                   setCurrentCoupanData(coupan);
@@ -360,7 +355,6 @@ const Dashboard = () => {
                 key={index}
                 allData={coupan}
                 clientData={clientData}
-                occupied={coupan?.occupied}
                 onClick={() => {
                   coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
                   setCurrentCoupanData(coupan);

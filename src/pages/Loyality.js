@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import OnboardHeader from "../components/OnboardHeader";
-import starIcon from "../assets/icons/startPattern.png";
+// import starIcon from "../assets/icons/startPattern.png";
+import logo from "../assets/logo_black.png"
 import loyality_background from "../assets/images/loyality_bg.png";
 import "../styles/loyality.css";
 import { Button } from "react-bootstrap";
@@ -91,7 +92,7 @@ const Loyality = () => {
                   <div className="loyality-item-inner">
                     <div className="loyality-item-front">
                       {isRedeemed ? (
-                        <img src={starIcon} alt="Redeemed" />
+                        <img src={logo} alt="Redeemed" style={{backgroundColor:"white"}}/>
                       ) : index + 1 == Number(data?.number_of_stamps) ? (
                         <span
                           style={{

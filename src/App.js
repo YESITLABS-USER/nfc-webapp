@@ -5,6 +5,7 @@ import Logo from "./assets/icons/logo.png";
 import { BrowserRouter as Router } from "react-router-dom";
 import SplashLogo from "./assets/icons/splash-logo.png";
 import AppRoutes from "./AppRoutes";
+// import logo from "./assets/logo_white.png"
 
 function App() {
   const [isMobile, setIsMobile] = useState(false); // State for mobile detection

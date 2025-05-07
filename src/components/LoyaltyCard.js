@@ -80,7 +80,7 @@ const LoyaltyCardImgComponent = ({
         <div className="get-free-coupon-content">
           <div className="inner-wrap-free-coupon">
             {/* <span>{campaign_name}</span> */}
-            <span> {allData?.campaign_name?.length > 50 ? `${allData.campaign_name.slice(0, 50)}...` : allData?.campaign_name} </span>
+            <span> {allData?.campaign_name?.length > 25 ? `${allData.campaign_name.slice(0, 25)}...` : allData?.campaign_name} </span>
 
             <h2>GET FREE <br /> { modifiedFreeItem.length > 15 ? modifiedFreeItem.substring(0, 12) + "..." : modifiedFreeItem}</h2>
             <span>Collect {total_stamps} stamps and get {free_item}.</span>

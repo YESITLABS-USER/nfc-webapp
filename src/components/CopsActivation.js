@@ -124,7 +124,9 @@ const CopsActivation = ({
             <div className="coupon-left">
               <div className={`coupon-left-text ${colorMapping.includes(currentCoupanData?.color_selection) || colorMapping["orange"]} ${currentCoupanData?.color_selection}-text`}>
 
-                <p>{currentCoupanData?.campaign_name || "Beverages coupon"}</p>
+                {/* <p>{currentCoupanData?.campaign_name || "Beverages coupon"}</p> */}
+                <p> {currentCoupanData?.campaign_name?.length > 25 ? `${currentCoupanData.campaign_name.slice(0, 25)}...` : currentCoupanData?.campaign_name} </p>
+
                 <h3> {(currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage) ? `${currentCoupanData?.coupon_type_content?.[0]?.discount_value || currentCoupanData?.coupon_type_content?.[0]?.discount_percentage}%` : "FREE"} </h3>
               </div>
             </div>

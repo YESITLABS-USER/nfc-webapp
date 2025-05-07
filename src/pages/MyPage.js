@@ -353,7 +353,7 @@ const MyPage = () => {
             {/* All Coupans*/}
 
           </div>
-          <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto" }}>
+          <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto", overflowX:"hidden" }}>
           {(coupansData.length === 0 && activatedCoupanData?.length === 0) ? (
             <p style={{ textAlign: "center" }}>No coupon available</p> ) : 
             (

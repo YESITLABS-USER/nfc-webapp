@@ -9,6 +9,8 @@ import SlidingPage from "./SlidingPage";
 const Header = ({ chgName = false, data = null }) => {
   const [showPage, setShowPage] = useState(false);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const lang = localStorage.getItem("language") || "eng";
+
 
   return (
     <div>
@@ -18,16 +20,16 @@ const Header = ({ chgName = false, data = null }) => {
           <Button variant="primary" style={{ backgroundColor: "#2D008D", borderRadius: "10px" }} >
             {chgName === true ? (
               <Link to="/" style={{ textDecoration: "none", color: "white" }} >
-                Sign Up
+                {lang == "eng" ? "Sign Up" : "rekisteröidy"}
               </Link>
             ) : (
               <Link to="/login" style={{ textDecoration: "none", color: "white" }}>
-                Log In
+                {lang == "eng" ? "Log In" : "Kirjaudu Sisään"}
               </Link>
             )}
           </Button>
           <Button variant="secondary" className="coupons-button" style={{ borderRadius: "10px" }} >
-            <span>Coupons</span>
+            <span>{lang == "eng" ? "Coupons" : "Kupongit"}</span>
             {/* <img
               src={Line}
               alt="line"

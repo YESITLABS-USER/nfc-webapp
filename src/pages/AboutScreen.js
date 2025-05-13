@@ -10,6 +10,8 @@ function AboutScreen() {
   const { message } = location.state || {};
   const dispatch = useDispatch();
   const { tagisData, loading } = useSelector((state) => state.aboutTagisAndServices)
+  const lang = localStorage.getItem("language") || "eng";
+ 
 
   useEffect(() => {
     dispatch(getAboutTagis())
@@ -46,7 +48,7 @@ function AboutScreen() {
             marginTop: "10px",
           }} >
           <span style={{ color: "#000000", fontSize: 20, fontWeight: "600" }}> TAGIS </span>
-          <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}> Tap Connect Experience </span>
+          <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}> {lang == "eng" ? "Tap Connect Experience" : "Ei sovellusta, napauta vain!"} </span>
         </div>
       </div>
       <h3 style={{
@@ -56,10 +58,10 @@ function AboutScreen() {
           margin:"15px auto",
           marginTop: "30px",
         }} >
-        About Tagis
+        {lang == "eng" ? "About Tagis" : "Tietoa Tagiksesta"}
       </h3>
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} > Loading... </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} > {lang == "eng" ? "Loading" : "Ladataan"}... </div>
         ) : (
       <div style={{ width: "90%", margin: "0 auto" }} dangerouslySetInnerHTML={{ __html : tagisData?.text }}/> )}
     </div>

@@ -13,6 +13,7 @@ import { formatUrl } from "../assets/common";
 const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
   const currentPage = useLocation();
+  const lang = localStorage.getItem("language") || "eng";
 
   return (
     <div style={{ margin: "10px" }}>
@@ -25,7 +26,7 @@ const SocialMediaAbout = ({ signup, data=null }) => {
           display: "flex",
           flexDirection: "column",
         }} >
-        Social Media
+        {lang == "eng" ? "Social Media" : "Sosiaalinen Media"}
       </span>}
       { (data?.facebook || data?.youtube || data?.instagam || data?.tiktok_link || data?.twitter_link) && 
         <div className="dash-social" style={{ marginTop: "10px" }}>
@@ -88,14 +89,10 @@ const SocialMediaAbout = ({ signup, data=null }) => {
                 textAlign: "center",
               }}
             >
-              About Us
+              {lang == "eng" ? "About Us" : "Tietoa Meistä"}
             </Card.Title>
             <Card.Text style={{ fontSize: "16px", lineHeight: "1.6" }}>
-              Membership in Tagis is completely free and risk-free. You can
-              collect coupons, participate in raffles, and can join fun events
-              like tag hunts. In return, we ask you to review businesses you want
-              to and where you go – helping them improve their services while you
-              enjoy great rewards!
+             {lang == "eng" ? "Membership in Tagis is completely free and risk-free. You can collect coupons, participate in raffles, and can join fun events like tag hunts. In return, we ask you to review businesses you want to and where you go - helping them improve their services while you enjoy great rewards!" : "Tagis-jäsenyys on täysin ilmaista ja riskitöntä. Voit kerätä kuponkeja, osallistua arvontaan ja osallistua hauskoihin tapahtumiin, kuten tunnisteiden metsästykseen. Vastineeksi pyydämme sinua arvioimaan haluamasi yritykset ja minne olet menossa – autamme heitä parantamaan palveluitaan samalla, kun nautit upeista palkkioista!"}
             </Card.Text>
 
             {/* Know More Button */}
@@ -117,7 +114,7 @@ const SocialMediaAbout = ({ signup, data=null }) => {
                 })
               } // Example onClick handler
             >
-              Know more
+              {lang == "eng" ? "Know more" : "Lue Lisää"}
             </Button>
           </Card.Body>
         </Card>

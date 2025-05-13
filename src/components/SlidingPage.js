@@ -10,6 +10,9 @@ const SlidingPage = ({ showPage, setShowPage }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const lang = localStorage.getItem("language") || "eng";
+
   useEffect(() => {
     if (showPage) {
       document.body.style.overflow = "hidden";
@@ -88,7 +91,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/myprofile")}
             >
-              My Profile
+              {lang == "eng" ? "My Profile" : "Omat tiedot"}
             </li>
             <div
               style={{
@@ -104,7 +107,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/mypage")}
             >
-              My Page
+              {lang == "eng" ? "My Page" : "Omat edut"}
             </li>
             <div
               style={{
@@ -120,7 +123,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/aboutService")}
             >
-              About Services
+              {lang == "eng" ? "About Services" : "Palvelut"}
             </li>
             <div
               style={{
@@ -136,7 +139,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/privacy-policy")}
             >
-              Terms and Condition & Privacy Policy
+              {lang == "eng" ? "Terms and Condition & Privacy Policy" : "Käyttöehdot ja Tietosuojakäytäntö" }
             </li>
             <div
               style={{
@@ -152,7 +155,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
               style={{ marginBottom: "10px", margin: 0, cursor: "pointer", fontWeight: "500", fontSize: "15px" }}
               onClick={() => handleNavigation("/contactFaq")}
             >
-              Contact Us & FAQs
+              {lang == "eng" ? "Contact Us & FAQs" : "Ota Yhteyttä & UKK"}
             </li>
             <div
               style={{
@@ -174,7 +177,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
                 setShowPage(false);
               }}
             >
-              Logout
+              {lang == "eng" ? "Logout" : "Kirjaudu Ulos"}
             </li>
           </ul>
         </div>

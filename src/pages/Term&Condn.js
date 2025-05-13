@@ -9,6 +9,7 @@ function TermCondn() {
   const [activeTab, setActiveTab] = useState("privacy");
   const location = useLocation(); 
   const navigate = useNavigate();
+  const lang = localStorage.getItem("language") || "eng";
 
   useEffect(() => {
     if (location.pathname === '/privacy-policy') {
@@ -49,7 +50,7 @@ function TermCondn() {
 
           <div style={{ display: "flex", flexDirection: "column", marginTop: "10px", }} >
             <span style={{ color: "#000000", fontSize: 20, fontWeight: "600" }}> TAGIS </span>
-            <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}> Tap Connect Experience </span>
+            <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}>  {lang == "eng" ? "Tap Connect Experience" : "Ei sovellusta, napauta vain!"} </span>
           </div>
         </div>
         <div style={{ margin: 20 }}>
@@ -60,7 +61,7 @@ function TermCondn() {
                 backgroundColor: activeTab === "privacy" ? "#E7DCFF" : "white",
                 color: activeTab === "privacy" ? "#2D008C" : "#000000",               
               }} >
-              Privacy Policy
+              {lang == "eng" ? "Privacy Policy" : "Tietosuojakäytäntö"}
             </button>
             <button onClick={() => handleTabChange("terms")}
               style={{
@@ -73,7 +74,7 @@ function TermCondn() {
                 cursor: "pointer",
                 fontWeight: "600",
               }} >
-              Terms & Conditions
+              {lang == "eng" ? "Terms & Conditions" : "Käyttöehdot"}
             </button>
           </div>
 
@@ -84,7 +85,7 @@ function TermCondn() {
                 {loading ? (
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center",
                     height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} >
-                    Loading...
+                    {lang == "eng" ? "Loading..." : "Ladataan..."}
                   </div>
                 ) : (
                   <div dangerouslySetInnerHTML={{ 

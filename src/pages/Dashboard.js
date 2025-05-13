@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 import AddShortCut from "../components/AddShortCut";
 import SocialMediaAbout from "../components/SocialMediaAbout";
+import truncate from 'html-truncate';
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -158,6 +159,9 @@ const Dashboard = () => {
     localStorage.removeItem('nfc-shortcut')
   };
 
+   const fullHTML = clientData?.business_about_us || '';
+  const truncatedHTML = truncate(fullHTML, 190);
+
   if (!clientData || clientData.length === 0) {
     return (
       <>
@@ -247,14 +251,18 @@ const Dashboard = () => {
         <span style={{
           position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
           color: "white", fontSize: "24px", textAlign: 'center', fontWeight: "bold"
-        }}> {clientData?.company_slogam} </span>
+        }}> <p dangerouslySetInnerHTML={{ __html: clientData?.company_slogam }} /> </span>
+        {/* <span style={{
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+          color: "white", fontSize: "24px", textAlign: 'center', fontWeight: "bold"
+        }}> {clientData?.company_slogam} </span> */}
       </div>
 
       {/* About Client */}
       <div style={{ textAlign: "left", margin: "0 auto", width: "90%", padding: "10px 0" }}>
         <span style={{ fontSize: 20, fontWeight: "bolder" }}>About</span>
 
-        <div>
+        {/* <div>
           <p> {isExpanded ? clientData?.business_about_us : clientData?.business_about_us?.slice(0, 180)}
             {clientData?.business_about_us?.length > 180 && (
               <span onClick={handleToggle} style={{ color: "#25026E", padding: "0 5px", cursor: "pointer", fontWeight: "bold", }}>
@@ -262,7 +270,23 @@ const Dashboard = () => {
               </span>
             )}
           </p>
-        </div>
+        </div> */}
+        <div className="html-quill">
+          <p dangerouslySetInnerHTML={{ __html: isExpanded ? fullHTML : truncatedHTML }} />
+            {fullHTML.length > 190 && (
+              <span
+                onClick={handleToggle}
+                style={{
+                  color: "#25026E",
+                  padding: "0 0",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                {isExpanded ? "Read less..." : "Read more..."}
+              </span>
+            )}
+          </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>

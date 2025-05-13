@@ -10,6 +10,7 @@ import AppRoutes from "./AppRoutes";
 function App() {
   const [isMobile, setIsMobile] = useState(false); // State for mobile detection
   const [showSplash, setShowSplash] = useState(true);
+  const lang = localStorage.getItem("language") || "eng";
 
   useEffect(() => {
     const checkDeviceType = () => {
@@ -77,7 +78,7 @@ function App() {
         }} 
       >
         <img src={SplashLogo} alt="Tagis" />
-        Welcome to Tagis!
+        {lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa "}
       </div>
     );
   }
@@ -112,10 +113,10 @@ function App() {
             <span
               style={{ marginBottom: "10px", fontSize: 28, fontWeight: 500 }}
             >
-              Welcome to Tagis!
+              {lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa "}
             </span>
             <span style={{ fontSize: 35, fontWeight: 500 }}>
-              Please open in your mobile phone for better experience
+              {lang == "eng" ? "Please open in your mobile phone for better experience" : "Parhaan käyttökokemuksen saat avaamalla Tagiksen puhelimellasi."}
             </span>
           </div>
         )}

@@ -8,6 +8,8 @@ function AboutService() {
   const storedTab = localStorage.getItem("activeTab");
   const validTabs = ["coupons", "giveaways", "events"];
   const initialTab = validTabs.includes(storedTab) ? storedTab : "coupons";
+  const lang = localStorage.getItem("language") || "eng";
+
   const [activeTab, setActiveTab] = useState(initialTab);
   // Default to 'coupons'
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ function AboutService() {
             marginTop: "10px",
           }} >
           <span style={{ color: "#000000", fontSize: 20, fontWeight: "600" }}> TAGIS </span>
-          <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}> Tap Connect Experience </span>
+          <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}>  {lang == "eng" ? "Tap Connect Experience" : "Ei sovellusta, napauta vain!"} </span>
         </div>
       </div>
 
@@ -64,7 +66,7 @@ function AboutService() {
               marginRight: "10px",
               fontWeight: "500",
             }} >
-            COUPONS
+            {lang == "eng" ? "COUPONS" : "Kupongit"}
           </button>
           <button onClick={() => handleTabChange("giveaways")}
             style={{
@@ -78,7 +80,7 @@ function AboutService() {
               marginRight: "10px",
               fontWeight: "600",
             }} >
-            GIVE AWAYS
+            {lang == "eng" ? "GIVE AWAYS" : "Palkinnot"}
           </button>
           <button onClick={() => handleTabChange("events")}
             style={{
@@ -91,7 +93,7 @@ function AboutService() {
               cursor: "pointer",
               fontWeight: "600",
             }} >
-            EVENTS
+            {lang == "eng" ? "EVENTS" : "Tapahtumat"}
           </button>
         </div>
 
@@ -103,7 +105,7 @@ function AboutService() {
                 {loading ? (
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center",
                     height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} >
-                    Loading...
+                      {lang == "eng" ? "Loading..." : "Ladataan..."}
                   </div>
                 ) : (
                   <div dangerouslySetInnerHTML={{ 
@@ -119,7 +121,7 @@ function AboutService() {
                 {loading ? (
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center",
                     height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} >
-                    Loading...
+                    {lang == "eng" ? "Loading..." : "Ladataan..."}
                   </div>
                 ) : (
                   <div dangerouslySetInnerHTML={{ 
@@ -134,7 +136,7 @@ function AboutService() {
                 {loading ? (
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center",
                     height: "60vh", fontSize: "20px", fontWeight: "bold", color: "gray", }} >
-                    Loading...
+                    {lang == "eng" ? "Loading..." : "Ladataan..."}
                   </div>
                 ) : (
                   <div dangerouslySetInnerHTML={{ 

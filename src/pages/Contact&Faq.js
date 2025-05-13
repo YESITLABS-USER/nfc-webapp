@@ -11,6 +11,8 @@ function ContactFaq() {
   const [activeTab, setActiveTab] = useState("contact");
   const dispatch = useDispatch();
   const { allFaqs,contactLoading, loading } = useSelector((state) => state.contactAndFaq);
+  const lang = localStorage.getItem("language") || "eng";
+
 
   // Get active tab from localStorage if exists
   useEffect(() => {
@@ -51,7 +53,7 @@ function ContactFaq() {
           <img src={Logo} alt="logo" />
           <div style={{ display: "flex", flexDirection: "column", marginTop: "10px"}} >
             <span style={{ color: "#000000", fontSize: 20, fontWeight: "600" }}> TAGIS </span>
-            <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}> Tap Connect Experience </span>
+            <span style={{ color: "#2D008C", fontSize: 16, fontWeight: "bold" }}>  {lang == "eng" ? "Tap Connect Experience" : "Ei sovellusta, napauta vain!"} </span>
           </div>
         </div>
 
@@ -130,7 +132,7 @@ function ContactFaq() {
                 Frequently Asked Questions (FAQ)
               </h5>
               {loading ? (
-                <p>Loading...</p>
+                <p>{lang == "eng" ? "Loading..." : "Ladataan..."}</p>
               ) : allFaqs?.length == 0 ? (
                 <p>No FAQs found</p>
               ) : (

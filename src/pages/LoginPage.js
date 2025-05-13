@@ -19,6 +19,7 @@ import { getClientInfoWithoutLogin } from "../store/slices/clientSlice";
 const LoginPage = () => {
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const lang = localStorage.getItem("language") || "eng";
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user)
@@ -61,7 +62,7 @@ const LoginPage = () => {
         <img src={Start} alt="Start Pattern" className="start-img" />
         <div className="text-container">
           <span style={{ color: "#000000", fontSize: "16px", fontWeight: "600" }}> TAGIS </span>
-          <span style={{ color: "#2D008C", fontWeight: "bold" }}> Tap Connect Experience </span>
+          <span style={{ color: "#2D008C", fontWeight: "bold" }}>  {lang == "eng" ? "Tap Connect Experience" : "Ei sovellusta, napauta vain!"} </span>
         </div>
       </div>
 

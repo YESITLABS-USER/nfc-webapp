@@ -25,7 +25,8 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user) ;
   const { clientData } = useSelector((state) => state.client)
-  
+  const lang = localStorage.getItem("language") || "eng";
+ 
   const navigate = useNavigate()
 
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -126,18 +127,23 @@ const SignupPage = () => {
       <div className="login-container">
         <img src={Start} alt="Start Pattern" className="start-img" />
         <div className="text-container">
-          <span style={{ color: "#000000", fontSize: "16px", fontWeight: "600" }}> TAGIS </span>
-          <span style={{ color: "#2D008C", fontWeight: "bold" }}> Tap Connect Experience </span>
+          <span style={{ color: "#000000", fontSize: "16px", fontWeight: "600" }}> {lang == "eng" ? "TAGIS" : "TAGIS"} </span>
+          <span style={{ color: "#2D008C", fontWeight: "bold" }}> {lang == "eng" ? "No App, Just tap!" : "Ei sovellusta, napauta vain!"} </span>
+          {/* <span style={{ color: "#2D008C", fontWeight: "bold" }}> Tap Connect Experience </span> */}
         </div>
       </div>
 
       <div className="text-container">
         <span style={{ color: "#000000", fontSize: "20px", fontWeight: "bold", alignSelf: "center", marginTop: 20 }}>
-          Welcome to Tagis!
+          {lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa"}
         </span>
         <span style={{ fontSize: "16px", textAlign: "center", alignSelf: "center" }}>
-          Review easily, enjoy benefits – It all <br /> happens with just 
-          <span style={{ color: "#2C0089", fontWeight: "bold" }}> one tap!</span>
+         {/* {lang == "eng" ? "Review easily, enjoy benefits - It all" : ""} <br /> {lang == "eng" ? "happens with just one tap!" : "" } */}
+         {lang === "eng" ? ( <> Review easily, enjoy benefits - It all <br /> happens with just one tap! </> ) : (
+          <> Arvostele helposti, nauti eduista - kaikki <br /> tapahtuu yhdellä </> )}
+
+          {/* Review easily, enjoy benefits – It all <br /> happens with just  */}
+          <span style={{ color: "#2C0089", fontWeight: "bold" }}> {lang == "eng" ? "one tap!" : "napautuksella!"} </span>
         </span>
       </div>
 
@@ -152,7 +158,7 @@ const SignupPage = () => {
                 value={values.name}
                 onChange={(e) => setFieldValue('name', e.target.value)}
                 name="name"
-                label={"Name"}
+                label={lang == "eng" ? "Name" : "Kutsumanimi"}
               />
               {errors.name && touched.name && (
                 <p style={{ color: "red", fontSize: "14px", marginTop: "5px", fontWeight: "500", marginLeft: "10px" }}>
@@ -166,7 +172,7 @@ const SignupPage = () => {
                 value={values.phone_number}
                 onChange={(e) => setFieldValue('phone_number', e.target.value)}
                 name="phone_number"
-                label={"Phone Number"}
+                label={lang == "eng" ? "Phone Number" : "Puhelinnumero"}
                 num={true}
               />
               {errors.phone_number && touched.phone_number && (
@@ -186,7 +192,7 @@ const SignupPage = () => {
                 checked={values.is_adult}
                 style={{ marginRight: "10px", accentColor: "#2A0181", transform: "scale(1.2)" }}
               />
-              <span>I am 13 or older.</span>
+              <span>{lang == "eng" ? "I am 13 or older." : "Olen 13-vuotias tai vanhempi"}</span>
             </label>
             
             <label style={{ display: "flex", alignItems: "start", fontSize: "16px", gap: "10px", color: "black", fontWeight: "500" }}>
@@ -198,12 +204,12 @@ const SignupPage = () => {
                 style={{ accentColor: "#2A0181", transform: "scale(1.2)", marginTop: 7 }}
               />
               <span>
-                I agree to the
+                {lang == "eng" ? "I agree to the" : "Hyväksyn"}
                 <a onClick={() => navigate("/terms-condition")} style={{ color: "#2A0181", cursor:"pointer", marginLeft: "5px" }} rel="noopener noreferrer">
-                  Terms and Conditions
-                </a> and
+                  { lang == "eng" ? "Terms and Conditions" : "käyttöehdot"}
+                </a> { lang == "eng" ? " and" : " ja"}
                 <a onClick={() => navigate("/privacy-policy")} style={{ color: "#2A0181", cursor:"pointer", marginLeft: "5px" }} rel="noopener noreferrer">
-                  Privacy policy
+                  { lang == "eng" ? "Privacy policy" : "tietosuojakäytännön"}
                 </a>
               </span>
             </label>
@@ -217,30 +223,30 @@ const SignupPage = () => {
                 style={{ accentColor: "#2A0181", transform: "scale(1.2)", marginTop: 7 }}
               />
               <span>
-                I agree to receive special offers, coupons, and marketing updates based on my preferences.
+                { lang =="eng" ? "I agree to receive special offers, coupons, and marketing updates based on my preferences." : "Hyväksyn erikoistarjousten, kuponkien ja markkinointiviestien vastaanottamisen mieltymysteni perusteella"}
               </span>
             </label>
 
           </div>
 
-          <CustomButton text={loading ? "Loading..." : "Sign Up"} type="submit" fullWidth={"40%"} />
+          <CustomButton text={loading ? "Loading..." : lang == "eng" ? "Sign Up" : "Rekisteröidy"} type="submit" fullWidth={"40%"} />
         </Form>
       )}
     </Formik>
       {/* Modal and other components remain the same */}
       <Modal show={isModalOpen11} onHide={() => setIsModalOpen11(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Please agree to all terms</Modal.Title>
+          <Modal.Title>{lang == "eng" ? "Please agree to all terms" : "Hyväksy kaikki ehdot" } </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>You need to agree to all terms by checking all the boxes.</p>
+          <p> {lang == "eng" ? "You need to agree to all terms by checking all the boxes." : "Sinun on hyväksyttävä kaikki ehdot valitsemalla kaikki ruudut."} </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setIsModalOpen11(false)}>
-            Close
+            {lang == "eng" ? "Close" : "Lähellä"}
           </Button>
           <Button variant="primary" onClick={() => setIsModalOpen11(false)}>
-            Okay
+            {lang == "eng" ? "Okay" : "kunnossa" }
           </Button>
         </Modal.Footer>
       </Modal>
@@ -282,6 +288,7 @@ export default SignupPage;
 const AlreadyRegistered = ({  isModalOpen, setIsModalOpen, data }) => {
   const closeModal = () => setIsModalOpen(false);
   const navigate = useNavigate();
+  const lang = localStorage.getItem("language") || "eng";
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -311,7 +318,7 @@ const AlreadyRegistered = ({  isModalOpen, setIsModalOpen, data }) => {
           >
             <h5
               style={{ color: "#000000", fontSize: "20px", fontWeight: "bold" }}
-            >" Already registered"
+            > {lang == "eng" ? "Already registered" : "Olet jo rekisteröitynyt" }
               
             </h5>
             <IoIosCloseCircle
@@ -325,7 +332,7 @@ const AlreadyRegistered = ({  isModalOpen, setIsModalOpen, data }) => {
                 marginTop: -70,
               }}
             />
-            <p>"You have already registered with the mobile number “{data?.phone_number}” Please Add the tagis shorcut "</p>
+            <p>{ lang == "eng" ? `You have already registered with the mobile number “${data?.phone_number}” Please Add the tagis shorcut` : ` Olet jo rekisteröitynyt puhelinnumerolla ${data?.phone_number}.” Lisää Tagis-pikakuvake`} </p>
 
             <button style={{
               backgroundColor: "#2A0181",
@@ -336,7 +343,7 @@ const AlreadyRegistered = ({  isModalOpen, setIsModalOpen, data }) => {
               fontWeight: "bold",
               cursor: "pointer",
             }} onClick={() => navigate("/")}>
-              Login
+              { lang == "eng" ? "Login" : "Kirjaudu Sisään"}
             </button>
           </div>
         </div>

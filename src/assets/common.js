@@ -137,14 +137,14 @@ const formatDate = (dateString) => {
 
   const addValidity = (lastActivationDate, validitySelectNumber, validitySelectTimeUnit) => {
     // Parse date in UTC (assumes input is in "YYYY-MM-DD HH:mm:ss" format)
-    const parts = lastActivationDate.split(/[- :]/);
+    const parts = lastActivationDate?.split(/[- :]/);
     const lastActivationDateObj = new Date(Date.UTC(
-      parts[0], // year
-      parts[1] - 1, // month (0-indexed)
-      parts[2], // day
-      parts[3], // hour
-      parts[4], // minute
-      parts[5] // second
+      parts?.[0], // year
+      parts?.[1] - 1, // month (0-indexed)
+      parts?.[2], // day
+      parts?.[3], // hour
+      parts?.[4], // minute
+      parts?.[5] // second
     ));
   
     // Adjust the date based on the time unit (using UTC methods)

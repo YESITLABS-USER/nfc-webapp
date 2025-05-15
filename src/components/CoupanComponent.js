@@ -119,11 +119,8 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
               ? "brightness(0.5)"
               : "",
         }}
-        onClick={
-          (timeLeft && !allData?.activate_time_usa_zone) ||
-          (allData?.dob_coupon && !validDob)
-            ? null
-            : onClick
+        // onClick={ (timeLeft && !allData?.activate_time_usa_zone) || (allData?.dob_coupon && !validDob) ? null : onClick
+        onClick={ (timeLeft && !allData?.activate_time_usa_zone) ? onClick : onClick
         }
       >
         <div className="coupon-left">

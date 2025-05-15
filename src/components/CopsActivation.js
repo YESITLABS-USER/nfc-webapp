@@ -4,7 +4,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import FreeCops from "../assets/icons/freeCopsAvail.png";
 import AgeModal from "./AgeModal";
 import CoupanComponent from "./CoupanComponent";
-import { formatDate } from "../assets/common";
+import { addValidity, formatDate, getRemainingTime, parseTime } from "../assets/common";
 import { updateUser } from "../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { getAllCoupans } from "../store/slices/coupanSlice";
@@ -23,6 +23,8 @@ const CopsActivation = ({
   const closeModal = () => setIsModalOpen(false);
   const [ageModal, setAgeModal] = useState(false);
   const [showCampaignTerms, setShowCampaignTerms] = useState(false)
+  const [validDob, setValidDob] = useState(false);
+  
   const dispatch = useDispatch();
 
   const [userDob, setUserDob] = useState(null);
@@ -31,6 +33,73 @@ const CopsActivation = ({
 
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
   const client_id = localStorage.getItem("client_id");
+
+// --------------------------------- FOR Birthday Valid or not & timeLeft CR Point--------------------------------
+  const [endTime, setEndTime] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0);
+  useEffect(() => {
+    if (currentCoupanData?.activate_time_usa_zone) {
+      const remainingTimeStr = getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00");
+      const remainingSeconds = parseTime(remainingTimeStr ?? "00:10:00");
+      const targetEndTime = Date.now() + remainingSeconds * 1000;
+      setEndTime(targetEndTime);
+    } else {
+      const validUntil = addValidity(
+        currentCoupanData?.last_activation_date,
+        currentCoupanData?.validity_select_number,
+        currentCoupanData?.validity_select_time_unit
+      );
+      const remainingTimeStr = getRemainingTime(validUntil, "00:00:01");
+      const remainingSeconds = parseTime(remainingTimeStr ?? "00:00:01");
+      const targetEndTime = Date.now() + remainingSeconds * 1000;
+      setEndTime(targetEndTime);
+    }
+  }, [currentCoupanData]);
+
+  useEffect(() => {
+    if (!endTime) return;
+
+    const updateTimeLeft = () => {
+      const now = Date.now();
+      const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+      setTimeLeft(remaining);
+    };
+
+    updateTimeLeft(); // Initial check
+    const interval = setInterval(updateTimeLeft, 1000);
+    return () => clearInterval(interval);
+  }, [endTime]);
+
+    const isDobValid = (allData) => {
+      const currentDate = new Date();
+      const currentMonthDay = `${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+  
+      if (allData?.dob_coupon && !allData?.user_date_of_birth) {
+        return true;
+      }
+  
+      if (allData?.user_date_of_birth) {
+        const userDob = new Date(allData?.user_date_of_birth);
+        const validDates = new Set();
+  
+        for (let i = -allData?.days_before_dob; i <= allData?.days_after_dob; i++) {
+          let tempDate = new Date(userDob);
+          tempDate.setDate(userDob.getDate() + i);
+          validDates.add(`${tempDate.getMonth() + 1}-${tempDate.getDate()}`);
+        }
+  
+        return validDates.has(currentMonthDay);
+      }
+  
+      return true;
+    };
+  
+    useEffect(() => {
+      const result = isDobValid(currentCoupanData);
+      setValidDob(result);
+    }, [currentCoupanData]);
+
+    // ---------------------------------
 
   const handleDobUpdate = async () => {
     if(userDob){
@@ -178,8 +247,9 @@ const CopsActivation = ({
                 </div>
               </div>
             :
-            <button style={{ padding: "8px 12px", backgroundColor: ("#2A0181" || "#6c757d"), color: "white", border: "none", 
-                borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }}
+            <button style={{ padding: "8px 12px", backgroundColor: ((currentCoupanData && ((timeLeft && !currentCoupanData?.activate_time_usa_zone) || currentCoupanData?.dob_coupon && !validDob)) ? "#6c757d" : "#2A0181"), color: "white", border: "none", 
+                borderRadius: "4px", cursor: "pointer", fontWeight: "bold", }} disabled={currentCoupanData && ((timeLeft && !currentCoupanData?.activate_time_usa_zone) || currentCoupanData?.dob_coupon && !validDob)}
+                
               onClick={() => {
                 // if (ageLimitaion && currentCoupanData.campaign_age_restriction_start_age > 15) {
                 if (currentCoupanData.campaign_age_restriction_start_age >= 14 && currentCoupanData?.user_age == null) {

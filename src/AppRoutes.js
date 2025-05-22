@@ -13,6 +13,7 @@ import AboutScreen from "./pages/AboutScreen";
 import NewScan from "./pages/NewScan";
 import ProfileById from "./pages/ProfileById";
 import NFCTag from "./pages/NFCTag";
+import InvalidScan from "./pages/InvalidScan";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
       <Route path="/signup" element={<SignupPage />} /> */}
       <Route path="/dashboard/:lang/:id" element={<NewScan />} />
       <Route path="/tag/:xuid" element={<NFCTag />} />
+      <Route path="/invalid-scan" element={<InvalidScan />} />
       
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/contactFaq" element={<ContactFaq />} />

@@ -61,8 +61,7 @@ const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, c
       }}
     >
       <div
-        style={{
-          background: "linear-gradient(90deg, #2D008C, #25046B)",
+        style={{ background: couponData?.color_selection ? undefined : "linear-gradient(90deg, #2D008C, #25046B)", backgroundColor: couponData?.color_selection == "orange" ? "#e5600c" : couponData?.color_selection == "red" ? "#B60202" : couponData?.color_selection == "blue" ? "#3125c3" : couponData?.color_selection == "black" ? "#1d0054" : "",
           width: "100%",
           height: "100vh",
           position: "relative",
@@ -94,6 +93,7 @@ const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, c
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+filter: "drop-shadow(0px 2px 1px rgba(0, 0, 0, 1))"
           }}
         />
         <span

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
+    const lang = localStorage.getItem("language") || "eng";
+
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>Informationn</h2>
+              <h2 style={{ color: "#FFFFFF" }}>{lang == "eng" ? "Information" : "Tiedot" }</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
@@ -69,7 +71,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 onClick={closeModal}
               />
             </div>
-            <div style={{ textAlign: "left", padding: "0 20px" }}>
+            {lang == "eng" ? <div style={{ textAlign: "left", padding: "0 20px" }}>
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
                 Welcome to your Tagis Wallet! Here you’ll find a quick overview
                 of your collected rewards:
@@ -87,7 +89,29 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 Remember to check back often for new coupons and to see your
                 raffle ticket count grow with every tap!
               </p>
-            </div>
+            </div> : 
+            (<div style={{ textAlign: "left", padding: "0 20px" }}>
+              <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
+                Tervetuloa Tagis-lompakkoosi! Täältä löydät nopean yleiskatsauksen 
+                keräämistäsi palkinnoista:
+              </p>
+              
+              <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
+                Kupongit: Näet täällä kaikki aktiiviset kupongit, jotka ovat valmiina
+                käytettäväksi milloin tahansa.
+              </p>
+              
+              <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
+                Arpaliput: Jokainen napautus lisää arpalipun vuosittaisiin ja kuukausittaisiin
+                arvontoihin – kasvattaen mahdollisuuksiasi voittaa upeita palkintoja!
+              </p>
+              
+              <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
+                Muista tarkistaa usein uudet kupongit ja seurata, kuinka arpalippujesi
+                määrä kasvaa jokaisella napautuksella!
+              </p>
+            </div>)
+            }
           </div>
         </div>
       )}

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const MyPageInfo = ({ isModalOpen, setIsModalOpen, coops }) => {
+    const lang = localStorage.getItem("language") || "eng";
+
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const MyPageInfo = ({ isModalOpen, setIsModalOpen, coops }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>Information</h2>
+              <h2 style={{ color: "#FFFFFF" }}>{lang == "eng" ? "Information" : "Tiedot"}</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
@@ -68,17 +70,11 @@ const MyPageInfo = ({ isModalOpen, setIsModalOpen, coops }) => {
             </div>
             {coops === true ? (
               <p style={{ color: "#FFFFFF", textAlign: "center" }}>
-                All the coupons you have collected are here. Activate the coupon
-                and show it at the checkout to take advantage of the offer! Your
-                company-specific coupons are also available on the company's
-                page, which you can access by tapping in the store.
+                {lang == "eng" ? "All the coupons you have collected are here. Activate the coupon and show it at the checkout to take advantage of the offer! Your company-specific coupons are also available on the company's page, which you can access by tapping in the store." : "Kaikki keräämäsi kupongit löytyvät täältä. Aktivoi kuponki ja näytä se kassalla hyödyntääksesi tarjouksen! Yrityskohtaiset kuponkisi ovat myös saatavilla yrityksen sivulla, johon pääset napauttamalla myymälässä."}
               </p>
             ) : (
               <p style={{ color: "#FFFFFF", textAlign: "center" }}>
-                You can manage which businesses send you coupons and offers.
-                Choose between receiving all messages, only receiving coupons
-                when tapping, or stop following. You can always change your mind
-                and follow a business again by tapping in-store!
+                {lang == "eng" ? "You can manage which businesses send you coupons and offers. Choose between receiving all messages,  only receiving coupons when tapping, or stop following. You can always change your mind and follow a business again by tapping in-store!" :"Voit hallita, mitkä yritykset lähettävät sinulle kupongit ja tarjoukset. Voit valita vastaanottavasi kaikki viestit, vastaanottavasi kupongit vain napauttamalla tai lopettaa seuraamisen. Voit aina muuttaa mieltäsi ja seurata yritystä uudelleen napauttamalla myymälässä!"}
               </p>
             )}
           </div>

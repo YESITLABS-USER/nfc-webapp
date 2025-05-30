@@ -17,6 +17,7 @@ import AddShortCut from "../components/AddShortCut";
 const MyProfile = () => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
+  const lang = localStorage.getItem("language") || "eng";
 
   const [selectedProfile, setSelectedProfile] = useState(userData?.profile_pic || null);
   const [birthdayInput, setBirthdayInput] = useState(userData?.date_of_birth ? true : false);
@@ -76,7 +77,7 @@ const MyProfile = () => {
             marginBottom: 20,
           }}
         >
-          Profile Picture
+          {lang == "eng" ? "Profile Picture" : "Profiilikuva"}
         </label>
 
         <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
@@ -112,28 +113,28 @@ const MyProfile = () => {
                   cursor: "pointer",
                   width: "100%",
                 }} >
-                {selectedProfile == profile.id ? "Selected" : "Select"}
+                {selectedProfile == profile.id ? lang == "eng" ? "Selected" : "Valittu" : lang == "eng" ? "Select" : "Valitse"}
               </button>
             </div>
           ))}
         </div>
         <label style={{ display: "block", marginBottom: "10px", color: "#000000", fontWeight: "bold", fontSize: 20 }} >
-          Personal Information:
+          { lang == "eng" ? "Personal Information:" : "Henkilötiedot:"}
         </label>
 
         <div style={{ marginBottom: "20px" }}>
           <p>
-            <span style={{ color: "#000000", fontWeight: "500" }}> Personal ID </span>
+            <span style={{ color: "#000000", fontWeight: "500" }}> { lang == "eng" ? "Personal ID" : "Henkilötunnus"} </span>
             <span style={{ display: "inline-block", marginLeft: "60px" }}> {userData?.user_id ?? "Not Available"} </span>
           </p>
 
           <p>
-            <span style={{ color: "#000000", fontWeight: "500" }}> NickName </span>
+            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "NickName" : "Lempinimi"} </span>
             <span style={{ display: "inline-block", marginLeft: "70px" }}> {userData?.user_name ?? "Not Available"} </span>
           </p>
 
           <p>
-            <span style={{ color: "#000000", fontWeight: "500" }}> Phone No </span>
+            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "Phone No" : "Puhelinnumero"} </span>
             <span style={{ display: "inline-block", marginLeft: "70px" }}> {userData?.phone_number ?? "Not Available"} </span>
           </p>
 
@@ -141,7 +142,7 @@ const MyProfile = () => {
 
         <div style={{ marginBottom: "20px" }}>
           <label style={{ width: "40%", color: "#000000", fontWeight: "500" }} >
-            Birthday
+            {lang == "eng" ? "Birthday": "Syntymäpäivä"}
           </label>
 
           {birthdayInput ? (
@@ -173,14 +174,14 @@ const MyProfile = () => {
                 width: "30%",
                 height: 40,
               }} >
-              ADD
+              {lang == "eng" ? "ADD" : "Lisää"}
             </button>
           )}
         </div>
 
         <div style={{ marginBottom: "20px" }}>
           <label style={{ width: "40%", color: "#000000", fontWeight: "500" }}>
-            First Name
+            {lang == "eng" ?  "First Name" : "Etunimi"}
           </label>
           {firstNameInput ? (
             <input type="text" placeholder={userData?.first_name ?? "Add"} onChange={(e) => setUpdateData({ ...updateData, first_name: e.target.value })}
@@ -205,14 +206,14 @@ const MyProfile = () => {
                 width: "30%",
                 height: 40,
               }} >
-              ADD
+              {lang == "eng" ? "ADD" : "Lisää"}
             </button>
           )}
         </div>
 
         <div style={{ marginBottom: "20px" }}>
           <label style={{ width: "40%", color: "#000000", fontWeight: "500" }}>
-            Surname
+            {lang == "eng" ?  "Surname" : "Sukunimi"}
           </label>
           {surNameInput ? (
             <input type="text" placeholder={userData?.last_name ?? "Add"} onChange={(e) => setUpdateData({ ...updateData, last_name: e.target.value })}
@@ -237,14 +238,14 @@ const MyProfile = () => {
                 width: "30%",
                 height: 40,
               }} >
-              ADD
+              {lang == "eng" ? "ADD" : "Lisää"}
             </button>
           )}
         </div>
 
         <div style={{ marginBottom: "20px" }}>
           <label style={{ width: "40%", color: "#000000", fontWeight: "500" }}>
-            Email
+            {lang == "eng" ?  "Email" : "Sähköposti"}
           </label>
           {emailInput ? (
             <input type="email" placeholder={userData?.email ?? "Add"} onChange={(e) => setUpdateData({ ...updateData, email: e.target.value })}
@@ -269,13 +270,13 @@ const MyProfile = () => {
               width: "30%",
               height: 40,
             }} >
-              Add
+              {lang == "eng" ? "Add" : "Lisää"}
             </button>
           )}
         </div>
 
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ color: "#000000", fontWeight: "500" }}>Sex</label>
+          <label style={{ color: "#000000", fontWeight: "500" }}>{lang == "eng" ? "Sex" : "Sukupuoli"}</label>
           <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
             <label style={{ color: "#000000", fontWeight: "500" }}>
               <input
@@ -284,7 +285,7 @@ const MyProfile = () => {
                 value="male"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 0 })}
                 checked={updateData.gender === 0 || updateData.gender === "0"}
-              /> Male
+              /> {lang == "eng" ? "Male" : "Mies"}
             </label>
             <label style={{ color: "#000000", fontWeight: "500" }}>
               <input
@@ -293,7 +294,7 @@ const MyProfile = () => {
                 value="female"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 1 })}
                 checked={updateData.gender === 1 || updateData.gender === "1"}
-              /> Female
+              /> {lang == "eng" ? "Female" : "Nainen"}
             </label>
             <label style={{ color: "#000000", fontWeight: "500" }}>
               <input
@@ -302,7 +303,7 @@ const MyProfile = () => {
                 value="other"
                 onChange={(e) => setUpdateData({ ...updateData, gender: 2 })}
                 checked={updateData.gender === 2 || updateData.gender === "2"}
-              /> Other
+              /> {lang == "eng" ? "Other" : "Muu"}
             </label>
           </div>
         </div>
@@ -340,13 +341,13 @@ const MyProfile = () => {
           </div>
         </div> */}
 
-        <CustomButton text="SAVE" style={{ width: "140px" }} onClick={handleSubmit} fullWidth={"40%"} />
+        <CustomButton text={lang == "eng" ? "SAVE" : "Tallenna"} style={{ width: "140px" }} onClick={handleSubmit} fullWidth={"40%"} />
 
         <div style={{ marginTop: 30 }}> <hr /> </div>
 
-        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> Delete account: <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
+        <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> {lang == "eng" ? "Delete account:" : "Poista tili:"} <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
           setShowDeletePopup(!showdeletePopup);
-        }}> DELETE </Button>
+        }}> {lang == "eng" ? "DELETE" : "Poista"} </Button>
 
           <FaInfoCircle size={18} style={{ position: "absolute", right: "0", top: "-10px" }}
             onClick={() => setInformationPopup(!informationPopup)} color="#2A0181" />
@@ -354,7 +355,7 @@ const MyProfile = () => {
 
         <div style={{ position: "relative", display: "flex", justifyContent: "center", gap: "15px", alignItems: "center", fontWeight: "700", marginTop: 30, }}> <Button style={{ backgroundColor: "#2A0181", border: "rgb(42, 1, 129)" }} onClick={() => {
           setShowShortcut(!showShortcut);
-        }}> Add to Shortcut </Button>
+        }}> {lang == "eng" ? "Add to Shortcut" : "Lisää pikavalintaan"} </Button>
 
         </div>
 
@@ -372,23 +373,17 @@ const MyProfile = () => {
 export default MyProfile;
 
 function InformationPopup(props) {
+  const lang = localStorage.getItem("language") || "eng";
+
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body
-        style={{
+    <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
+      <Modal.Body style={{
           backgroundColor: "#2A0181",
           color: "white",
           fontSize: "14px",
           borderRadius: "8px",
-        }}
-      >
-        <span
-          style={{
+        }} >
+        <span style={{
             backgroundColor: "white",
             color: "#2A0181",
             fontSize: "14px",
@@ -401,31 +396,24 @@ function InformationPopup(props) {
             textAlign: "center",
             fontWeight: "bolder",
             cursor: "pointer",
-          }}
-          onClick={props.onHide}
-        >
-
-          x
+          }} onClick={props.onHide} > x
         </span>
 
-        <h6 style={{ textAlign: "center", fontWeight: "600" }}>Information</h6>
+        <h6 style={{ textAlign: "center", fontWeight: "600" }}>{lang == "eng" ? "Information" : "Tiedot"}</h6>
         <p style={{ fontWeight: "600" }}>
-          Deleting your account is a permanent action and cannot be undone. By
-          proceeding, you will lose access to all your data, including:
+          {lang == "eng" ? "Deleting your account is a permanent action and cannot be undone. By proceeding, you will lose access to all your data, including:" : "Tilin poistaminen on pysyvä toimenpide, eikä sitä voi peruuttaa. Jos jatkat, menetät pääsyn kaikkeen dataasi, mukaan lukien: "}
         </p>
         <ul style={{ fontWeight: "500" }}>
-          <li>Coupons, rewards, and saved offers</li>
-          <li>Raffle tickets</li>
-          <li>Personalized settings and preferences</li>
+          <li> {lang == "eng" ? "Coupons, rewards, and saved offers " : "Kupongit, palkinnot ja tallennetut tarjoukset"}</li>
+          <li> {lang == "eng" ? "Raffle tickets " : "Arpaliput"}</li>
+          <li> {lang == "eng" ? "Personalized settings and preferences " : "Henkilökohtaiset asetukset ja mieltymykset"}</li>
         </ul>
-        <p style={{ fontWeight: "600" }}>Please note:</p>
+        <p style={{ fontWeight: "600" }}>{lang == "eng" ? "Please note:" :"Huomioithan"}</p>
         <ul style={{ fontWeight: "600" }}>
-          <li>Once deleted, we cannot recover your data.</li>
-          <li>Any pending rewards or promotions will be forfeited.</li>
-          <li>
-            You will no longer receive updates or notifications from Tagis.
-          </li>
-          <li>Your account will be deleted within 1 month.</li>
+          <li> {lang == "eng" ? "Once deleted, we cannot recover your data. " : "Kun tili on poistettu, emme voi palauttaa tietojasi."}</li>
+          <li> {lang == "eng" ? "Any pending rewards or promotions will be forfeited. " : "Kaikki odottavat palkinnot tai kampanjat mitätöidään."}</li>
+          <li> {lang == "eng" ? " You will no longer receive updates or notifications from Tagis." : "Et saa enää päivityksiä tai ilmoituksia Tagisilta."}</li>
+          <li> {lang == "eng" ? "Your account will be deleted within 1 month. " : "Tilisi poistetaan yhden kuukauden kuluessa."}</li>
         </ul>
       </Modal.Body>
     </Modal>
@@ -433,15 +421,11 @@ function InformationPopup(props) {
 }
 
 function DeletePopup(props) {
+  const lang = localStorage.getItem("language") || "eng";
+
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body
-        style={{
+    <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
+      <Modal.Body style={{
           backgroundColor: "#2A0181",
           color: "white",
           fontSize: "14px",
@@ -451,10 +435,8 @@ function DeletePopup(props) {
           gap: "15px",
           alignItems: "center",
           textAlign: "center",
-        }}
-      >
-        <span
-          style={{
+        }} >
+        <span style={{
             backgroundColor: "white",
             color: "#2A0181",
             fontSize: "14px",
@@ -467,40 +449,32 @@ function DeletePopup(props) {
             textAlign: "center",
             fontWeight: "bolder",
             cursor: "pointer",
-          }}
-          onClick={props.onHide} > x </span>
+          }} onClick={props.onHide} > x </span>
 
         <h5 style={{ fontSize: "18px", paddingTop: "25px", fontWeight: "600" }}>
-          Are you sure you want to delete your account?</h5>
+          {lang == "eng" ? "Are you sure you want to delete your account?" : "Haluatko varmasti poistaa tilisi?"}</h5>
         <p style={{ fontSize: "16px", fontWeight: "500" }}>
-          Deleting your account deletes all your coupons and tickets.</p>
-        <Button
-          style={{
+          {lang == "eng" ? "Deleting your account deletes all your coupons and tickets." : "Tilin poistaminen poistaa kaikki kuponkisi ja arpalippusi."}</p>
+        <Button onClick={props.onDeleteConfirm} style={{
             backgroundColor: "white",
             color: "#2A0181",
             fontWeight: "bold",
             border: "white",
             borderRadius: 20,
             width: 120,
-          }}
-          onClick={props.onDeleteConfirm}
-        >
-          Delete</Button>
+          }}> {lang == "eng" ? "Delete" : "Poista"}
+        </Button>
       </Modal.Body>
     </Modal>
   );
 }
 
 function LogoutPopup(props) {
+  const lang = localStorage.getItem("language") || "eng";
+
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body
-        style={{
+    <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
+      <Modal.Body style={{
           backgroundColor: "#2A0181",
           color: "white",
           fontSize: "14px",
@@ -511,10 +485,8 @@ function LogoutPopup(props) {
           alignItems: "center",
           textAlign: "center",
           padding: "30px 0",
-        }}
-      >
-        <span
-          style={{
+        }} >
+        <span style={{
             backgroundColor: "white",
             color: "#2A0181",
             fontSize: "20px",
@@ -526,42 +498,19 @@ function LogoutPopup(props) {
             textAlign: "center",
             fontWeight: "bolder",
             cursor: "pointer",
-          }}
-          onClick={props.onHide}
-        >
-
-          x
+          }} onClick={props.onHide} >  x
         </span>
 
         <img src={LogoutModalImg} alt="logout" />
         <h5 style={{ fontSize: "16px", paddingTop: "25px" }}>
-
-          Are you sure you want to Logout ?
+          {lang == "eng" ? "Are you sure you want to Logout ?" : "Haluatko varmasti kirjautua ulos?"}
         </h5>
         <div style={{ display: "flex", gap: "20px" }}>
-          <Button
-            style={{
-              backgroundColor: "white",
-              color: "#2A0181",
-              fontWeight: "bold",
-              border: "white",
-            }}
-            onClick={props.onHide}
-          >
-
-            No
+          <Button style={{ backgroundColor: "white", color: "#2A0181", fontWeight: "bold", border: "white", }}
+            onClick={props.onHide} > 
+            {lang == "eng" ? "No" : "Ei"}
           </Button>
-          <Button
-            style={{
-              backgroundColor: "white",
-              color: "#2A0181",
-              fontWeight: "bold",
-              border: "white",
-            }}
-            onClick={props.onHide}
-          >
-
-            Yes
+          <Button style={{ backgroundColor: "white", color: "#2A0181", fontWeight: "bold", border: "white"}} onClick={props.onHide} > {lang == "eng" ? "Yes" : "Kyllä"}
           </Button>
         </div>
       </Modal.Body>

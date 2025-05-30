@@ -6,6 +6,7 @@ import "../styles/header.css";
 import GoogleReview from "../assets/icons/googleReview.svg";
 import OLO from "../assets/icons/header.png";
 import OpeingHrs from "../assets/icons/openingHrs.svg";
+import OpeingHrsFin from "../assets/icons/finOHr.svg";
 import Line22 from "../assets/icons/line222.png";
 import ThickLine from "../assets/icons/thickLine.png";
 import CopsActivation from "../components/CopsActivation";
@@ -30,6 +31,8 @@ const Dashboard = () => {
   const client_id = localStorage.getItem("client_id");
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
+  const lang = localStorage.getItem("language") || "eng";
+
 
   const { clientData, loyalityCards, activatedLoyalityCard } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
@@ -173,8 +176,10 @@ const Dashboard = () => {
       </>
     );
   }
-  
 
+  const dayName = [ "Monday", "Sunday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayNameFinnish = ["Maanantai", "Tiistai", "Keskiviikko", "Torstai", "Perjantai", "Lauantai", "Sunnuntai"]
+  
   return (
     <>
       <OnboardHeader disabled={true} OLODISABLE={true} />
@@ -221,19 +226,30 @@ const Dashboard = () => {
 
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         {isOpen && (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-            <ul style={{ listStyleType: "none", padding: "0% 5% 3% 5%", width: "100%", margin: "0", fontFamily: "Arial, sans-serif", }} >
-              {
-                clientData?.opening_hours.map((item, index) => (
-                  <li style={{ display: "flex", width: "100%", fontSize: "14px", marginBottom: "10px" }} key={index}>
-                    <span style={{ fontWeight: "bold", width: "100%", color: "black", width: "100%", textAlign: "start" }} > {item?.day}: </span>
-                    {item?.isClosed ? <span style={{ width: "100%", textAlign: "end" }}> Closed </span> : <span style={{ width: "100%", textAlign: "end" }}>{item?.startTime} - {item?.endTime}</span>}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+          <>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+              <ul style={{ listStyleType: "none", padding: "0% 5% 3% 5%", width: "100%", margin: "0", fontFamily: "Arial, sans-serif", }} >
+                {
+                  clientData?.opening_hours.map((item, index) => (
+                    <li style={{ display: "flex", width: "100%", fontSize: "14px", marginBottom: "10px" }} key={index}>
+                      <span style={{ fontWeight: "bold", width: "100%", color: "black", width: "100%", textAlign: "start" }} > {lang == "eng" ? dayName[index] : dayNameFinnish[index]}: </span>
+                      {item?.isClosed ? <span style={{ width: "100%", textAlign: "end" }}> Closed </span> : <span style={{ width: "100%", textAlign: "end" }}>{item?.startTime} - {item?.endTime}</span>}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+         {clientData?.website_address && <a href={(() => { const websiteUrl = clientData?.website_address;
+            if (websiteUrl) {
+              // Check if the link contains 'http' or 'https', and format accordingly
+              return websiteUrl.startsWith('http') || websiteUrl.startsWith('https')
+              ? websiteUrl : `https://${websiteUrl}`;
+            }
+            return '#';
+          })()} target="_blank" style={{}} > Vieraile verkkosivustolla </a>}
+        </>
         )}
+
 
         {isOpen && (
           <div style={{
@@ -242,7 +258,7 @@ const Dashboard = () => {
           }} />
         )}
 
-        <img src={OpeingHrs} style={{ objectFit: "contain", width: "200" }} onClick={toggleOpenHours} alt="open btn" />
+        <img src={lang == "eng" ? OpeingHrs : OpeingHrsFin} style={{ objectFit: "contain", width: "200" }} onClick={toggleOpenHours} alt="open btn" />
       </div>
 
       {/* Client Image And slogan  */}
@@ -260,17 +276,8 @@ const Dashboard = () => {
 
       {/* About Client */}
       <div style={{ textAlign: "left", margin: "0 auto", width: "90%", padding: "10px 0" }}>
-        <span style={{ fontSize: 20, fontWeight: "bolder" }}>About</span>
+        <span style={{ fontSize: 20, fontWeight: "bolder" }}>{lang== "eng" ? "About" : "Tietoja"}</span>
 
-        {/* <div>
-          <p> {isExpanded ? clientData?.business_about_us : clientData?.business_about_us?.slice(0, 180)}
-            {clientData?.business_about_us?.length > 180 && (
-              <span onClick={handleToggle} style={{ color: "#25026E", padding: "0 5px", cursor: "pointer", fontWeight: "bold", }}>
-                {isExpanded ? "Read less..." : "Read more..."}
-              </span>
-            )}
-          </p>
-        </div> */}
         <div className="html-quill">
           <p dangerouslySetInnerHTML={{ __html: isExpanded ? fullHTML : truncatedHTML }} />
             {fullHTML.length > 190 && (
@@ -283,14 +290,14 @@ const Dashboard = () => {
                   fontWeight: "bold",
                 }}
               >
-                {isExpanded ? "Read less..." : "Read more..."}
+                {isExpanded ? lang== "eng" ? "Read less..." : "Näytä vähemmän..." : lang== "eng" ? "Read more..." : "Lue lisää..."}
               </span>
             )}
           </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>
-        <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>EXPLORE OUR COUPONS</h3>
+        <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>{ lang == "eng" ? "EXPLORE OUR COUPONS" : "Tutustu tarjouksiimme"}</h3>
 
         {/* <LoyaltyCard /> */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
@@ -351,7 +358,7 @@ const Dashboard = () => {
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
         {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
-            <p style={{ textAlign: "center" }}>No coupon available</p>
+            <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
           ) : (
             [...coupansData]
               .sort((a, b) => {
@@ -476,7 +483,7 @@ const Dashboard = () => {
           backgroundColor: "rgb(42, 1, 129)", color: "white", borderRadius: "10px", width: '50%',
           height: "50px", border: "none", cursor: "pointer", boxShadow: "rgba(0, 0, 0, 0.25) 0px 10px 10px 0px",
           display: 'flex', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontSize: '16px', margin: "15px auto"
-        }} > Leave a Review
+        }} > {lang == "eng" ? "Leave a Review" : "Jätä arvostelu"}
       </a>
 
       {/* <CustomButton text="Leave a Review" onClick={} fullWidth={"50%"} borderRadus={true} /> */}

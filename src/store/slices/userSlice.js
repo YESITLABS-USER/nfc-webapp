@@ -119,7 +119,6 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(locationChange.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.loading = false;
         if(action.payload?.client_table_id) {
           localStorage.setItem('client_id', action.payload?.client_table_id);

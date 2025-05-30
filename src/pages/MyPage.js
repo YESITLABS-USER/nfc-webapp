@@ -62,6 +62,7 @@ const MyPage = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
+  const lang = localStorage.getItem("language") || "eng";
 
   const [activeClient, setActiveClient] = useState(client_id);
   const [currentCoupanData, setCurrentCoupanData] = useState(null);
@@ -193,10 +194,9 @@ const MyPage = () => {
     <>
       <OnboardHeader disabled={true} />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", margin: 10 }}>
-        <h3 style={{ color: "#000000" }}>Welcome to Tagis!</h3>
+        <h3 style={{ color: "#000000" }}>{lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa Tagikseen!"}</h3>
         <p style={{ width: "90%", fontSize: 17, color: "#000000" }}>
-          Your go-to app for restaurant coupons from a variety of dining spots.
-          Save big on your next meal!
+          {lang == "eng" ? "Your go-to app for restaurant coupons from a variety of dining spots. Save big on your next meal!" : "Tagis on luotettava sovelluksesi ravintolakupongille monista eri ruokapaikoista. Säästä isosti seuraavalla ateriallassasi!"}
         </p>
       </div>
 
@@ -206,7 +206,7 @@ const MyPage = () => {
           display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15,
           zIndex: 100,
         }} >
-          <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>My Places</h3>
+          <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>{lang == "eng" ? "My Places" : "Omat paikat"}</h3>
           <FaInfoCircle size={24} color="#25026E" style={{ marginRight: "30px" }}
             onClick={() => {
               setIsModalOpen(true);
@@ -215,7 +215,7 @@ const MyPage = () => {
         </div>
         <div style={styles.verticalList}>
           {
-            allClientsData?.length <= 0 && <p style={{ display: "flex", justifyContent: 'center', padding: "20px 0" }}> No Clients Available </p>
+            allClientsData?.length <= 0 && <p style={{ display: "flex", justifyContent: 'center', padding: "20px 0" }}> {lang == "eng" ? "No Clients Available" : "Ei asiakkaita saatavilla"} </p>
           }
 
           {allClientsData?.slice(0, visibleCount).map((item, index) => (
@@ -244,7 +244,7 @@ const MyPage = () => {
                   padding: 10, border: "none", borderRadius: "8px", cursor: "pointer", backgroundColor: "#25026E",
                   color: "#fff", textAlign: "center", fontSize: 12, fontWeight: "600",
                 }} onClick={() => setActiveClient(item?.client_table_id)}>
-                  VIEW COUPONS
+                  {lang == "eng" ? "VIEW COUPONS" : "NÄYTÄ KUPONGIT"}
                 </button>
                 <button style={styles.button} onClick={() => {
                   setSelectedCardId(item?.client_table_id);
@@ -270,7 +270,7 @@ const MyPage = () => {
           <h1 style={{ display: "flex", justifyContent: 'center', alignItems: "center", textAlign: "center", fontWeight: "700", padding: "12px 10px", marginTop: "30px", borderBottom: "1px solid black", width: "90%", fontSize: "20px" }}> {clientData?.client_name} </h1>
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "85%", margin: "0 15px" }} >
-            <h3 style={{ fontWeight: "600" }}> Coupon </h3>
+            <h3 style={{ fontWeight: "600" }}> {lang == "eng" ? "Coupon" : "Kuponki"} </h3>
             <FaInfoCircle size={24} color="#25026E"
               onClick={() => {
                 setIsModalOpen(true);
@@ -355,7 +355,7 @@ const MyPage = () => {
           </div>
           <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto", overflowX:"hidden" }}>
           {(coupansData.length === 0 && activatedCoupanData?.length === 0) ? (
-            <p style={{ textAlign: "center" }}>No coupon available</p> ) : 
+            <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Kuponkeja ei ole saatavilla"}</p> ) : 
             (
               allClientsData?.length > 0 && [
                 ...coupansData.filter(c => !(c.show_blur_dob === 1 || c.show_blur_validity === 1)),
@@ -556,6 +556,8 @@ const MyPage = () => {
 export default MyPage;
 
 function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }) {
+  const lang = localStorage.getItem("language") || "eng";
+
   const handleClose = () => {
     setIsModalOpen(false); // Close the modal
   }
@@ -567,10 +569,10 @@ function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }
   return (
     <Modal show={isModalOpen} size="sm" centered>
       <Modal.Body style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", textAlign: "center" }}>
-        <h5> Are you sure you want to delete this {name || "Loyalty card"}? </h5>
+        <h5> {lang == "eng" ? "Are you sure you want to delete this" : "Haluatko varmasti poistaa tämän?"} {name || "Loyalty card"}? </h5>
         <div style={{ width: "100%", display: 'flex', justifyContent: "center", gap: "30px", paddingTop: "20px" }}>
-          <Button variant="secondary" onClick={handleClose}> Close </Button>
-          <Button variant="primary" onClick={handleConfirmDelete}> Delete </Button>
+          <Button variant="secondary" onClick={handleClose}> {lang == "eng" ? "Close" : "Sulje"} </Button>
+          <Button variant="primary" onClick={handleConfirmDelete}> {lang == "eng" ? "Delete" : "Poista"} </Button>
         </div>
       </Modal.Body>
     </Modal>
@@ -579,12 +581,14 @@ function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }
 
 
 const BirthdayCampaign = ({ show, handleClose }) => {
+  const lang = localStorage.getItem("language") || "eng";
+
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Body style={{ backgroundColor: "#442b99", color: "white", textAlign: "center", borderRadius: "10px", position: "relative", padding: "20px" }}>
         <Button variant="light" onClick={handleClose} style={{ position: "absolute", top: "10px", right: "10px", borderRadius: "50%" }}>×</Button>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>Thank you for participating in the birthday campaign!</p>
-        <p style={{ fontSize: "14px" }}>Click your coupon to see detailed information, terms and conditions.</p>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{lang == "eng" ? "Thank you for participating in the birthday campaign!" : "Kiitos osallistumisestasi syntymäpäiväkampanjaan!"}</p>
+        <p style={{ fontSize: "14px" }}>{lang == "eng" ? "Click your coupon to see detailed information, terms and conditions." : "Klikkaa kuponkiasi nähdäksesi tarkemmat tiedot, ehdot ja säännöt."}</p>
       </Modal.Body>
     </Modal>
   );

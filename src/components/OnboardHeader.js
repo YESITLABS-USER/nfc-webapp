@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 // function OnboardHeader({ disabled, OLODISABLE, selectAvatar, bgrIcon = false, message, }) {
 function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
   const { coupansData,activatedCoupanData } = useSelector((state) => state.coupans);
+  const lang = localStorage.getItem("language") || "eng";
   
   const [showPage, setShowPage] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -189,7 +190,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 display: "flex",
                 alignItems: "center",
                 padding: "0px",
-                gap: "10px",
+                gap: "10px", maxWidth:"45%"
               }} onClick={()=> navigate("/mypage")}
             >
               {/* <img src={Profile} alt="OLO" style={style.oloimg} /> */}
@@ -239,7 +240,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                   backgroundRepeat: "no-repeat", // Prevents tiling
                 }}
               >
-                <span style={{ paddingRight: "20px" }}>Coupons</span>
+                <span style={{ paddingRight: "20px" }}>{lang == "eng" ? "Coupons" : "Kupongit"}</span>
                 <span> {coupansData && (coupansData?.length + activatedCoupanData?.length) || "0"}</span>
               </Button>
             </div>

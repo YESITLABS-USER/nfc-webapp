@@ -71,7 +71,7 @@ function ContactFaq() {
               marginRight: "10px",
               fontWeight: "600",
             }} >
-            CONTACT US
+            {lang == "eng" ? "CONTACT US" : "OTA YHTEYTTÄ"}
           </button>
           <button onClick={() => handleTabChange("faq")}
             style={{
@@ -84,7 +84,7 @@ function ContactFaq() {
               cursor: "pointer",
               fontWeight: "600",
             }} >
-            FAQs
+            {lang == "eng" ? "FAQs" :"UKK"}
           </button>
         </div>
 
@@ -92,24 +92,22 @@ function ContactFaq() {
         <div style={{ marginLeft: 10 }}>
           {activeTab == "contact" ? (
             <div>
-              <h5 style={{ color: "black", fontWeight: "bold" }}>Contact Us</h5>
+              <h5 style={{ color: "black", fontWeight: "bold" }}>{lang == "eng" ? "CONTACT US" : "OTA YHTEYTTÄ"}</h5>
               <p style={{ color: "#000000", fontWeight: "500", fontSize: 18 }}>
-                We're here to help! If you have any questions, feedback,or
-                inquiries about our services, please feel free to reachout to
-                us.
+                {lang == "eng" ? "We're here to help! If you have any questions, feedback,or inquiries about our services, please feel free to reachout to us." : "Olemme täällä auttamassa! Jos sinulla on kysyttävää, palautetta tai tiedusteluja palveluistamme, ota rohkeasti meihin yhteyttä."}
               </p>
 
               <Formik initialValues={{ name: "", phone: "", feedback: "" }} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 <Form style={{ display: "flex", flexDirection: "column", gap: "15px", }} >
                    {/* For Name */}
-                  <Field type="text" name="name" placeholder="Name"
+                  <Field type="text" name="name" placeholder={lang == "eng" ? "Name" : "Nimi"}
                     style={{ margin: 10, padding: "10px 0", fontSize: "14px", border: "none",
                       borderBottom: "2px solid #ddd", outline: "none", }} />
                   <ErrorMessage name="name" component="p"
                     style={{ color: "red", width: "80%", marginLeft: "10px", fontWeight: "500", marginTop: -10,}} />
 
                   {/* For Phone */}
-                  <Field type="tel" name="phone" placeholder="Phone"
+                  <Field type="tel" name="phone" placeholder={lang == "eng" ? "Phone" : "Puhelin"}
                     style={{
                       margin: 10, padding: "10px 0", fontSize: "14px", border: "none", borderBottom: "2px solid #ddd",
                       outline: "none", }} />
@@ -117,11 +115,11 @@ function ContactFaq() {
                     style={{ color: "red", marginLeft: "10px", fontWeight: "500", marginTop: -10, }} />
                   
                    {/* For Feedback */}
-                  <Field as="textarea" name="feedback" placeholder="Leave a Feedback" rows="4"
+                  <Field as="textarea" name="feedback" placeholder={lang == "eng" ? "Leave a Feedback" : "Jätä palautetta"} rows="4"
                     style={{ margin: 10, padding: "10px", fontSize: "14px", border: "2px solid #ddd", }} />
                   <ErrorMessage name="feedback" component="p"
                     style={{ color: "red", marginLeft: "15px", fontWeight: "500", marginTop: -10, }} />
-                  <CustomButton text={contactLoading ? "Loading...": "Submit"} type="submit" fullWidth={"40%"} />
+                  <CustomButton text={contactLoading ? lang == "eng" ? "Loading..." : "Ladataan...": lang == "eng" ? "Submit" : "Lähetä"} type="submit" fullWidth={"40%"} />
                 </Form>
               </Formik>
             </div>
@@ -129,12 +127,12 @@ function ContactFaq() {
             // For Faqs
             <div>
               <h5 style={{ fontWeight: "bold", color: "#000000" }}>
-                Frequently Asked Questions (FAQ)
+                {lang == "eng" ? "Frequently Asked Questions (FAQ)" : "Usein kysytyt kysymykset (UKK)"}
               </h5>
               {loading ? (
                 <p>{lang == "eng" ? "Loading..." : "Ladataan..."}</p>
               ) : allFaqs?.length == 0 ? (
-                <p>No FAQs found</p>
+                <p>{lang == "eng" ? "No FAQs found" : "Ei löytynyt usein kysyttyjä kysymyksiä"}</p>
               ) : (
                 <div>
                   {allFaqs?.map((faq, index) => (

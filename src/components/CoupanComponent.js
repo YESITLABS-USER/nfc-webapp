@@ -90,7 +90,7 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
   }, [allData]);
 
   return (
-    <div style={{position: 'relative', marginBottom: "0px", width: "100%", display: "flex", alignItems: "center"}}>
+    <div style={{position: 'relative', marginBottom: "20px", width: "100%", display: "flex", alignItems: "center"}}>
       {/* <div style={{ position: "relative" }}> */}
       {timeLeft > 0 && (
           <div

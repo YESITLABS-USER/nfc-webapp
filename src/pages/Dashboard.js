@@ -246,7 +246,7 @@ const Dashboard = () => {
               ? websiteUrl : `https://${websiteUrl}`;
             }
             return '#';
-          })()} target="_blank" style={{}} > Vieraile verkkosivustolla </a>}
+          })()} target="_blank" style={{}} >{lang == "eng" ? "Visit the website": "Vieraile verkkosivustolla"} </a>}
         </>
         )}
 

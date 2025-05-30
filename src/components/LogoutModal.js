@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
   const closeModal = () => setIsModalOpen(false);
+    const lang = localStorage.getItem("language") || "eng";
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -79,7 +81,7 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
 
             <div>
               <span style={{ color: "white" }}>
-                Are you sure you want to Logout?
+                {lang == "eng" ? "Are you sure you want to Logout?" : "Oletko varma että haluat kirjautua ulos?"}
               </span>
             </div>
 
@@ -106,7 +108,7 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
                 }}
                 onClick={closeModal}
               >
-                No
+                {lang == "eng" ? "No" : "Älä kirjaudu ulos"}
               </button>
               <button
                 style={{
@@ -125,7 +127,7 @@ const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
                   localStorage.removeItem("nfc-app");
                 }}
               >
-                Yes
+                {lang == "eng" ? "Yes" : "Kyllä, kirjaudun ulos"}
               </button>
             </div>
           </div>

@@ -33,7 +33,6 @@ const Dashboard = () => {
   const { user_id } = storedData;
   const lang = localStorage.getItem("language") || "eng";
 
-
   const { clientData, loyalityCards, activatedLoyalityCard } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
 

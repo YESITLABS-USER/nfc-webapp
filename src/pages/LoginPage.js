@@ -76,7 +76,7 @@ const LoginPage = () => {
         }} >
           {lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa Tagikseen!"}
         </span>
-        <span style={{
+        {/* <span style={{
           fontSize: "16px",
           textAlign: "center",
           alignSelf: "center",
@@ -84,7 +84,18 @@ const LoginPage = () => {
           { lang == "eng" ? `Review easily, enjoy benefits - It all ${<br />} happens with just{" "}` : `Arvostele helposti ja nauti eduista - Kaikki tapahtuu yhdellä täppäyksellä!`}
           
           <span style={{ color: "#2C0089", fontWeight: "bold" }}> {lang == "eng" ? "one tap!" : "yksi napautus!"}</span>
-        </span>
+        </span> */}
+        <span style={{ fontSize: "16px", textAlign: "center", alignSelf: "center", }}> 
+          {lang === "eng" ? (
+            <> Review easily, enjoy benefits - It all<br /> happens with just{" "} 
+            <span style={{ color: "#2C0089", fontWeight: "bold" }}>one tap!</span>
+            </> ) : (
+            <>
+              Arvostele helposti ja nauti eduista - Kaikki tapahtuu yhdellä täppäyksellä!{" "}
+              <span style={{ color: "#2C0089", fontWeight: "bold" }}>yksi napautus!</span>
+            </>
+            )}
+            </span>
       </div>
 
       <Formik initialValues={{ phone_number: "" }} validationSchema={validationSchema}

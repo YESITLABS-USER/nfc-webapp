@@ -18,6 +18,7 @@ const Loyality = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const { data } = location.state || {};
+  const lang = localStorage.getItem("language") || "eng";
 
   useEffect(() => {
     if (!data) {
@@ -72,7 +73,7 @@ const Loyality = () => {
       >
         <div className="loyality-content">
           <p style={{ fontSize: 22, color: "black", fontWeight: "700" }}>
-            Thanks for your Loyalty
+            {lang == "eng" ? "Thanks for your Loyalty" : "Kiitos asiakkuudestasi"}
           </p>
           <div className="loyality-grid">
             {[...Array(Number(data?.number_of_stamps || 9))].map((_, index) => {
@@ -134,10 +135,10 @@ const Loyality = () => {
             <p>{data?.free_items_name || "Free Ice Cream"}</p>
           </div>
           <Button style={{ backgroundColor: "#2A0181", border: "#4F4F4F", marginRight:"5px" }} onClick={() => navigate((-1) || "/dashboard")}>
-            Back
+            {lang == "eng" ? "Back" : "Takaisin"} 
           </Button>
           <Button style={{ backgroundColor: (Number(data?.number_of_stamps) <= Number(user?.total_open_stamps)) ? "#2A0181" : "#4F4F4F", border: "#4F4F4F" }} disabled={!(Number(data?.number_of_stamps) <= Number(user?.total_open_stamps))} onClick={() => setIsSliderOpen(true)}>
-            ACTIVATE
+            {lang == "eng" ? "ACTIVATE" : "KÄYTÄ KUPONKI"} 
           </Button>
 
           <BottomSheet isOpen={isSliderOpen}>
@@ -159,8 +160,7 @@ const Loyality = () => {
                   paddingTop: "20px",
                 }}
               >
-                Coupon Confirmation
-              </h2>
+                {lang == "eng" ? "Coupon Confirmation" : "Vahvista etusetelin käyttö"}              </h2>
               <div
                 style={{
                   backgroundColor: "#E0E0E0",
@@ -172,7 +172,7 @@ const Loyality = () => {
                   borderTop: "2px solid #E1E1E1",
                 }}
               />
-              <p>I confirm that I want to activate the coupon.</p>
+              <p>{lang == "eng" ? "I confirm that I want to activate the coupon." : "Haluan aktivoida etusetelin käytettäväksi"}</p>
               <div className="button-group">
                 <button
                   style={{
@@ -187,7 +187,7 @@ const Loyality = () => {
                     transition: "box-shadow 0.3s ease",
                   }}
 
-                onClick={() => setIsSliderOpen(false)}>RETURN</button>
+                onClick={() => setIsSliderOpen(false)}>{lang == "eng" ? "RETURN" : "Takaisin"}</button>
                 <button
                   style={{
                     padding: "8px 12px",
@@ -206,7 +206,7 @@ const Loyality = () => {
                   ACTIVATE
                 </button>
               </div>
-              <p style={{color:"black", paddingTop:"10px"}}>Note: The coupon is valid for 15 minutes after activation.</p>
+              <p style={{color:"black", paddingTop:"10px"}}>{lang == "eng" ? "Note: The coupon is valid for 10 minutes after activation." : " Huom: Etuseteli on käytettävissä 10 minuuttia aktivoinnin jälkeen"}</p>
             </div>
           </BottomSheet>
           {coupanPopup && (
@@ -224,11 +224,11 @@ const Loyality = () => {
 
               timer = {data?.last_stamp_click_time ? getRemainingTime(data?.last_stamp_click_time, "00:10:00") :"00:10:00" }
               // timer = {data?.expiration_time}
-              countText={ 
-                confirmCompleted
-                  ? (data?.free_items_name || "Task Completed")
-                  // : `${Number(user?.total_open_stamps) + 1 ?? 1} / ${data?.number_of_stamps}`
-                  : `${Number(user?.total_open_stamps) > Number(data?.number_of_stamps) ? Number(data?.number_of_stamps) : Number(user?.total_open_stamps)}/${Number(data?.number_of_stamps)}`
+              countText={ data?.free_items_name || "Task Completed"
+                // confirmCompleted
+                //   ? (data?.free_items_name || "Task Completed")
+                //   // : `${Number(user?.total_open_stamps) + 1 ?? 1} / ${data?.number_of_stamps}`
+                //   : `${Number(user?.total_open_stamps) > Number(data?.number_of_stamps) ? Number(data?.number_of_stamps) : Number(user?.total_open_stamps)}/${Number(data?.number_of_stamps)}`
               }
             />
           )}

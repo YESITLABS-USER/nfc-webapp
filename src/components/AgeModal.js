@@ -15,6 +15,8 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const dispatch = useDispatch();
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
   const client_id = localStorage.getItem("client_id");
+  const lang = localStorage.getItem("language") || "eng";
+
 
   useEffect(() => {
     if(isModalOpen){
@@ -180,7 +182,7 @@ if(cancelModal) return <CancelModal isModalOpen={cancelModal} setIsModalOpen={se
               }}
             >
               <h3 style={{ color: "black", fontWeight: "bold" }}>
-                Confirm your age before proceeding further!!
+                { lang == "eng" ? "Confirm your age before proceeding further!!" : "Vahvista ikäsi ennen kuin jatkat!!"}
               </h3>
               <IoIosCloseCircle
                 color={"#2A0181"}
@@ -202,9 +204,9 @@ if(cancelModal) return <CancelModal isModalOpen={cancelModal} setIsModalOpen={se
                 color: "#000000",
               }}
             >
-              DOB{" "}
+              {lang =="eng" ?"DOB" : "Syntymäaika"}
             </h5>
-            <span style={{ color: "#9A9A9A" }}>Enter your date of birth</span>
+            <span style={{ color: "#9A9A9A" }}>{lang == "eng" ? "Enter your date of birth" : "Syötä syntymäaika"}</span>
             <input
               type="text"
               value={value}
@@ -238,7 +240,7 @@ if(cancelModal) return <CancelModal isModalOpen={cancelModal} setIsModalOpen={se
                 }}
                 onClick={handleSubmit}
               >
-                Next
+                {lang == "eng" ? "Next" : "Seuraava"}
               </button>
             </div>
           </div>

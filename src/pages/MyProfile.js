@@ -129,12 +129,12 @@ const MyProfile = () => {
           </p>
 
           <p>
-            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "NickName" : "Lempinimi"} </span>
+            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "NickName" : "Kutsumanimi"} </span>
             <span style={{ display: "inline-block", marginLeft: "70px" }}> {userData?.user_name ?? "Not Available"} </span>
           </p>
 
           <p>
-            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "Phone No" : "Puhelinnumero"} </span>
+            <span style={{ color: "#000000", fontWeight: "500" }}> {lang == "eng" ?  "Phone No" : "Puhelin Numero"} </span>
             <span style={{ display: "inline-block", marginLeft: "70px" }}> {userData?.phone_number ?? "Not Available"} </span>
           </p>
 
@@ -142,7 +142,7 @@ const MyProfile = () => {
 
         <div style={{ marginBottom: "20px" }}>
           <label style={{ width: "40%", color: "#000000", fontWeight: "500" }} >
-            {lang == "eng" ? "Birthday": "Syntymäpäivä"}
+            {lang == "eng" ? "Birthday": "Syntymäaika"}
           </label>
 
           {birthdayInput ? (
@@ -399,21 +399,21 @@ function InformationPopup(props) {
           }} onClick={props.onHide} > x
         </span>
 
-        <h6 style={{ textAlign: "center", fontWeight: "600" }}>{lang == "eng" ? "Information" : "Tiedot"}</h6>
+        <h6 style={{ textAlign: "center", fontWeight: "600" }}>{lang == "eng" ? "Information" : "Tiedote"}</h6>
         <p style={{ fontWeight: "600" }}>
-          {lang == "eng" ? "Deleting your account is a permanent action and cannot be undone. By proceeding, you will lose access to all your data, including:" : "Tilin poistaminen on pysyvä toimenpide, eikä sitä voi peruuttaa. Jos jatkat, menetät pääsyn kaikkeen dataasi, mukaan lukien: "}
+          {lang == "eng" ? "Deleting your account is a permanent action and cannot be undone. By proceeding, you will lose access to all your data, including:" : "Tilin poistaminen on pysyvä toimenpide, jota ei voi perua. Jatkamalla menetät pääsyn kaikkiin tietoihisi, mukaan lukien:"}
         </p>
         <ul style={{ fontWeight: "500" }}>
-          <li> {lang == "eng" ? "Coupons, rewards, and saved offers " : "Kupongit, palkinnot ja tallennetut tarjoukset"}</li>
-          <li> {lang == "eng" ? "Raffle tickets " : "Arpaliput"}</li>
-          <li> {lang == "eng" ? "Personalized settings and preferences " : "Henkilökohtaiset asetukset ja mieltymykset"}</li>
+          <li> {lang == "eng" ? "Coupons, rewards, and saved offers " : "Kupongit, osumat ja tallennetut tarjoukset"}</li>
+          <li> {lang == "eng" ? "Raffle tickets " : "Osumat"}</li>
+          <li> {lang == "eng" ? "Personalized settings and preferences " : "Personoidut asetukset ja mieltymykset"}</li>
         </ul>
-        <p style={{ fontWeight: "600" }}>{lang == "eng" ? "Please note:" :"Huomioithan"}</p>
+        <p style={{ fontWeight: "600" }}>{lang == "eng" ? "Please note:" :"Huomioithan:"}</p>
         <ul style={{ fontWeight: "600" }}>
-          <li> {lang == "eng" ? "Once deleted, we cannot recover your data. " : "Kun tili on poistettu, emme voi palauttaa tietojasi."}</li>
-          <li> {lang == "eng" ? "Any pending rewards or promotions will be forfeited. " : "Kaikki odottavat palkinnot tai kampanjat mitätöidään."}</li>
-          <li> {lang == "eng" ? " You will no longer receive updates or notifications from Tagis." : "Et saa enää päivityksiä tai ilmoituksia Tagisilta."}</li>
-          <li> {lang == "eng" ? "Your account will be deleted within 1 month. " : "Tilisi poistetaan yhden kuukauden kuluessa."}</li>
+          <li> {lang == "eng" ? "Once deleted, we cannot recover your data. " : "Poiston jälkeen emme voi palauttaa tietojasi."}</li>
+          <li> {lang == "eng" ? "Any pending rewards or promotions will be forfeited. " : "Kaikki edut menetetään."}</li>
+          <li> {lang == "eng" ? " You will no longer receive updates or notifications from Tagis." : "Etkä enää saa päivityksiä tai ilmoituksia Tagis palvelun kautta."}</li>
+          <li> {lang == "eng" ? "Your account will be deleted within 1 month. " : "Tilisi poistetaan 1 kuukauden kuluessa"}</li>
         </ul>
       </Modal.Body>
     </Modal>
@@ -452,9 +452,9 @@ function DeletePopup(props) {
           }} onClick={props.onHide} > x </span>
 
         <h5 style={{ fontSize: "18px", paddingTop: "25px", fontWeight: "600" }}>
-          {lang == "eng" ? "Are you sure you want to delete your account?" : "Haluatko varmasti poistaa tilisi?"}</h5>
+          {lang == "eng" ? "Are you sure you want to delete your account?" : "Oletko varma että haluat poistaa tilisi?"}</h5>
         <p style={{ fontSize: "16px", fontWeight: "500" }}>
-          {lang == "eng" ? "Deleting your account deletes all your coupons and tickets." : "Tilin poistaminen poistaa kaikki kuponkisi ja arpalippusi."}</p>
+          {lang == "eng" ? "Deleting your account deletes all your coupons and tickets." : "Tilinpoiston yhteydessä etusi ja kuponkisi katoavat."}</p>
         <Button onClick={props.onDeleteConfirm} style={{
             backgroundColor: "white",
             color: "#2A0181",
@@ -503,14 +503,14 @@ function LogoutPopup(props) {
 
         <img src={LogoutModalImg} alt="logout" />
         <h5 style={{ fontSize: "16px", paddingTop: "25px" }}>
-          {lang == "eng" ? "Are you sure you want to Logout ?" : "Haluatko varmasti kirjautua ulos?"}
+          {lang == "eng" ? "Are you sure you want to Logout ?" : "Oletko varma että haluat kirjautua ulos?"}
         </h5>
         <div style={{ display: "flex", gap: "20px" }}>
           <Button style={{ backgroundColor: "white", color: "#2A0181", fontWeight: "bold", border: "white", }}
             onClick={props.onHide} > 
-            {lang == "eng" ? "No" : "Ei"}
+            {lang == "eng" ? "No" : "Älä kirjaudu ulos"}
           </Button>
-          <Button style={{ backgroundColor: "white", color: "#2A0181", fontWeight: "bold", border: "white"}} onClick={props.onHide} > {lang == "eng" ? "Yes" : "Kyllä"}
+          <Button style={{ backgroundColor: "white", color: "#2A0181", fontWeight: "bold", border: "white"}} onClick={props.onHide} > {lang == "eng" ? "Yes" : "Kyllä, kirjaudun ulos"}
           </Button>
         </div>
       </Modal.Body>

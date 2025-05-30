@@ -11,6 +11,8 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
   const [timeLeft, setTimeLeft] = useState(59); // Initial time in seconds
   const [isDisable, setDisable] = useState(false);
   const { otpError } = useSelector((state) => state.user)
+    const lang = localStorage.getItem("language") || "eng";
+
   
   const closeModal = () => {
     setIsModalOpen(false);
@@ -112,7 +114,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
             }}
           >
             <h2 style={{ color: "#000000", fontWeight: "bold" }}>
-              OTP Verification
+              {lang == "eng" ? "OTP Verification" : "OTP-varmennus"}
             </h2>
             <IoIosCloseCircle
               color={"#2A0181"}
@@ -138,7 +140,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
               }}
             />
             <p style={{ fontSize: "18px", color: "#000000", fontWeight: "500" }} >
-              Please type the verification code send to  
+              {lang == "eng" ? "Please type the verification code send to " : "Syötä varmennuskoodi, joka lähetettiin numeroon"}
               <strong style={{ fontWeight: "bold", paddingLeft:'5px' }}>{data?.phone_number ?  data?.phone_number : "+1 999 999 9999"}</strong>
             </p>
             <div
@@ -179,14 +181,14 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                 <p style={{ color: "red", marginTop: "5px", fontSize:"18px", fontWeight:"bold" }}> {otpError} </p>
               )}
             <CustomButton
-              text={"Submit"}
+              text={lang == "eng" ? "Submit" : "Lähetä"}
               onClick={handleSubmit}
               fullWidth={"40%"}
             />
 
             <div style={{ fontSize: "16px", color: "#000000", marginTop: 10 }}>
               <p style={{ margin: "0", color: "#565656" }}>
-                Didn't receive the verification code?
+                {lang == "eng" ? "Didn't receive the verification code?" : "Etkö saanut varmennuskoodia? Lähetä uudelleen"}
                 <strong
                   style={{
                     fontWeight: isDisable ? "normal" : "bold",
@@ -199,11 +201,11 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
                       setTimeLeft(59);
                     }
                   }} >
-                  Resend
+                  {lang == "eng" ? "Resend" : "lähetä uudelleen"}
                 </strong>
               </p>
              {timeLeft > 0 && <p style={{ margin: "0", fontSize: "14px", color: "#565656" }}>
-                Resend verification code in{" "}
+                {lang == "eng" ? "Resend verification code in" : "Lähetä varmennuskoodi uudelleen"}{" "}
                 <span style={{ color: "#2B0186" }}>
                   {timeLeft < 0 ? `0${timeLeft}` : timeLeft} sec
                 </span>

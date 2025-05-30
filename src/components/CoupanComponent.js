@@ -21,6 +21,8 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
     black: black,
   };
 
+    const lang = localStorage.getItem("language") || "eng";
+
   const [endTime, setEndTime] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [validDob, setValidDob] = useState(false);
@@ -150,7 +152,7 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
             <h2>{clientData?.client_name ?? "OLO"}</h2>
             <h3>{allData?.coupon_name}</h3>
             <p>
-              VALID UNTIL :
+              {lang =="eng" ?  "VALID UNTIL" : "Voimassa asti"}
               <b>
                 {allData?.validity_no_limit
                   ? "No Expiration"

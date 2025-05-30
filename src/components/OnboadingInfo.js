@@ -58,7 +58,7 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>{lang == "eng" ? "Information" : "Tiedot" }</h2>
+              <h2 style={{ color: "#FFFFFF" }}>{lang == "eng" ? "Information" : "Tiedote" }</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
@@ -92,23 +92,19 @@ const OnboaringInfo = ({ isModalOpen, setIsModalOpen }) => {
             </div> : 
             (<div style={{ textAlign: "left", padding: "0 20px" }}>
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
-                Tervetuloa Tagis-lompakkoosi! Täältä löydät nopean yleiskatsauksen 
-                keräämistäsi palkinnoista:
+                Tervetuloa Tagis-lompakkoosi! Täältä löydät nopean yhteenvedon keräämistäsi eduista:
               </p>
               
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
-                Kupongit: Näet täällä kaikki aktiiviset kupongit, jotka ovat valmiina
-                käytettäväksi milloin tahansa.
+                Kupongit: Kaikki aktiiviset kuponkisi näkyvät tässä, valmiina lunastettavaksi milloin tahansa.
               </p>
               
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
-                Arpaliput: Jokainen napautus lisää arpalipun vuosittaisiin ja kuukausittaisiin
-                arvontoihin – kasvattaen mahdollisuuksiasi voittaa upeita palkintoja!
+                Osumat: Jokainen hyväksytty täppäys* antaa sinulle mahdollisuuden voittaa NFC Median eksklusiivisia etuja ja palkintoja!
               </p>
               
               <p style={{ color: "#FFFFFF", margin: "10px 0" }}>
-                Muista tarkistaa usein uudet kupongit ja seurata, kuinka arpalippujesi
-                määrä kasvaa jokaisella napautuksella!
+                Muista tarkistaa usein uudet kupongit ja katso, kuinka osumien määrä kasvaa jokaisella hyväksytyllä täppäyksellä!
               </p>
             </div>)
             }

@@ -30,6 +30,8 @@ const CopsActivation = ({
   const [userDob, setUserDob] = useState(null);
   const [dobError, setDobError] = useState(null);
   const [showBirthdayPopup, setShowBirthdayPopup] = useState(false);
+    const lang = localStorage.getItem("language") || "eng";
+
 
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
   const client_id = localStorage.getItem("client_id");
@@ -173,7 +175,7 @@ const CopsActivation = ({
               }}
             >
               <h5 style={{ color: "black", fontWeight:"bold" }}>
-                Congratulations, here is your coupon!
+                {lang == "eng" ? "Congratulations, here is your coupon!" : "Onneksi olkoon, tässä on sinun etukuponki!"}
               </h5>
               <IoIosCloseCircle
                 color={"#2A0181"}
@@ -206,7 +208,7 @@ const CopsActivation = ({
                 <h2>{clientData?.client_name ?? "OLO"}</h2>
                 <h3> {currentCoupanData?.coupon_name} </h3>
                 {/* <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p> */}
-                <p>VALID UNTIL : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
+                <p>{lang =="eng" ?  "VALID UNTIL" : "Voimassa asti"} : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
                 {/* <span>Age : 18+</span> */}
               </div>
             </div>
@@ -217,8 +219,7 @@ const CopsActivation = ({
             
             <div className="modal-data"> 
               <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
-                Activate the coupon in-store and show this at the checkout.
-                (Coupon is valid for 15 minutes after activation) <br />
+                {lang == "eng" ? "Activate the coupon in-store and show this at the checkout. (Coupon is valid for 15 minutes after activation) " : "Aktivoi kuponki myyjäliikkeessä ja näytä sitä kassalla. (Kuponki on käytettävissä 10 minuuttia aktivoinnin jälkeen)"}<br />
               </p>
 
               <p dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
@@ -229,11 +230,11 @@ const CopsActivation = ({
               <div style={{borderRadius: "10px", textAlign: "center",width: "90%", margin:"auto" }} >
                 <div style={{ display: "flex", alignItems: "center",justifyContent: "center",position: "relative"}}>
                   <h3 style={{ color: "black", fontWeight: "bold", fontSize:"18px" }}>
-                    Confirm your age before proceeding further!!
+                  { lang == "eng" ? "Confirm your age before proceeding further!!" : "Vahvista ikäsi ennen kuin jatkat!!"}
                   </h3> 
                 </div>
-                <h5 style={{ marginTop: 10, textAlign: "start", marginLeft: 40, color: "#000000" }}> DOB </h5>
-                <span style={{ color: "#9A9A9A" }}>Enter your date of birth</span>
+                <h5 style={{ marginTop: 10, textAlign: "start", marginLeft: 40, color: "#000000" }}> {lang =="eng" ?"DOB" : "Syntymäaika"} </h5>
+                <span style={{ color: "#9A9A9A" }}>{lang == "eng" ? "Enter your date of birth" : "Syötä syntymäaika"}</span>
                 
                 <input type="date" placeholder="DD/MM/YYYY" maxLength="10" 
                 style={{ padding: "8px 12px", border: "1px solid #2A0181", borderRadius: "10px", fontSize: "16px",
@@ -242,7 +243,7 @@ const CopsActivation = ({
                 <div style={{ marginTop: "20px" }}>
                   <button style={{ padding: "8px 12px", backgroundColor: "#2A0181", color: "white", border: "none",
                       borderRadius: "40px", cursor: "pointer", fontWeight: "bold", width: "40%" }} onClick={handleDobUpdate} 
-                  > Next
+                  > { lang == "eng" ? "Next" : "Seuraava"}
                   </button>
                 </div>
               </div>
@@ -262,13 +263,13 @@ const CopsActivation = ({
                   callBack(currentCoupanData);
                 }
               }} >
-              ACTIVATE
+              {lang == "eng" ? "ACTIVATE" : "KÄYTÄ KUPONKI"} 
             </button>
             }
             <p style={{ color: "black", textAlign: "center", marginTop: 10 }}>
-              Read the campaign{" "}
+              {lang == "eng" ? "Read the campaign" : "Lue kampanjan"}
               <span style={{ color: "#25026E", textDecoration: "underline" }} onClick={() => setShowCampaignTerms(true)}>
-                terms and conditions
+                {lang == "eng" ? "terms and conditions" : "ehdot ja säännöt"} 
               </span>
               .
             </p>

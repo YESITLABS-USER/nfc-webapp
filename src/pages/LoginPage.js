@@ -74,15 +74,16 @@ const LoginPage = () => {
           alignSelf: "center",
           marginTop: 20,
         }} >
-          Welcome to Tagis!
+          {lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa Tagikseen!"}
         </span>
         <span style={{
           fontSize: "16px",
           textAlign: "center",
           alignSelf: "center",
         }} >
-          Review easily, enjoy benefits - It all <br /> happens with just{" "}
-          <span style={{ color: "#2C0089", fontWeight: "bold" }}> one tap!</span>
+          { lang == "eng" ? `Review easily, enjoy benefits - It all ${<br />} happens with just{" "}` : `Arvostele helposti ja nauti eduista - Kaikki tapahtuu yhdellä täppäyksellä!`}
+          
+          <span style={{ color: "#2C0089", fontWeight: "bold" }}> {lang == "eng" ? "one tap!" : "yksi napautus!"}</span>
         </span>
       </div>
 

@@ -17,6 +17,8 @@ const LoyaltyCardImgComponent = ({
   clientLogo
 }) => {
   const [coupanPopup, setCoupanPopup] = useState(false);
+    const lang = localStorage.getItem("language") || "eng";
+
 
   const modifiedFreeItem = free_item.toLowerCase().startsWith("free ") 
     ? free_item.replace(/^free /i, '')  // Remove 'free' while preserving case
@@ -90,7 +92,7 @@ const LoyaltyCardImgComponent = ({
           {Number(open_stamps) > Number(total_stamps) ? Number(total_stamps) : Number(open_stamps)}/{Number(total_stamps)}
         </div>}
         <div className="get-free-coupon-bottom">
-          <p>Loyalty Card <span>VALID UNTIL <b>{end_date}</b></span></p>
+          <p>{lang =="eng" ? "Loyalty Card":"Kanta-Asiakas Kortti"} <span>{lang =="eng" ?  "VALID UNTIL" : "Voimassa asti"} <b>{end_date}</b></span></p>
         </div>
 
         {/* Stamp counter indicator */}

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
-const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
+const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow, selectedCardDetail }) => {
   const closeModal = () => setIsModalOpen(false);
+  const lang = localStorage.getItem("language") || "eng";
 
   useEffect(() => {
     if (isModalOpen) {
@@ -57,7 +58,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
                 position: "relative",
               }}
             >
-              <h2 style={{ color: "#FFFFFF" }}>Confirm Unfollowing</h2>
+              <h2 style={{ color: "#FFFFFF" }}>{lang =="eng" ? "Confirm Unfollowing" : "Vahvista seurannan lopettaminen"}</h2>
               <IoIosCloseCircle
                 color={"white"}
                 size={30}
@@ -71,10 +72,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
               />
             </div>
             <p style={{ color: "#FFFFFF", textAlign: "center" }}>
-              Unfollowing a company will delete all your Coupons from this
-              company and cancels all progress in coupons. You stop receiving
-              all future offers from BASBAS You can start following again once
-              you tap their Tagis tag in store.
+              {lang == "eng" ? `Unfollowing a company will delete all your Coupons from this company and cancels all progress in coupons. You stop receiving all future offers from ${selectedCardDetail?.client_name} You can start following again once you tap their Tagis tag in store.` : `Yrityksen seurannan lopettaminen poistaa kaikki tämän yrityksen kuponkisi ja leimakorttisi. Et enää vastaanota tulevia tarjouksia yritykseltä ${selectedCardDetail?.client_name} Voit aloittaa seurannan uudelleen täppäämällä heidän Tagis-tagiaan liikkeessä.`}
             </p>
             <button
               style={{
@@ -88,7 +86,7 @@ const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow }) => {
               }}
               onClick={handleUnfollow}
             >
-              UNFOLLOW
+              {lang == "eng" ? "UNFOLLOW" : "LOPETA SEURAAMINEN"}
             </button>
           </div>
         </div>

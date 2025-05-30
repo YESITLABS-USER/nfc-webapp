@@ -34,6 +34,7 @@ const MyPage = () => {
   const [showDeleted, setShowDeleted] = useState(false);
   const [showCoupanDeletepopup, setShowCoupanDeletepopup] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null); // State to store the card id for deletion
+  const [selectedCardDetail, setSelectedCardDetail] = useState(null); // State to store the card id for deletion
   const navigate = useNavigate()
 
   const handleBottmSheet = (val) => {
@@ -206,7 +207,7 @@ const MyPage = () => {
           display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 15,
           zIndex: 100,
         }} >
-          <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>{lang == "eng" ? "My Places" : "Omat paikat"}</h3>
+          <h3 style={{ marginLeft: "30px", fontWeight: "600" }}>{lang == "eng" ? "My Places" : "Omat Paikat"}</h3>
           <FaInfoCircle size={24} color="#25026E" style={{ marginRight: "30px" }}
             onClick={() => {
               setIsModalOpen(true);
@@ -248,15 +249,16 @@ const MyPage = () => {
                 </button>
                 <button style={styles.button} onClick={() => {
                   setSelectedCardId(item?.client_table_id);
+                  setSelectedCardDetail(item)
                   setIsUnfollow(true);
                 }}>
-                  {item?.follow_status ? "UNFOLLOW" : "FOLLOW"}
+                  {item?.follow_status ? lang == "eng" ?  "UNFOLLOW" : "Lopeta Seuraaminen" : lang == "eng" ?  "FOLLOW" : "Seuraaminen"}
                 </button>
               </div>
             </div>
           ))}
           {(allClientsData?.length > 3) && <button style={styles.showMore} onClick={toggleVisibility}>
-            {isExpanded ? "Show Less" : "See More"}
+            {isExpanded ? "Show Less" : lang == "eng" ? "See More" : "Näytä lisää"}
             <FaChevronDown style={{ marginLeft: "10px", transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }} />
           </button>}
         </div>
@@ -454,12 +456,12 @@ const MyPage = () => {
           <img src={Line22} alt="line22" style={{ marginTop: 20 }} />
 
           <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} >
-            Coupon Confirmation
+            {lang == "eng" ? "Coupon Confirmation" : "Vahvista etusetelin käyttö"}
           </h2>
 
           <img src={ThickLine} alt="thick tline" style={{ marginBottom: 30 }} />
           <p style={{ textAlign: "center", marginBottom: "10px", color: "black" }}>
-            I confirm that I want to activate the coupon.
+            {lang == "eng" ? "I confirm that I want to activate the coupon." : "Haluan aktivoida etusetelin käytettäväksi"}
           </p>
 
           <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
@@ -479,7 +481,7 @@ const MyPage = () => {
                 setIsSliderOpen(false);
                 setFreeCops(false);
               }} >
-              RETURN
+              {lang == "eng" ? "RETURN" : "Takaisin"}
             </button>
             <button
               style={{
@@ -500,12 +502,11 @@ const MyPage = () => {
                 setCoupanPopup(true);
               }}
             >
-              ACTIVATE
+             {lang == "eng" ? "ACTIVATE" : " KÄYTÄ KUPONKI"} 
             </button>
           </div>
-          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }}           >
-            Note: The coupon is valid for 15 minutes after activation.
-          </p>
+          <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }}>
+            {lang == "eng" ? "Note: The coupon is valid for 10 minutes after activation." : " Huom: Etuseteli on käytettävissä 10 minuuttia aktivoinnin jälkeen"} </p>
         </div>
       </BottomSheet>
 
@@ -541,6 +542,7 @@ const MyPage = () => {
         setIsModalOpen={setIsUnfollow}
         itemId={selectedCardId}
         onUnfollow={handleUnfollow}
+        selectedCardDetail ={selectedCardDetail}
       />
       <DeletePopup isModalOpen={showDeleted} setIsModalOpen={setShowDeleted} handleDelete={handleLoyalityDelete}
         cardId={selectedCardId} name="loyalty card" />

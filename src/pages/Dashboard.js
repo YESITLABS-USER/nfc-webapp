@@ -290,14 +290,14 @@ const Dashboard = () => {
                   fontWeight: "bold",
                 }}
               >
-                {isExpanded ? lang== "eng" ? "Read less..." : "Näytä vähemmän..." : lang== "eng" ? "Read more..." : "Lue lisää..."}
+                {isExpanded ? lang== "eng" ? "Read less..." : "Näytä vähemmän..." : lang== "eng" ? "Read more..." : "Näytä Enemmän..."}
               </span>
             )}
           </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>
-        <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>{ lang == "eng" ? "EXPLORE OUR COUPONS" : "Tutustu tarjouksiimme"}</h3>
+        <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>{ lang == "eng" ? "EXPLORE OUR COUPONS" : "Käytettävissä olevat edut"}</h3>
 
         {/* <LoyaltyCard /> */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
@@ -502,11 +502,11 @@ const Dashboard = () => {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", }} >
           <img src={Line22} alt="line22" style={{ marginTop: 20 }} />
 
-          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} > Coupon Confirmation </h2>
+          <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#000000", paddingTop: "20px", fontWeight: "600", }} > {lang == "eng" ? "Coupon Confirmation" : "Vahvista etusetelin käyttö"} </h2>
 
           <img src={ThickLine} alt="thick tline" style={{ marginBottom: 30 }} />
           <p style={{ textAlign: "center", marginBottom: "10px", color: "black" }}>
-            I confirm that I want to activate the coupon.
+            {lang == "eng" ? "I confirm that I want to activate the coupon." : "Haluan aktivoida etusetelin käytettäväksi"}
           </p>
 
           <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", margin: 10, }} >
@@ -526,7 +526,7 @@ const Dashboard = () => {
                 setIsSliderOpen(false);
                 setFreeCops(false);
               }} >
-              RETURN
+              {lang == "eng" ? "RETURN" : "Takaisin"}
             </button>
             <button
               style={{
@@ -550,7 +550,7 @@ const Dashboard = () => {
             </button>
           </div>
           <p style={{ margin: 10, color: "#000000", fontSize: 16, fontWeight: "500", textAlign: "center", }} >
-            Note: The coupon is valid for 15 minutes after activation.
+            {lang == "eng" ? "Note: The coupon is valid for 10 minutes after activation." : " Huom: Etuseteli on käytettävissä 10 minuuttia aktivoinnin jälkeen"}
           </p>
         </div>
       </BottomSheet>

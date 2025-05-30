@@ -8,6 +8,7 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIos, setIsIos] = useState(false);
   const [isInStandaloneMode, setIsInStandaloneMode] = useState(false);
+  const lang = localStorage.getItem("language") || "eng";
 
   const closeModal = () => {
     localStorage.setItem("nfc-shortcut", "dismissed");
@@ -119,8 +120,8 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
               style={{ color: "#000000", fontSize: "20px", fontWeight: "bold" }}
             >
               {isIos
-                ? "Add Tagis To Your Home Screen"
-                : "Add Tagis To Your Home Screen"}
+                ? lang == "eng" ? "Add Tagis To Your Home Screen" : "Lisää Tagis pikakuvake näytölle"
+                : lang == "eng" ? "Add Tagis To Your Home Screen" : "Lisää Tagis pikakuvake näytölle"}
             </h5>
             <IoIosCloseCircle
               color={"#2A0181"}

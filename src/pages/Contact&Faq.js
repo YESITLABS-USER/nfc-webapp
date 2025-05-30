@@ -92,7 +92,7 @@ function ContactFaq() {
         <div style={{ marginLeft: 10 }}>
           {activeTab == "contact" ? (
             <div>
-              <h5 style={{ color: "black", fontWeight: "bold" }}>{lang == "eng" ? "CONTACT US" : "OTA YHTEYTTÄ"}</h5>
+              <h5 style={{ color: "black", fontWeight: "bold" }}>{lang == "eng" ? "CONTACT US" : "Ota Yhteyttä"}</h5>
               <p style={{ color: "#000000", fontWeight: "500", fontSize: 18 }}>
                 {lang == "eng" ? "We're here to help! If you have any questions, feedback,or inquiries about our services, please feel free to reachout to us." : "Olemme täällä auttamassa! Jos sinulla on kysyttävää, palautetta tai tiedusteluja palveluistamme, ota rohkeasti meihin yhteyttä."}
               </p>
@@ -107,7 +107,7 @@ function ContactFaq() {
                     style={{ color: "red", width: "80%", marginLeft: "10px", fontWeight: "500", marginTop: -10,}} />
 
                   {/* For Phone */}
-                  <Field type="tel" name="phone" placeholder={lang == "eng" ? "Phone" : "Puhelin"}
+                  <Field type="tel" name="phone" placeholder={lang == "eng" ? "Phone" : "Puhelinnumero"}
                     style={{
                       margin: 10, padding: "10px 0", fontSize: "14px", border: "none", borderBottom: "2px solid #ddd",
                       outline: "none", }} />
@@ -127,7 +127,7 @@ function ContactFaq() {
             // For Faqs
             <div>
               <h5 style={{ fontWeight: "bold", color: "#000000" }}>
-                {lang == "eng" ? "Frequently Asked Questions (FAQ)" : "Usein kysytyt kysymykset (UKK)"}
+                {lang == "eng" ? "Frequently Asked Questions (FAQ)" : "Usein Kysytyt Kysymykset"}
               </h5>
               {loading ? (
                 <p>{lang == "eng" ? "Loading..." : "Ladataan..."}</p>

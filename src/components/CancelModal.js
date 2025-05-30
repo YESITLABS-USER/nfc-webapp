@@ -4,6 +4,7 @@ import Cancel from "../assets/icons/calcelModal.png";
 
 const CancelModal = ({ isModalOpen, setIsModalOpen }) => {
   const closeModal = () => setIsModalOpen(false);
+  const lang = localStorage.getItem("language") || "eng";
 
   useEffect(() => {
     if (isModalOpen) {
@@ -71,7 +72,7 @@ const CancelModal = ({ isModalOpen, setIsModalOpen }) => {
               />
             </div>
             <h5 style={{ marginTop: 20, fontWeight: "700" }}>
-              You are not allowed to use this coupon.
+              {lang == "eng" ? "You are not allowed to use this coupon." : "Et ole oikeutettu käyttämään tätä kuponkia"}
             </h5>
 
             <div style={{ marginTop: "20px" }}>
@@ -90,7 +91,7 @@ const CancelModal = ({ isModalOpen, setIsModalOpen }) => {
                   closeModal();
                 }}
               >
-                Back
+                {lang == "eng" ? "Back" : "Takaisin"}
               </button>
             </div>
           </div>

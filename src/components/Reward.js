@@ -17,7 +17,7 @@ const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, c
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const hasDispatched = useRef(false); // <-- Keeps track of dispatch status
-
+  const lang = localStorage.getItem("language") || "eng";
 
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer))); // 15 minute in seconds
 
@@ -115,7 +115,7 @@ filter: "drop-shadow(0px 2px 1px rgba(0, 0, 0, 1))"
           </span>
           <div className="reward-top">
             <h4 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "10px" }} >
-              Congratulations
+              {lang == "eng" ? "Congratulations" : " Onneksi Olkoon!"}
             </h4>
 
             <p style={{ fontSize: pFontSize, fontWeight: "bold", margin: "10px 0", textTransform: "uppercase" }} >
@@ -138,11 +138,11 @@ filter: "drop-shadow(0px 2px 1px rgba(0, 0, 0, 1))"
             </div>
 
             <span style={{ fontSize: "14px", marginTop: "0px", fontWeight: "600", display: "block", }} >
-              Coupon is active
+              { lang == "eng" ? "Coupon is active" : "Kuponki on aktivoitu"}
             </span>
 
             <div style={{ fontSize: "14px", marginTop: "20px", fontWeight: "bold", }}>
-              Show The Coupon To The Cashier After Activation
+              {lang == "eng" ? "Show The Coupon To The Cashier After Activation" : "Näytä kuponki henkilökunnalle"}
             </div>
           </div>
           </div>

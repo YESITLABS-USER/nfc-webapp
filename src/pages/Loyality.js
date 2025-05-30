@@ -224,7 +224,7 @@ const Loyality = () => {
 
               timer = {data?.last_stamp_click_time ? getRemainingTime(data?.last_stamp_click_time, "00:10:00") :"00:10:00" }
               // timer = {data?.expiration_time}
-              countText={ data?.free_items_name || "Task Completed"
+              countText={lang == "eng" ? `Here IS YOUR ${data?.free_items_name} COUPON` : `Tässä on SINUN ${data?.free_items_name} -KUPONKISI` || "Task Completed"
                 // confirmCompleted
                 //   ? (data?.free_items_name || "Task Completed")
                 //   // : `${Number(user?.total_open_stamps) + 1 ?? 1} / ${data?.number_of_stamps}`

@@ -6,6 +6,8 @@ import LoginModal from "./InfoModal";
 const Coopons = ({ setCallback, value }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shakeIndex, setShakeIndex] = useState(null); // Track which image is shaking
+    const lang = localStorage.getItem("language") || "eng";
+
 
   const handleImageClick = (index) => {
     setShakeIndex(index); // Trigger shake for the clicked image
@@ -66,7 +68,7 @@ const Coopons = ({ setCallback, value }) => {
             color: "#000000",
           }}
         >
-          Coupons
+          {lang == "eng" ? "Coupons" : "Kupongit"}
         </span>
         <FaInfoCircle
           style={{ marginRight: "30px", cursor: "pointer" }}

@@ -128,7 +128,7 @@ const LoginPage = () => {
                 }}
                 onBlur={handleBlur}
                 name="phone_number"
-                label="Phone Number"
+                label={lang == "eng" ? "Phone Number" : "Puhelinnumero"}
                 num={true}
               />
               {errors.phone_number && touched.phone_number && (
@@ -138,7 +138,7 @@ const LoginPage = () => {
               )}
             </div>
 
-            <CustomButton text={loading ? "Loading..." : "Log In"} onClick={handleSubmit} fullWidth={"40%"} />
+            <CustomButton text={loading ? lang == "eng" ? "Loading..." : "Ladataan..." : lang == "eng" ? "Log In" : "Kirjaudu Sisään"} onClick={handleSubmit} fullWidth={"40%"} />
           </div>
         )}
       </Formik>
@@ -161,7 +161,7 @@ const LoginPage = () => {
         <img src={GoogleReview} alt="Star Pattern" className="start-img" style={{ width: "auto", height: "auto" }} />
       </div>
 
-      <CustomButton text="Leave a review" fullWidth="50%"
+      <CustomButton text={lang == "eng" ? "Leave a Review" : "Jätä arvostelu"} fullWidth="50%"
         onClick={() => {
           const reviewLink = clientData?.google_review_link;
           if (reviewLink) {

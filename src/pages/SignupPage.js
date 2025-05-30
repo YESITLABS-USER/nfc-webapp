@@ -229,7 +229,7 @@ const SignupPage = () => {
 
           </div>
 
-          <CustomButton text={loading ? "Loading..." : lang == "eng" ? "Sign Up" : "Rekisteröidy"} type="submit" fullWidth={"40%"} />
+          <CustomButton text={loading ? lang == "eng" ? "Loading..." : "Ladataan..." : lang == "eng" ? "Sign Up" : "Rekisteröidy"} type="submit" fullWidth={"40%"} />
         </Form>
       )}
     </Formik>
@@ -256,7 +256,7 @@ const SignupPage = () => {
         <img src={GoogleReview} alt="Star Pattern" className="start-img" style={{ width: "auto", height: "auto" }} />
       </div>
 
-      <CustomButton text="Leave a review" fullWidth="50%" 
+      <CustomButton text={lang == "eng" ? "Leave a Review" : "Jätä arvostelu"} fullWidth="50%" 
         onClick={() => {
           const reviewLink = clientData?.google_review_link;
           if (reviewLink) {

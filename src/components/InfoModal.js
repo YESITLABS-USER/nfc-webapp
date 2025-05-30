@@ -113,6 +113,8 @@ import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
+      const lang = localStorage.getItem("language") || "eng";
+
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
@@ -182,35 +184,28 @@ const InfotModal = ({ isModalOpen, setIsModalOpen }) => {
             </div>
             <p style={{ color: "#FFFFFF", textAlign: "left" }}>
               <span style={{ display: "inline-block" }}>
-                Discover exclusive promotions from businesses on Tagis. By
-                following businesses, you can access special campaigns and
-                unique discounts crafted for loyal customers. Here’s what you
-                can expect:
+                {lang == "eng" ? "Discover exclusive promotions from businesses on Tagis. By following businesses, you can access special campaigns and unique discounts crafted for loyal customers. Here’s what you can expect:" : "Löydä eksklusiivisia tarjouksia Tagis-yrityksiltä. Seuraamalla yrityksiä pääset käsiksi erikoiskampanjoihin ja uniikkeihin alennuksiin, jotka on suunniteltu kanta-asiakkaille. Tässä mitä voit odottaa:"}
               </span>
             </p>
             <p style={{ color: "#FFFFFF", textAlign: "left" }}>
               <ul>
                 <li>
-                  Welcome Discounts: Many businesses offer first-time coupons as
-                  a thank-you for following them.
+                  {lang == "eng" ? "Welcome Discounts: Many businesses offer first-time coupons as a thank-you for following them." : "Tervetuliaisalennukset: Monet yritykset tarjoavat ensikertalaisen kuponkeja kiitoksena seurannasta."}
                 </li>
               </ul>
               <ul>
                 <li>
-                  Loyalty Rewards: Earn additional rewards with every tap or
-                  after a certain number of visits.
+                  {lang == "eng" ? "Loyalty Rewards: Earn additional rewards with every tap or after a certain number of visits." : "Kanta-asiakaspalkinnot: Ansaitse lisäpalkintoja jokaisella täppäyksellä tai tietyn käyntimäärän jälkeen."}
                 </li>
               </ul>
               <ul>
                 <li>
-                  Seasonal & Limited-Time Offers: Get notified about seasonal
-                  deals and limited-time promotions that you won’t want to miss!
+                  {lang == "eng" ?  "Seasonal & Limited-Time Offers: Get notified about seasonal deals and limited-time promotions that you won’t want to miss!" : "Kausi- & Rajoitetun Ajan Tarjoukset: Saat ilmoituksia kausittaisista diileistä ja rajoitetun ajan kampanjoista, joita et halua ohittaa!"}
                 </li>
               </ul>
             </p>
             <p style={{ color: "#FFFFFF", textAlign: "left" }}>
-              Tap Follow on your favorite businesses to unlock their offers and
-              receive updates directly to your Tagis Wallet.
+              { lang == "eng" ? "Tap Follow on your favorite businesses to unlock their offers and receive updates directly to your Tagis Wallet." : "Täppää `Seuraa` suosikkiyrityksiäsi avataksesi heidän tarjouksensa ja saadaksesi päivitykset suoraan Tagis-lompakkoosi."}
             </p>
           </div>
         </div>

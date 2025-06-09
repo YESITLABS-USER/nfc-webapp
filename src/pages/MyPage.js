@@ -225,11 +225,14 @@ const MyPage = () => {
 
               <div style={styles.itemContent}>
                 {/* <h3 style={styles.itemTitle}>{item?.client_name}</h3> */}
-                <h3 style={styles.itemTitle}>
+                <h3 style={{...styles.itemTitle, maxWidth:"300px"}}>
+                  {item?.client_name} 
+                </h3>
+                {/* <h3 style={styles.itemTitle}>
                   {item?.client_name?.length > 12 ? (
                     <> {item?.client_name?.slice(0, 12)}-<br /> {item?.client_name?.slice(12)} </>
                   ) : (item?.client_name)}
-                </h3>
+                </h3> */}
                 <p style={styles.itemDescription}>
                   {item?.city}
                 </p>

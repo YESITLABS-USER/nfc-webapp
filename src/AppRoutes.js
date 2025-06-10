@@ -14,6 +14,7 @@ import NewScan from "./pages/NewScan";
 import ProfileById from "./pages/ProfileById";
 import NFCTag from "./pages/NFCTag";
 import InvalidScan from "./pages/InvalidScan";
+import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
   return (
@@ -36,7 +37,7 @@ const AppRoutes = () => {
       <Route path="/userprofile/:id" element={<ProfileById />} />
       <Route path="/loyality" element={<Loyality />} />
       <Route path="/about-tagis" element={<AboutScreen />} />
-      <Route path="*" element={<h1>Page Not Found</h1>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

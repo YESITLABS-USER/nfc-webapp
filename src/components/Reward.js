@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import bg from "../assets/images/rewardBg.png";
 import bgOrange from "../assets/images/bgOrange.png";
-import bgBlack from "../assets/images/bgBlack.png";
+import bgBlack from "../assets/images/black.png";
 import bgBlue from "../assets/images/bgBlue.png";
 import bgRed from "../assets/images/bgRed.png";
 import cross from "../assets/icons/cross-icon.svg";
@@ -61,7 +61,7 @@ const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, c
       }}
     >
       <div
-        style={{ background: couponData?.color_selection ? undefined : "linear-gradient(90deg, #2D008C, #25046B)", backgroundColor: couponData?.color_selection == "orange" ? "#e5600c" : couponData?.color_selection == "red" ? "#B60202" : couponData?.color_selection == "blue" ? "#3125c3" : couponData?.color_selection == "black" ? "#1d0054" : "",
+        style={{ background: couponData?.color_selection ? undefined : "linear-gradient(90deg, #2D008C, #25046B)", backgroundColor: couponData?.color_selection == "orange" ? "#e5600c" : couponData?.color_selection == "red" ? "#B60202" : couponData?.color_selection == "blue" ? "#3125c3" : couponData?.color_selection == "black" ? "#000" : "",
           width: "100%",
           height: "100vh",
           position: "relative",

@@ -525,7 +525,7 @@ const MyPage = () => {
         <Reward
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") : "00:10:00"} clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
           onClose={() => setCoupanPopup(false)}
-          countText={`Here is your ${
+          countText={`${lang =="eng" ? `Here is your`: `Tässä on SINUN `} ${
             currentCoupanData?.coupon_type_content?.[0]?.free_item
               || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage && `${currentCoupanData.coupon_type_content[0].discount_percentage}% off Coupon`)
               || (currentCoupanData?.coupon_type_content?.[0]?.discount_value && `${currentCoupanData.coupon_type_content[0].discount_value} off Coupon`)
@@ -534,7 +534,7 @@ const MyPage = () => {
               || "Coupon from olo"
           }`}
 
-          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `DOES NOT INCLUDE ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
+          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `${lang =="eng" ? `DOES NOT INCLUDE` : `EI SISÄLLÄ`} ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
         />
       )}
 

@@ -125,7 +125,8 @@ const LoyaltyCardImgComponent = ({
           }}
           // timer={allData?.last_stamp_click_time + "00:10:00"}
           timer={getRemainingTime(allData?.last_stamp_click_time, "00:10:00")}
-          countText={`Here is your free ${allData?.free_items_name}` || "Task Completed"}
+          // countText={`Here is your free ${allData?.free_items_name}` || "Task Completed"}
+          countText={lang == "eng" ? `Here IS YOUR ${allData?.free_items_name} COUPON` : `Tässä on SINUN ${allData?.free_items_name} -KUPONKISI` || "Task Completed"}
           countText2={""}
         />
       )}

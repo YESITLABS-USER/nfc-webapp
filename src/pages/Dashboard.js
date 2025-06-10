@@ -563,7 +563,7 @@ const Dashboard = () => {
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
           }}
-          countText={`Here is your ${
+          countText={`${lang =="eng" ? `Here is your`: `Tässä on SINUN `} ${
             currentCoupanData?.coupon_type_content?.[0]?.free_item
               || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage ? `${currentCoupanData.coupon_type_content[0].discount_percentage}% off Coupon` : "")
               || (currentCoupanData?.coupon_type_content?.[0]?.discount_value ? `${currentCoupanData.coupon_type_content[0].discount_value} off Coupon` : "")
@@ -572,7 +572,7 @@ const Dashboard = () => {
               || "Coupon from olo"
           }`}
 
-          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `DOES NOT INCLUDE ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
+          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `${lang =="eng" ? `DOES NOT INCLUDE` : `EI SISÄLLÄ`}  ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
         />
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />

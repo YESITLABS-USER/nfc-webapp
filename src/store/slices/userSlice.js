@@ -129,7 +129,9 @@ const userSlice = createSlice({
       })
       .addCase(checkValidRestorent.fulfilled, (state, action) => {
         state.loading = false;
-        if(action.payload?.status) {
+        const url = localStorage.getItem("url")
+
+        if(action.payload?.status && url != `/home/"+${action.payload?.slug}`) {
             localStorage.setItem('client_id', action.payload?.client_table_id);
             localStorage.setItem('url', ("/home/"+action.payload?.slug));
           }

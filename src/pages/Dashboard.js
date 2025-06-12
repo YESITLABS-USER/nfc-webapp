@@ -363,6 +363,9 @@ const Dashboard = () => {
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
+        {/* {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
+            <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
+          ) : ( */}
         {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
             <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
           ) : (

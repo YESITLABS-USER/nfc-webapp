@@ -226,10 +226,14 @@ const clientSlice = createSlice({
       .addCase(addClientInUser.fulfilled, (state, action) => {
         state.couponLoading = false;
         state.message = action.payload?.message;
+        localStorage.setItem('url', ("/home/"+action.payload?.slug));
+        window.location.href = ("/home/"+action.payload?.slug)
       })
       .addCase(addClientInUser.rejected, (state, action) => {
         state.couponLoading = false;
         state.error = action.payload?.message;
+        localStorage.setItem('url', ("/home/invalid-page"));
+        window.location.href = ("/home/invalid-page")
       }) 
   },
 });

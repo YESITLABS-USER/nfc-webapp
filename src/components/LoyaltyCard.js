@@ -13,12 +13,12 @@ const LoyaltyCardImgComponent = ({
   backgroundImage = BGImage,
   completed_status = 0,
   allData = null,
-  url = "/dashboard",
+  url = localStorage.getItem("url") || "/home/invalid-page",
   clientLogo
 }) => {
   const [coupanPopup, setCoupanPopup] = useState(false);
     const lang = localStorage.getItem("language") || "eng";
-
+    // const url = localStorage.getItem("url") || "/home/invalid-page";
 
   const modifiedFreeItem = free_item.toLowerCase().startsWith("free ") 
     ? free_item.replace(/^free /i, '')  // Remove 'free' while preserving case

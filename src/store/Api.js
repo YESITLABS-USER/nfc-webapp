@@ -19,6 +19,7 @@ export const logout = (id) => API.post('/api/v1/logout', id, {
 
 // ------------------------------ User Slice APi -----------------------------------------------
 
+export const checkValidRestorent = (formData) => API.post("/api/v2/client-location-nfc-media-url", formData);
 
 export const locationChange = (formData) => API.post(`/api/v1/change-lang`, formData);
 

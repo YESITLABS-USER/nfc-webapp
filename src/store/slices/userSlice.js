@@ -13,6 +13,15 @@ function logouterror() {
 }
 
 //  User API
+export const checkValidRestorent = createAsyncThunk("user/checkValidRestorent", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await api.checkValidRestorent(formData);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
 export const locationChange = createAsyncThunk("user/locationChange", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.locationChange(formData);
@@ -114,6 +123,25 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Change Location
+      .addCase(checkValidRestorent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(checkValidRestorent.fulfilled, (state, action) => {
+        state.loading = false;
+        if(action.payload?.status) {
+            localStorage.setItem('client_id', action.payload?.client_table_id);
+            localStorage.setItem('url', ("/home/"+action.payload?.slug));
+          }
+        })
+        .addCase(checkValidRestorent.rejected, (state, action) => {
+          state.loading = false;
+          if(!action.payload.status){
+            localStorage.setItem('client_id', 0);
+            localStorage.setItem('url', ("/home/invalid"));
+          }
+      })
+
       .addCase(locationChange.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -206,9 +234,11 @@ const userSlice = createSlice({
           token: action.payload?.token,
         }));
         localStorage.setItem("nfc-shortcut", "true");
+        const url = localStorage.getItem("url") || "/home/invalid-page";
+
         toast.success(action.payload?.message || "Otp verified successfully")
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          window.location.href = url;
         }, 1000);
       })
       .addCase(verifyOtp.rejected, (state, action) => {
@@ -232,8 +262,10 @@ const userSlice = createSlice({
         }));
         localStorage.setItem("nfc-shortcut", "true");
         toast.success(action.payload?.message || "Otp verified successfully")
+        const url = localStorage.getItem("url") || "/home/invalid-page";
+
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          window.location.href = url;
         }, 1000);
       })
       .addCase(loginVerifyOtp.rejected, (state, action) => {

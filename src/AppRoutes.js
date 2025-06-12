@@ -12,7 +12,6 @@ import Loyality from "./pages/Loyality";
 import AboutScreen from "./pages/AboutScreen";
 import NewScan from "./pages/NewScan";
 import ProfileById from "./pages/ProfileById";
-import NFCTag from "./pages/NFCTag";
 import InvalidScan from "./pages/InvalidScan";
 import NotFound from "./pages/NotFound";
 
@@ -24,10 +23,10 @@ const AppRoutes = () => {
       {/* <Route path="/" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} /> */}
       <Route path="/dashboard/:lang/:id" element={<NewScan />} />
-      <Route path="/tag/:xuid" element={<NFCTag />} />
       <Route path="/invalid-scan" element={<InvalidScan />} />
       
-      <Route path="/dashboard" element={<Dashboard />} />
+      {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+      <Route path="/home/:restaurant" element={<Dashboard />} />
       <Route path="/contactFaq" element={<ContactFaq />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/terms-condition" element={<TermCondn />} />
@@ -37,6 +36,7 @@ const AppRoutes = () => {
       <Route path="/userprofile/:id" element={<ProfileById />} />
       <Route path="/loyality" element={<Loyality />} />
       <Route path="/about-tagis" element={<AboutScreen />} />
+      <Route path="/invalid-page" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

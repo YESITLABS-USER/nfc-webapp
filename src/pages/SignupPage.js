@@ -26,7 +26,8 @@ const SignupPage = () => {
   const { loading } = useSelector((state) => state.user) ;
   const { clientData } = useSelector((state) => state.client)
   const lang = localStorage.getItem("language") || "eng";
- 
+  const url = localStorage.getItem("url") || "/home/invalid-page";
+
   const navigate = useNavigate()
 
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -45,7 +46,7 @@ const SignupPage = () => {
     dispatch(getClientInfoWithoutLogin({"client_table_id": Number(clientId)}));
 
     if(loggedInUser){
-      navigate('/dashboard')
+      navigate(url)
     }
   }, [dispatch, navigate])
 

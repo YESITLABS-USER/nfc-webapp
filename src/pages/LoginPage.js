@@ -24,7 +24,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user)
   const { clientData } = useSelector((state) => state.client)
-
+  const url = localStorage.getItem("url") || "/home/invalid-page";
 
   const validationSchema = Yup.object({
     // name: Yup.string().required('Name is required').min(2, 'Name should be at least 2 characters long').matches(/^[A-Za-z\s]+$/, 'Name should only contain letters and spaces'),    
@@ -38,7 +38,7 @@ const LoginPage = () => {
     dispatch(getClientInfoWithoutLogin({ "client_table_id": Number(clientId) }));
 
     if (loggedInUser) {
-      navigate('/dashboard')
+      navigate(url)
     }
   }, [dispatch, navigate])
 

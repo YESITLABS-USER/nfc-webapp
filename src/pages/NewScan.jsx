@@ -9,6 +9,7 @@ const NewScan = () => {
     const navigate = useNavigate();
 
     const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
+    const url = localStorage.getItem("url")
     const { user_id } = storedData;
  
 
@@ -20,7 +21,7 @@ const NewScan = () => {
             if(!user_id){
                 localStorage.setItem("scan-count", true)
             }
-            navigate('/dashboard');
+            navigate(url);
             dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
         }
     }, [id, navigate]); 

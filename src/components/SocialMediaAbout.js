@@ -14,6 +14,8 @@ const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
   const currentPage = useLocation();
   const lang = localStorage.getItem("language") || "eng";
+  const url = localStorage.getItem("url") || "/home/invalid-page";
+
 
   return (
     <div style={{ margin: "10px" }}>
@@ -63,7 +65,7 @@ const SocialMediaAbout = ({ signup, data=null }) => {
       }
 
       {/* Card with About Us Text */}
-      {currentPage?.pathname != "/dashboard" && 
+      {currentPage?.pathname != url && 
         <Card
           style={{
             zIndex: "100",

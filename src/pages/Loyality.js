@@ -19,10 +19,11 @@ const Loyality = () => {
   const navigate = useNavigate();
   const { data } = location.state || {};
   const lang = localStorage.getItem("language") || "eng";
+  const url = localStorage.getItem("url") || "/home/invalid-page";
 
   useEffect(() => {
     if (!data) {
-      navigate("/dashboard");
+      navigate(url);
     }
   }, [data, navigate]);
 
@@ -134,7 +135,7 @@ const Loyality = () => {
             <h5>{lang == "eng" ? "After" : "Jälkeen"} {data?.number_of_stamps || 9} {lang == "eng" ? "Sessions You Can Get" : "Sessiot, joita voit saada"}</h5>
             <p>{data?.free_items_name || "Free Ice Cream"}</p>
           </div>
-          <Button style={{ backgroundColor: "#2A0181", border: "#4F4F4F", marginRight:"5px" }} onClick={() => navigate((-1) || "/dashboard")}>
+          <Button style={{ backgroundColor: "#2A0181", border: "#4F4F4F", marginRight:"5px" }} onClick={() => navigate((-1) || url)}>
             {lang == "eng" ? "Back" : "Takaisin"} 
           </Button>
           <Button style={{ backgroundColor: (Number(data?.number_of_stamps) <= Number(user?.total_open_stamps)) ? "#2A0181" : "#4F4F4F", border: "#4F4F4F" }} disabled={!(Number(data?.number_of_stamps) <= Number(user?.total_open_stamps))} onClick={() => setIsSliderOpen(true)}>

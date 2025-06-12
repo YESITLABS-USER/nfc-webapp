@@ -12,6 +12,8 @@ const SlidingPage = ({ showPage, setShowPage }) => {
   const location = useLocation();
 
   const lang = localStorage.getItem("language") || "eng";
+  const url = localStorage.getItem("url") || "/home/invalid-page";
+
 
   useEffect(() => {
     if (showPage) {
@@ -52,7 +54,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
           src={Logo}
           alt="logo"
           style={{ margin: 10 }}
-          onClick={() => handleNavigation("/dashboard")}
+          onClick={() => handleNavigation(url)}
         />
         <FaTimes
           onClick={() => setShowPage(false)}

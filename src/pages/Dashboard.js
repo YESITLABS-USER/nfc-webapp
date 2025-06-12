@@ -18,15 +18,22 @@ import {  addClientInUser, getAllActivatedLoyalityCards, getAllLoyalityCards, ge
 import { Button, Modal } from "react-bootstrap";
 import LoyaltyCardImgComponent from "../components/LoyaltyCard";
 import { formatDate, getRemainingTime } from "../assets/common";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { activateCoupan, getAllActivatedCoupans, getAllCoupans } from "../store/slices/coupanSlice";
 import AddShortCut from "../components/AddShortCut";
 import SocialMediaAbout from "../components/SocialMediaAbout";
 import truncate from 'html-truncate';
+import { checkValidRestorent } from "../store/slices/userSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
+  const { restaurant } = useParams();
+
+  useEffect(() => {
+    dispatch(checkValidRestorent({client_location_nfc_media_url:restaurant}))
+  },[restaurant])
+
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const client_id = localStorage.getItem("client_id");
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};

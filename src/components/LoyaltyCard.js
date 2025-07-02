@@ -84,7 +84,7 @@ const LoyaltyCardImgComponent = ({
             {/* <span>{campaign_name}</span> */}
             <span> {allData?.campaign_name?.length > 25 ? `${allData.campaign_name.slice(0, 25)}...` : allData?.campaign_name} </span>
 
-            <h2>{lang == "eng" ? "GET FREE" : "SAADA ILMAISEKSI"} <br /> { modifiedFreeItem.length > 15 ? modifiedFreeItem.substring(0, 12) + "..." : modifiedFreeItem}</h2>
+            <h2>{lang == "eng" ? "GET FREE" : "SAADA ILMAISEKSI"} <br /> { modifiedFreeItem?.length > 15 ? modifiedFreeItem?.substring(0, 12) + "..." : modifiedFreeItem}</h2>
             <span>{lang == "eng" ? "Collect" : "Kerätä"} {total_stamps} {lang == "eng" ? "stamps and get" :"postimerkit ja hanki"} {free_item}.</span>
           </div>
         </div>

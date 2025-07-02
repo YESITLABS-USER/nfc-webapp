@@ -129,7 +129,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Detect if the user is on iOS
-    const userAgent = window.navigator.userAgent.toLowerCase();
+    const userAgent = window.navigator.userAgent?.toLowerCase();
     setIsIos(/iphone|ipad|ipod/.test(userAgent));
 
     // Listen for the 'beforeinstallprompt' event (for Android)

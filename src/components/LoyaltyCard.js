@@ -20,7 +20,7 @@ const LoyaltyCardImgComponent = ({
     const lang = localStorage.getItem("language") || "eng";
     // const url = localStorage.getItem("url") || "/home/invalid-page";
 
-  const modifiedFreeItem = free_item.toLowerCase().startsWith("free ") 
+  const modifiedFreeItem = free_item?.toLowerCase()?.startsWith("free ") 
     ? free_item.replace(/^free /i, '')  // Remove 'free' while preserving case
     : free_item;
 

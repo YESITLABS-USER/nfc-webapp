@@ -210,10 +210,11 @@ const Loyality = () => {
               <p style={{color:"black", paddingTop:"10px"}}>{lang == "eng" ? "Note: The coupon is valid for 10 minutes after activation." : " Huom: Etuseteli on käytettävissä 10 minuuttia aktivoinnin jälkeen"}</p>
             </div>
           </BottomSheet>
+
           {coupanPopup && (
             <Reward
               showPopup={coupanPopup}
-              clientLogo={data?.clientLogo}
+              clientLogo={data?.free_item_logo ? process.env.REACT_APP_BACKEND_URL+"/"+data?.free_item_logo : data?.clientLogo}
               onClose={() => {
                 setCoupanPopup(false);
                 const client_id = localStorage.getItem("client_id");

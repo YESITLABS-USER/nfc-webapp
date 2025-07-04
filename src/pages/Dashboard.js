@@ -363,9 +363,6 @@ const Dashboard = () => {
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
-        {/* {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
-            <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
-          ) : ( */}
         {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
             <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
           ) : (
@@ -573,16 +570,29 @@ const Dashboard = () => {
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
           }}
-          countText={`${lang =="eng" ? `Here is your`: `Tässä on SINUN `} ${
-            currentCoupanData?.coupon_type_content?.[0]?.free_item
-              || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage ? `${currentCoupanData.coupon_type_content[0].discount_percentage}% off Coupon` : "")
-              || (currentCoupanData?.coupon_type_content?.[0]?.discount_value ? `${currentCoupanData.coupon_type_content[0].discount_value} off Coupon` : "")
-              || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value ? `${currentCoupanData.coupon_type_content[0].fixedAmount_value} off Coupon` : "")
-              || currentCoupanData?.coupon_name
-              || "Coupon from olo"
-          }`}
+          // countText={`${lang =="eng" ? `Here is your`: `Tässä on SINUN `} ${
+          //   currentCoupanData?.coupon_type_content?.[0]?.free_item
+          //     || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage ? `${currentCoupanData.coupon_type_content[0].discount_percentage}${lang =="eng" ? "% off Coupon" : "% alennuskuponki"}` : "")
+          //     || (currentCoupanData?.coupon_type_content?.[0]?.discount_value ? `${currentCoupanData.coupon_type_content[0].spending_value && currentCoupanData.coupon_type_content[0].spending_value + lang =="eng" ? "and GET" : "ja SAA"} ${currentCoupanData.coupon_type_content[0].discount_value}${lang =="eng" ? "% off Coupon" : "% alennuskuponki"}` : "")
+          //     || (currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value ? `${currentCoupanData.coupon_type_content[0].fixedAmount_value} ${lang =="eng" ? " off Coupon" : " alennuskuponki"}` : "")
+          //     || currentCoupanData?.coupon_name
+          //     || "Coupon from olo"
+          // }`}
+        countText={`${lang === "eng" ? "Here is your" : "Tässä on SINUN"} ${
+          currentCoupanData?.coupon_type_content?.[0]?.spending_value && currentCoupanData?.coupon_type_content?.[0]?.discount_value
+            ? `${currentCoupanData.coupon_type_content[0].spending_value} ${lang === "eng" ? "and GET" : "ja SAA"} ${currentCoupanData.coupon_type_content[0].discount_value}${lang === "eng" ? "% off Coupon" : "% alennuskuponki"}`
+            : currentCoupanData?.coupon_type_content?.[0]?.free_item
+            ? currentCoupanData.coupon_type_content[0].free_item
+            : currentCoupanData?.coupon_type_content?.[0]?.discount_percentage
+            ? `${currentCoupanData.coupon_type_content[0].discount_percentage}${lang === "eng" ? "% off Coupon" : "% alennuskuponki"}`
+            : currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_value
+            ? `${currentCoupanData.coupon_type_content[0].fixedAmount_value} ${lang === "eng" ? "off Coupon" : "alennuskuponki"}`
+            : currentCoupanData?.coupon_name
+            ? currentCoupanData.coupon_name
+            : "Coupon from olo"
+        }`}
 
-          countText2={currentCoupanData?.coupon_type_content?.[0]?.product_restrictions && `${lang =="eng" ? `DOES NOT INCLUDE` : `EI SISÄLLÄ`}  ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions}`}
+          countText2={(currentCoupanData?.coupon_type_content?.[0]?.product_restrictions || currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_product_restriction) && `${lang =="eng" ? `DOES NOT INCLUDE` : `EI SISÄLLÄ`}  ${currentCoupanData?.coupon_type_content?.[0]?.product_restrictions || currentCoupanData?.coupon_type_content?.[0]?.fixedAmount_product_restriction}`}
         />
       )}
       <BirthdayCampaign show={show} handleClose={() => setShow(false)} />

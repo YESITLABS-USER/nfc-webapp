@@ -219,7 +219,7 @@ const CopsActivation = ({
             
             <div className="modal-data"> 
               <p style={{ color: "black", textAlign: "center", marginTop: 15 }}>
-                {lang == "eng" ? "Activate the coupon in-store and show this at the checkout. (Coupon is valid for 15 minutes after activation) " : "Aktivoi kuponki myyjäliikkeessä ja näytä sitä kassalla. (Kuponki on käytettävissä 10 minuuttia aktivoinnin jälkeen)"}<br />
+                {lang == "eng" ? "Activate the coupon in-store and show this at the checkout. (Coupon is valid for 10 minutes after activation) " : "Aktivoi kuponki myyjäliikkeessä ja näytä sitä kassalla. (Kuponki on käytettävissä 10 minuuttia aktivoinnin jälkeen)"}<br />
               </p>
 
               <p dangerouslySetInnerHTML={{ __html: currentCoupanData?.other_customization  }} />
@@ -233,7 +233,9 @@ const CopsActivation = ({
                   { lang == "eng" ? "Confirm your age before proceeding further!!" : "Vahvista ikäsi ennen kuin jatkat!!"}
                   </h3> 
                 </div>
-                <h5 style={{ marginTop: 10, textAlign: "start", marginLeft: 40, color: "#000000" }}> {lang =="eng" ?"DOB" : "Syntymäaika"} </h5>
+                <h5 style={{  textAlign: "start", display:"flex", justifyContent:"center", color: "#000000",
+                  // marginTop: 20,  marginLeft: 60,
+                }}> {lang =="eng" ?"DOB" : "Syntymäaika"} </h5>
                 <span style={{ color: "#9A9A9A" }}>{lang == "eng" ? "Enter your date of birth" : "Syötä syntymäaika"}</span>
                 
                 <input type="date" placeholder="DD/MM/YYYY" maxLength="10" 

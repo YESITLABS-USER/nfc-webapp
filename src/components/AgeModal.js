@@ -200,7 +200,8 @@ if(cancelModal) return <CancelModal isModalOpen={cancelModal} setIsModalOpen={se
               style={{
                 marginTop: 20,
                 textAlign: "start",
-                marginLeft: 60,
+                // marginLeft: 60,
+                display:"flex", justifyContent:"center",
                 color: "#000000",
               }}
             >

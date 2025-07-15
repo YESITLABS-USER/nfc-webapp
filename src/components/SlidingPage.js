@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import Logo from "../assets/icons/logo.png";
+// import Logo from "../assets/icons/logo.png";
+import Logo from "../assets/logosvg.svg";
 import BackgroundImg from "../assets/images/slider.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import LogoutModal from "../components/LogoutModal";
@@ -53,7 +54,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
         <img
           src={Logo}
           alt="logo"
-          style={{ margin: 10 }}
+          style={{ margin: 10, width:"75px" }}
           onClick={() => handleNavigation(url)}
         />
         <FaTimes

@@ -7,7 +7,8 @@ import Man from "../assets/icons/mandefalut.png";
 import Girl from "../assets/icons/girldefault.png";
 import Other from "../assets/icons/otherDefault.png";
 import { IoArrowBackSharp } from "react-icons/io5";
-import Group from "../assets/icons/Group.png";
+// import Group from "../assets/icons/Group.png";
+import Group from "../assets/targetLogo.svg";
 import { Button } from "react-bootstrap";
 import { TbWorld } from "react-icons/tb";
 import { FaInfoCircle } from "react-icons/fa";
@@ -195,7 +196,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
             >
               {/* <img src={Profile} alt="OLO" style={style.oloimg} /> */}
               <img className="profile-image"
-                src={profileMapping[selectAvatar] || Man}
+                src={profileMapping[userData?.profile_pic || selectAvatar] || Man}
                 alt="OLO"
                 style={style.oloimg}
               />

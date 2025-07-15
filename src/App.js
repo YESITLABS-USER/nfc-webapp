@@ -3,7 +3,8 @@ import "./App.css";
 import BackgroundImg from "./assets/images/backgrounImg.png";
 import Logo from "./assets/icons/logo.png";
 import { BrowserRouter as Router } from "react-router-dom";
-import SplashLogo from "./assets/icons/splash-logo.png";
+// import SplashLogo from "./assets/icons/splash-logo.png";
+import SplashLogo from "./assets/logosvg.svg";
 import AppRoutes from "./AppRoutes";
 // import logo from "./assets/logo_white.png"
 

@@ -152,7 +152,7 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
             <h2>{clientData?.client_name ?? "OLO"}</h2>
             <h3>{allData?.coupon_name}</h3>
             <p>
-              {lang =="eng" ?  "VALID UNTIL" : "Voimassa asti"}
+              {lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "}
               <b>
                 {allData?.validity_no_limit
                   ? "No Expiration"

@@ -92,7 +92,7 @@ const LoyaltyCardImgComponent = ({
           {Number(open_stamps) > Number(total_stamps) ? Number(total_stamps) : Number(open_stamps)}/{Number(total_stamps)}
         </div>}
         <div className="get-free-coupon-bottom">
-          <p>{lang =="eng" ? "Loyalty Card":"Kanta-Asiakas Kortti"} <span>{lang =="eng" ?  "VALID UNTIL" : "Voimassa asti"} <b>{end_date}</b></span></p>
+          <p>{lang =="eng" ? "Loyalty Card":"Kanta-Asiakas Kortti"} <span>{lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "} <b>{end_date}</b></span></p>
         </div>
 
         {/* Stamp counter indicator */}

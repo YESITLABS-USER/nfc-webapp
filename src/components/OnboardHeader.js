@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 // function OnboardHeader({ disabled, OLODISABLE, selectAvatar, bgrIcon = false, message, }) {
 function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
   const { coupansData,activatedCoupanData } = useSelector((state) => state.coupans);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   
   const [showPage, setShowPage] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -210,7 +210,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
               </div>
             </div>
             <div style={{ display: "flex", gap: "5px" }}>
-              <Button style={style.btnCopn}>
+              {/* <Button style={style.btnCopn}>
                 <img
                   src={Group}
                   style={{ objectFit: "contain", marginRight: 5 }}
@@ -224,7 +224,7 @@ function OnboardHeader({ disabled, OLODISABLE, selectAvatar, message, }) {
                 >
                   0
                 </span>
-              </Button>
+              </Button> */}
 
               <Button
                 style={{

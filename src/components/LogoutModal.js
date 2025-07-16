@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ isModalOpen, setIsModalOpen }) => {
   const closeModal = () => setIsModalOpen(false);
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
 
   const navigate = useNavigate();

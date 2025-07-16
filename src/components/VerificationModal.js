@@ -11,7 +11,7 @@ const Verification = ({ isModalOpen, data , setIsModalOpen }) => {
   const [timeLeft, setTimeLeft] = useState(59); // Initial time in seconds
   const [isDisable, setDisable] = useState(false);
   const { otpError } = useSelector((state) => state.user)
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
   
   const closeModal = () => {

@@ -15,7 +15,7 @@ const AgeModal = ({ isModalOpen, setIsModalOpen, currentData , callBack }) => {
   const dispatch = useDispatch();
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;
   const client_id = localStorage.getItem("client_id");
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
 
   useEffect(() => {

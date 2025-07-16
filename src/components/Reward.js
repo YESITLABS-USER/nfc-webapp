@@ -17,7 +17,7 @@ const Reward = ({ showPopup, onClose, countText,countText2, clientLogo, timer, c
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const hasDispatched = useRef(false); // <-- Keeps track of dispatch status
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const [timeLeft, setTimeLeft] = useState(() => parseTime(String(timer))); // 15 minute in seconds
 

@@ -18,7 +18,7 @@ const Loyality = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const { data } = location.state || {};
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   const url = localStorage.getItem("url") || "/home/invalid-page";
 
   useEffect(() => {

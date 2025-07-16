@@ -13,7 +13,7 @@ import { formatUrl } from "../assets/common";
 const SocialMediaAbout = ({ signup, data=null }) => {
   const navigate = useNavigate();
   const currentPage = useLocation();
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   const url = localStorage.getItem("url") || "/home/invalid-page";
 
 

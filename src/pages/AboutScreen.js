@@ -10,7 +10,7 @@ function AboutScreen() {
   const { message } = location.state || {};
   const dispatch = useDispatch();
   const { tagisData, loading } = useSelector((state) => state.aboutTagisAndServices)
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
  
 
   useEffect(() => {

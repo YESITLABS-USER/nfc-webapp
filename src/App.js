@@ -11,7 +11,7 @@ import AppRoutes from "./AppRoutes";
 function App() {
   const [isMobile, setIsMobile] = useState(false); // State for mobile detection
   const [showSplash, setShowSplash] = useState(true);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   useEffect(() => {
     const checkDeviceType = () => {

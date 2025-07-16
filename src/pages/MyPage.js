@@ -63,7 +63,7 @@ const MyPage = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const client_id = localStorage.getItem("client_id");
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const [activeClient, setActiveClient] = useState(client_id);
   const [currentCoupanData, setCurrentCoupanData] = useState(null);
@@ -574,7 +574,7 @@ const MyPage = () => {
 export default MyPage;
 
 function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }) {
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const handleClose = () => {
     setIsModalOpen(false); // Close the modal
@@ -599,7 +599,7 @@ function DeletePopup({ isModalOpen, setIsModalOpen, handleDelete, cardId, name }
 
 
 const BirthdayCampaign = ({ show, handleClose }) => {
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   return (
     <Modal show={show} onHide={handleClose} centered>

@@ -4,7 +4,7 @@ import Cancel from "../assets/icons/calcelModal.png";
 
 const CancelModal = ({ isModalOpen, setIsModalOpen }) => {
   const closeModal = () => setIsModalOpen(false);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   useEffect(() => {
     if (isModalOpen) {

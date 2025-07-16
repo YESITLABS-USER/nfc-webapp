@@ -11,7 +11,7 @@ function ContactFaq() {
   const [activeTab, setActiveTab] = useState("contact");
   const dispatch = useDispatch();
   const { allFaqs,contactLoading, loading } = useSelector((state) => state.contactAndFaq);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
 
   // Get active tab from localStorage if exists

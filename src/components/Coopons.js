@@ -6,7 +6,7 @@ import LoginModal from "./InfoModal";
 const Coopons = ({ setCallback, value }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [shakeIndex, setShakeIndex] = useState(null); // Track which image is shaking
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
 
   const handleImageClick = (index) => {

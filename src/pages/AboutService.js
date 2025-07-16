@@ -8,7 +8,7 @@ function AboutService() {
   const storedTab = localStorage.getItem("activeTab");
   const validTabs = ["coupons", "giveaways", "events"];
   const initialTab = validTabs.includes(storedTab) ? storedTab : "coupons";
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const [activeTab, setActiveTab] = useState(initialTab);
   // Default to 'coupons'

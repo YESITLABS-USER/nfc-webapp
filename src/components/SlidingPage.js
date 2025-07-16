@@ -12,7 +12,7 @@ const SlidingPage = ({ showPage, setShowPage }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   const url = localStorage.getItem("url") || "/home/invalid-page";
 
 

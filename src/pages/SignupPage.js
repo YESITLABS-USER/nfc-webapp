@@ -25,7 +25,7 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user) ;
   const { clientData } = useSelector((state) => state.client)
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   const url = localStorage.getItem("url") || "/home/invalid-page";
 
   const navigate = useNavigate()
@@ -289,7 +289,7 @@ export default SignupPage;
 const AlreadyRegistered = ({  isModalOpen, setIsModalOpen, data }) => {
   const closeModal = () => setIsModalOpen(false);
   const navigate = useNavigate();
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>

@@ -21,7 +21,7 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
     black: black,
   };
 
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
   const [endTime, setEndTime] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);

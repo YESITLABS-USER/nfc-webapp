@@ -9,7 +9,7 @@ function TermCondn() {
   const [activeTab, setActiveTab] = useState("privacy");
   const location = useLocation(); 
   const navigate = useNavigate();
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   useEffect(() => {
     if (location.pathname === '/privacy-policy') {

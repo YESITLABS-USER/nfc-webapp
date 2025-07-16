@@ -3,7 +3,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 const UnFollow = ({ isModalOpen, setIsModalOpen, itemId, onUnfollow, selectedCardDetail }) => {
   const closeModal = () => setIsModalOpen(false);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   useEffect(() => {
     if (isModalOpen) {

@@ -17,7 +17,7 @@ import AddShortCut from "../components/AddShortCut";
 const MyProfile = () => {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const [selectedProfile, setSelectedProfile] = useState(userData?.profile_pic || null);
   const [birthdayInput, setBirthdayInput] = useState(userData?.date_of_birth ? true : false);
@@ -373,7 +373,7 @@ const MyProfile = () => {
 export default MyProfile;
 
 function InformationPopup(props) {
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
@@ -421,7 +421,7 @@ function InformationPopup(props) {
 }
 
 function DeletePopup(props) {
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
@@ -470,7 +470,7 @@ function DeletePopup(props) {
 }
 
 function LogoutPopup(props) {
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >

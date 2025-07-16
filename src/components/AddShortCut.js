@@ -8,7 +8,7 @@ const AddShortCut = ({ isModalOpen, setIsModalOpen }) => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIos, setIsIos] = useState(false);
   const [isInStandaloneMode, setIsInStandaloneMode] = useState(false);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
   const closeModal = () => {
     localStorage.setItem("nfc-shortcut", "dismissed");

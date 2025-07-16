@@ -17,7 +17,7 @@ const LoyaltyCardImgComponent = ({
   clientLogo
 }) => {
   const [coupanPopup, setCoupanPopup] = useState(false);
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
     // const url = localStorage.getItem("url") || "/home/invalid-page";
 
   const modifiedFreeItem = free_item?.toLowerCase()?.startsWith("free ") 

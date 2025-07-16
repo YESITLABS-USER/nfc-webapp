@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const MyPageInfo = ({ isModalOpen, setIsModalOpen, coops }) => {
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
   const closeModal = () => setIsModalOpen(false);
 

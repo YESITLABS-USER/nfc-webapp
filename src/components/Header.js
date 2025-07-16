@@ -9,7 +9,7 @@ import SlidingPage from "./SlidingPage";
 const Header = ({ chgName = false, data = null }) => {
   const [showPage, setShowPage] = useState(false);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
 
 
   return (

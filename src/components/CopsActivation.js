@@ -30,7 +30,7 @@ const CopsActivation = ({
   const [userDob, setUserDob] = useState(null);
   const [dobError, setDobError] = useState(null);
   const [showBirthdayPopup, setShowBirthdayPopup] = useState(false);
-    const lang = localStorage.getItem("language") || "eng";
+    const lang = localStorage.getItem("language") || "fin";
 
 
   const {user_id} = JSON?.parse(localStorage.getItem("nfc-app")) || 0;

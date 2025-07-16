@@ -19,7 +19,7 @@ import { getClientInfoWithoutLogin } from "../store/slices/clientSlice";
 const LoginPage = () => {
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const lang = localStorage.getItem("language") || "eng";
+  const lang = localStorage.getItem("language") || "fin";
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user)

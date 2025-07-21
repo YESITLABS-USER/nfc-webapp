@@ -230,9 +230,9 @@ const clientSlice = createSlice({
         window.location.href = ("/home/"+action.payload?.slug)
       })
       .addCase(addClientInUser.rejected, (state, action) => {
-        console.log(action?.payload, 'pppp  ')
         state.couponLoading = false;
         state.error = action.payload?.message;
+        window.location.href = ("/")
         // localStorage.setItem('url', ("/home/"+(action.payload?.slug || 'invalid-page')));
         // window.location.href = ("/home/"+(action.payload?.slug || 'invalid-page'))
       }) 

@@ -233,6 +233,7 @@ const clientSlice = createSlice({
         state.couponLoading = false;
         state.error = action.payload?.message;
         window.location.href = ("/")
+        
         // localStorage.setItem('url', ("/home/"+(action.payload?.slug || 'invalid-page')));
         // window.location.href = ("/home/"+(action.payload?.slug || 'invalid-page'))
       }) 

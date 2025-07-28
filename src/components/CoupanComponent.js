@@ -153,12 +153,19 @@ const CoupanComponent = ({ allData, clientData, onClick }) => {
             <h3>{allData?.coupon_name}</h3>
             <p>
               {lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "}
-              <b>
+              {/* <b>
                 {allData?.validity_no_limit
                   ? "No Expiration"
                   : allData?.validity_expiration_date
                   ? formatDate(allData?.validity_expiration_date)
                   : "No Expiration"}
+              </b> */}
+              <b>
+                {allData?.validity_no_limit
+                  ? "voimassa toistaiseksi"
+                  : allData?.validity_expiration_date
+                  ? formatDate(allData?.validity_expiration_date)
+                  : "voimassa toistaiseksi"}
               </b>
             </p>
             {allData?.campaign_age_restriction_start_age >= 18 && (

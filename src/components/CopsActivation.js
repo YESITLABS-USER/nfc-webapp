@@ -208,7 +208,8 @@ const CopsActivation = ({
                 <h2>{clientData?.client_name ?? "OLO"}</h2>
                 <h3> {currentCoupanData?.coupon_name} </h3>
                 {/* <p>VALID UNTIL <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : formatDate(currentCoupanData?.validity_expiration_date) || ""} </b></p> */}
-                <p>{lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "} : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p>
+                {/* <p>{lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "} : <b> {currentCoupanData?.validity_no_limit ? "No Expiration" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "No Expiration"} </b></p> */}
+                <p>{lang =="eng" ?  "VALID UNTIL " : "Voimassa asti "} : <b> {currentCoupanData?.validity_no_limit ? "voimassa toistaiseksi" : currentCoupanData?.validity_expiration_date ? formatDate(currentCoupanData?.validity_expiration_date) : "voimassa toistaiseksi"} </b></p>
                 {/* <span>Age : 18+</span> */}
               </div>
             </div>

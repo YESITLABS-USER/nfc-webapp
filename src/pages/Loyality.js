@@ -132,7 +132,7 @@ const Loyality = () => {
           </div>
 
           <div className="reward-info">
-            <h5>{lang == "eng" ? "After" : "Jälkeen"} {data?.number_of_stamps || 9} {lang == "eng" ? "Sessions You Can Get" : "Sessiot, joita voit saada"}</h5>
+            <h5>{lang == "eng" ? "After" : "Kerää"} {data?.number_of_stamps || 9} {lang == "eng" ? "Sessions You Can Get" : "leimaa ja saat"}</h5>
             <p>{data?.free_items_name || "Free Ice Cream"}</p>
           </div>
           <Button style={{ backgroundColor: "#2A0181", border: "#4F4F4F", marginRight:"5px" }} onClick={() => navigate((-1) || url)}>

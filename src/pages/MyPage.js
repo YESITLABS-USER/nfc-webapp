@@ -196,8 +196,11 @@ const MyPage = () => {
       <OnboardHeader disabled={true} />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", margin: 10 }}>
         <h3 style={{ color: "#000000" }}>{lang == "eng" ? "Welcome to Tagis!" : "Tervetuloa Tagikseen!"}</h3>
-        <p style={{ width: "90%", fontSize: 17, color: "#000000" }}>
+        {/* <p style={{ width: "90%", fontSize: 17, color: "#000000" }}>
           {lang == "eng" ? "Your go-to app for restaurant coupons from a variety of dining spots. Save big on your next meal!" : "Tagis on luotettava sovelluksesi ravintolakupongille monista eri ruokapaikoista. Säästä isosti seuraavalla ateriallassasi!"}
+        </p> */}
+        <p style={{ width: "90%", fontSize: 17, color: "#000000" }}>
+          {lang == "eng" ? "Your go-to app for restaurant coupons from a variety of dining spots. Save big on your next meal!" : "Tervetuloa Tagikseen! Tagis on luotettava alusta hallinnoimaan sinun kanta-asiakkuuksia. Säästä isosti seuraavalla ostoksellasi!"}
         </p>
       </div>
 

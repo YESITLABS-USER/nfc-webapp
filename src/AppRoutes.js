@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       {/* <Route path="/" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} /> */}
-      <Route path="/dashboard/:lang/:id" element={<NewScan />} />
+      <Route path="/dashboard/:lang/:id/:xuid" element={<NewScan />} />
       <Route path="/invalid-scan" element={<InvalidScan />} />
       
       {/* <Route path="/dashboard" element={<Dashboard />} /> */}

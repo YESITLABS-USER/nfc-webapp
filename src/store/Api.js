@@ -5,7 +5,8 @@ const API = axios.create({
   headers: {
     'Authorization': `Bearer ${JSON.parse(localStorage.getItem("nfc-app"))?.token}`,
     'lang': localStorage.getItem("language") || "fin",
-    'Accept' : 'application/json'
+    'Accept' : 'application/json',
+    "xuid" : localStorage.getItem("xuid")
   },
 });
 

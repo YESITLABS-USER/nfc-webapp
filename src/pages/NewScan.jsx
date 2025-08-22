@@ -15,37 +15,43 @@ const NewScan = () => {
 
     const dispatch = useDispatch();
     // useEffect(() => {
-    //     if (id&&xuid) { // Ensure the id exists
+    //     if (id) { // Ensure the id exists
     //         localStorage.setItem('client_id', id);
     //         localStorage.setItem('language', lang)
     //         localStorage.setItem('xuid', xuid)
-
+               
     //         if(!user_id){
     //             localStorage.setItem("scan-count", true)
     //         }
     //         navigate(url);
     //         dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
     //     }
-    // }, [id, navigate, xuid]); 
+    // }, [id, navigate]); 
 
     useEffect(() => {
-    if (!id || !xuid) return;
+    if (id) {
+        // Set values in localStorage
+        localStorage.setItem('client_id', id);
+        localStorage.setItem('language', lang);
+        localStorage.setItem('xuid', xuid);
 
-    // Always fresh values
-    localStorage.setItem("client_id", id);
-    localStorage.setItem("language", lang || "en");
-    localStorage.setItem("xuid", xuid);
+        // Optional: only set scan-count if user_id doesn't exist
+        if (!user_id) {
+            localStorage.setItem("scan-count", true);
+        }
 
-    if (!user_id) {
-        localStorage.setItem("scan-count", "true");
+        // ✅ Dispatch action with xuid directly
+        dispatch(addClientInUser({
+            client_table_id: id,
+            user_table_id: user_id,
+            xuid: xuid, // pass xuid directly to avoid lag
+        }));
+
+        // Navigate after dispatch
+        navigate(url);
     }
+}, [id, lang, xuid, user_id, url, navigate, dispatch]);
 
-    dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
-
-    if (url) {
-        navigate(url, { replace: true });
-    }
-}, [id, lang, xuid]); // 🚀 include xuid here
 
     return (
         <div

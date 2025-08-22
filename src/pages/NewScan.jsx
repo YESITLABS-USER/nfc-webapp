@@ -27,14 +27,13 @@ const NewScan = () => {
     //         dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
     //     }
     // }, [id, navigate]); 
-
+  localStorage.setItem('xuid', xuid);
     useEffect(() => {
-    if (id) {
+    if (xuid) {
         // Set values in localStorage
-        let abc ="548966"
         localStorage.setItem('client_id', id);
         localStorage.setItem('language', lang);
-        localStorage.setItem('xuid', abc);
+        localStorage.setItem('xuid', xuid);
 
         // Optional: only set scan-count if user_id doesn't exist
         if (!user_id) {

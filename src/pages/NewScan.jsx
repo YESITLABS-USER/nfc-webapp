@@ -31,9 +31,10 @@ const NewScan = () => {
     useEffect(() => {
     if (id) {
         // Set values in localStorage
+        let abc ="548966"
         localStorage.setItem('client_id', id);
         localStorage.setItem('language', lang);
-        localStorage.setItem('xuid', xuid);
+        localStorage.setItem('xuid', abc);
 
         // Optional: only set scan-count if user_id doesn't exist
         if (!user_id) {

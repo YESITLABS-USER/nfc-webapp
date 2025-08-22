@@ -28,24 +28,27 @@ const NewScan = () => {
     //     }
     // }, [id, navigate, xuid]); 
 
-      useEffect(() => {
-        if (id && xuid) {
-            // ✅ Save latest values
-            localStorage.setItem("client_id", id);
-            localStorage.setItem("language", lang);
-            localStorage.setItem("xuid", xuid);
+    useEffect(() => {
+        localStorage.removeItem("xuid");
 
-            if (!user_id) {
-                localStorage.setItem("scan-count", true);
-            }
+    if (!id || !xuid) return;
 
-            // ✅ Always use fresh params, not from localStorage
-            dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
+    // Always fresh values
+    localStorage.setItem("client_id", id);
+    localStorage.setItem("language", lang || "en");
+    localStorage.setItem("xuid", xuid);
 
-            // ✅ Navigate after dispatch
-            if (url) navigate(url);
-        }
-    }, [id, lang, xuid, user_id, url, navigate, dispatch]);
+    if (!user_id) {
+        localStorage.setItem("scan-count", "true");
+    }
+
+    dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
+
+    if (url) {
+        navigate(url, { replace: true });
+    }
+}, [id, lang, xuid]); // 🚀 include xuid here
+
     return (
         <div
             style={{

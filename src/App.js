@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import BackgroundImg from "./assets/images/backgrounImg.png";
 import Logo from "./assets/icons/logo.png";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 // import SplashLogo from "./assets/icons/splash-logo.png";
 import SplashLogo from "./assets/logosvg.svg";
 import AppRoutes from "./AppRoutes";
@@ -86,7 +86,12 @@ function App() {
 
   return (
     <Router>
+     <Route
+        path="/scan/:id/:lang/:xuid"
+        element={<NewScan key={window.location.pathname} />}
+      />
       <div>
+      
         {/* Show the message for desktop users */}
         {!isMobile && (
           <div

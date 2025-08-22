@@ -29,8 +29,6 @@ const NewScan = () => {
     // }, [id, navigate, xuid]); 
 
     useEffect(() => {
-        localStorage.removeItem("xuid");
-
     if (!id || !xuid) return;
 
     // Always fresh values

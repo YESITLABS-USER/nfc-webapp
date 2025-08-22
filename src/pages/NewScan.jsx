@@ -14,20 +14,38 @@ const NewScan = () => {
  
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (id&&xuid) { // Ensure the id exists
-            localStorage.setItem('client_id', id);
-            localStorage.setItem('language', lang)
-            localStorage.setItem('xuid', xuid)
+    // useEffect(() => {
+    //     if (id&&xuid) { // Ensure the id exists
+    //         localStorage.setItem('client_id', id);
+    //         localStorage.setItem('language', lang)
+    //         localStorage.setItem('xuid', xuid)
 
-            if(!user_id){
-                localStorage.setItem("scan-count", true)
+    //         if(!user_id){
+    //             localStorage.setItem("scan-count", true)
+    //         }
+    //         navigate(url);
+    //         dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
+    //     }
+    // }, [id, navigate, xuid]); 
+
+      useEffect(() => {
+        if (id && xuid) {
+            // ✅ Save latest values
+            localStorage.setItem("client_id", id);
+            localStorage.setItem("language", lang);
+            localStorage.setItem("xuid", xuid);
+
+            if (!user_id) {
+                localStorage.setItem("scan-count", true);
             }
-            navigate(url);
-            dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
-        }
-    }, [id, navigate, xuid]); 
 
+            // ✅ Always use fresh params, not from localStorage
+            dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
+
+            // ✅ Navigate after dispatch
+            if (url) navigate(url);
+        }
+    }, [id, lang, xuid, user_id, url, navigate, dispatch]);
     return (
         <div
             style={{

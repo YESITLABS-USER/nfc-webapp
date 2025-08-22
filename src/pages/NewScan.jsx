@@ -15,18 +15,18 @@ const NewScan = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (id) { // Ensure the id exists
+        if (id&&xuid) { // Ensure the id exists
             localStorage.setItem('client_id', id);
             localStorage.setItem('language', lang)
             localStorage.setItem('xuid', xuid)
-               
+
             if(!user_id){
                 localStorage.setItem("scan-count", true)
             }
             navigate(url);
             dispatch(addClientInUser({ client_table_id: id, user_table_id: user_id }));
         }
-    }, [id, navigate]); 
+    }, [id, navigate, xuid]); 
 
     return (
         <div

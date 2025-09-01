@@ -632,6 +632,7 @@ const Dashboard = () => {
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") :"00:10:00" } clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
           onClose={() => {
             setCoupanPopup(false);
+            setIsSliderOpen(false);
             //  dispatch(activateCoupan({ client_table_id: client_id, user_table_id: user_id, coupon_table_id: currentCoupanData?.coupon_table_id }));
              
              dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));

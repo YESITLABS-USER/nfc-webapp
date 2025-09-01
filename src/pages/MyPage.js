@@ -617,7 +617,10 @@ const MyPage = () => {
       {coupanPopup && (
         <Reward
           showPopup={coupanPopup} timer={currentCoupanData?.activate_time_usa_zone ? getRemainingTime(currentCoupanData?.activate_time_usa_zone, "00:10:00") : "00:10:00"} clientLogo={clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null} couponData={currentCoupanData}
-          onClose={() => setCoupanPopup(false)}
+          onClose={() => {
+            setCoupanPopup(false)
+            setIsSliderOpen(false);
+          }}
           // countText={`${lang =="eng" ? `Here is your`: `Tässä on SINUN `} ${
           //   currentCoupanData?.coupon_type_content?.[0]?.free_item
           //     || (currentCoupanData?.coupon_type_content?.[0]?.discount_percentage && `${currentCoupanData.coupon_type_content[0].discount_percentage}% off Coupon`)

@@ -109,7 +109,9 @@ const Dashboard = () => {
     }
   }
 
-  const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards?.slice(0, 2);
+  // const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards?.slice(0, 2);
+  const allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  const visibleLoyaltyCards = showAllLoyality ? allLoyaltyCards : allLoyaltyCards.slice(0, 2);
 
   const handleSeeMore = () => {
     setShowAllLoyality(!showAllLoyality);
@@ -305,8 +307,73 @@ const Dashboard = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", }}>
         <h3 style={{ marginBottom: "20px", fontWeight: "bolder" }}>{ lang == "eng" ? "EXPLORE OUR COUPONS" : "Käytettävissä olevat edut"}</h3>
 
-        {/* <LoyaltyCard /> */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            borderRadius: "10px",
+            width: "90%",
+            alignItems: "center",
+          }}
+        >
+          {visibleLoyaltyCards.map((item, index) => {
+            const isActivated = activatedLoyalityCard?.includes(item); // Identify if card is from activatedLoyaltyCard
+
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+                key={index}
+              >
+                <LoyaltyCardImgComponent
+                  allData={item}
+                  completed_status={isActivated ? 1 : undefined}
+                  clientLogo={
+                    clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null
+                  }
+                  campaign_name={item?.campaign_name}
+                  free_item={item?.free_items_name}
+                  total_stamps={isActivated ? null : item?.number_of_stamps}
+                  open_stamps={isActivated ? null : item?.total_open_stamps ?? "0"}
+                  end_date={
+                    item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)
+                  }
+                />
+              </div>
+            );
+          })}
+
+          {allLoyaltyCards.length > 2 && (
+            <button
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#25026E",
+                color: "white",
+                border: "none",
+                borderRadius: "12px",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+              onClick={handleSeeMore}
+            >
+              {showAllLoyality ? "See Less" : "See More"}
+              <FaChevronDown
+                style={{
+                  marginLeft: "10px",
+                  rotate: `${showAllLoyality ? "180deg" : "0deg"}`,
+                }}
+              />
+            </button>
+          )}
+        </div>
+
+        {/*Old LoyaltyCard  */}
+        {/* <div style={{ display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
           width: "90%", alignItems: "center", }} >
           
           {visibleLoyalityCards?.map((item, index) => {
@@ -333,7 +400,6 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Activated Loyality Card */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px",paddingTop:"10px", borderRadius: "10px",
           width: "90%", alignItems: "center", }} >
           {activatedLoyalityCard && activatedLoyalityCard?.map((item, index) => {
@@ -359,7 +425,7 @@ const Dashboard = () => {
               <FaChevronDown style={{ marginLeft: "10px", rotate: `${showAllLoyality ? "180deg" : "0deg"}` }} />
             </button>
           )}
-        </div>
+        </div> */}
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>

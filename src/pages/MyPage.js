@@ -97,7 +97,10 @@ const MyPage = () => {
     setIsExpanded(!isExpanded); // Toggle state
   };
 
-  const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
+  // const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards.slice(0, 2);
+  const allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  const visibleLoyaltyCards = showAllLoyality ? allLoyaltyCards : allLoyaltyCards.slice(0, 2);
+
 
   const handleSeeMore = () => {
     setShowAllLoyality(!showAllLoyality);
@@ -286,11 +289,103 @@ const MyPage = () => {
               }} />
           </div>
 
-          <div style={{
+          <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    padding: "10px",
+    borderRadius: "10px",
+    width: "100%",
+    alignItems: "center",
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+      borderRadius: "10px",
+      width: "98%",
+      alignItems: "center",
+    }}
+  >
+    {allClientsData?.length > 0 &&
+      visibleLoyaltyCards?.map((item, index) => {
+        const isActivated = activatedLoyalityCard?.some(
+          (card) => card.loyalty_card_table_id === item.loyalty_card_table_id
+        );
+
+        return (
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              width: "100%",
+            }}
+            key={index}
+          >
+            <LoyaltyCardImgComponent
+              allData={item}
+              campaign_name={item?.campaign_name}
+              free_item={item?.free_items_name}
+              total_stamps={!isActivated ? item?.number_of_stamps : null}
+              open_stamps={!isActivated ? item?.total_open_stamps ?? "0" : null}
+              end_date={
+                item?.no_expiration
+                  ? "No Expiration"
+                  : formatDate(item?.expiration_date)
+              }
+              completed_status={isActivated ? 1 : undefined}
+              url={"/mypage"}
+            />
+
+            {/* Only show delete icon for non-activated cards */}
+            {!isActivated && (
+              <MdDelete
+                style={{ fontSize: "35px", color: "red" }}
+                onClick={() => {
+                  setSelectedCardId(item?.loyalty_card_table_id);
+                  setShowDeleted(true);
+                }}
+              />
+            )}
+          </div>
+        );
+      })}
+
+    {allLoyaltyCards.length > 2 && (
+      <button
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#25026E",
+          color: "white",
+          border: "none",
+          borderRadius: "12px",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+        onClick={handleSeeMore}
+      >
+        {showAllLoyality ? "See Less" : "See More"}
+        <FaChevronDown
+          style={{
+            marginLeft: "10px",
+            rotate: `${showAllLoyality ? "180deg" : "0deg"}`,
+          }}
+        />
+      </button>
+    )}
+  </div>
+</div>
+
+
+          {/* Old LoyaltyCard */}
+          {/* <div style={{
             display: "flex", flexDirection: "column", gap: "10px", padding: "10px", borderRadius: "10px",
             width: "100%", alignItems: "center"
           }}>
-            {/* <LoyaltyCard /> */}
             <div style={{
               display: "flex", flexDirection: "column", gap: "10px", borderRadius: "10px",
               width: "98%", alignItems: "center"
@@ -340,10 +435,6 @@ const MyPage = () => {
                       end_date={item?.no_expiration ? "No Expiration" : formatDate(item?.expiration_date)}
                       url={"/mypage"}
                     />
-                    {/* <MdDelete style={{ fontSize: "35px", color: "red" }} onClick={() => {
-                      setSelectedCardId(item?.loyalty_card_table_id); // Store the selected card ID 
-                      setShowDeleted(true); // Open the delete modal 
-                    }} /> */}
                   </div>
                 );
               })}
@@ -357,10 +448,9 @@ const MyPage = () => {
             </div>
 
             
+          </div> */}
 
             {/* All Coupans*/}
-
-          </div>
           <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto", overflowX:"hidden" }}>
           {(coupansData.length === 0 && activatedCoupanData?.length === 0) ? (
             <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Kuponkeja ei ole saatavilla"}</p> ) : 

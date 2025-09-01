@@ -452,6 +452,28 @@ const MyPage = () => {
 
             {/* All Coupans*/}
           <div className={`coupon-wrap-2 ${showAll ? "custom-scrollbar" : ""}`} style={{ height: showAll ? "545px" : "auto", overflowX:"hidden" }}>
+            {activatedCoupanData.length == 0 ? "" : (
+              activatedCoupanData.map((coupan, index) => (
+                <>
+                  <CoupanComponent
+                    key={index}
+                    allData={coupan}
+                    clientData={clientData}
+                    occupied={coupan?.occupied}
+                    onClick={() => {
+                      coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                      setCurrentCoupanData(coupan);
+                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
+                        setFreeCops(true);
+                        setAddlimitation(true);
+                      } else {
+                        setFreeCops(true);
+                        setAddlimitation(false);
+                      }
+                    }}
+                  /></>
+              ))
+            )}
           {(coupansData.length === 0 && activatedCoupanData?.length === 0) ? (
             <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Kuponkeja ei ole saatavilla"}</p> ) : 
             (
@@ -500,28 +522,7 @@ const MyPage = () => {
                     setCurrentCoupanData(coupan);
                   }} />
                 </div> */}
-            {activatedCoupanData.length == 0 ? "" : (
-              activatedCoupanData.map((coupan, index) => (
-                <>
-                  <CoupanComponent
-                    key={index}
-                    allData={coupan}
-                    clientData={clientData}
-                    occupied={coupan?.occupied}
-                    onClick={() => {
-                      coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
-                      setCurrentCoupanData(coupan);
-                      if (coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) {
-                        setFreeCops(true);
-                        setAddlimitation(true);
-                      } else {
-                        setFreeCops(true);
-                        setAddlimitation(false);
-                      }
-                    }}
-                  /></>
-              ))
-            )}
+            
           </div>
 
           {coupansData?.length > 3 && (

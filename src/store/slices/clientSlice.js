@@ -102,6 +102,7 @@ const clientSlice = createSlice({
     activatedLoyalityCard: [],
     loyalityReward: null,
     couponLoading: false,
+    loyalityLoading :false,
     error: null,
   },
   reducers: {},
@@ -165,29 +166,29 @@ const clientSlice = createSlice({
 
       // Get all loyality cards
       .addCase(getAllLoyalityCards.pending, (state) => {
-        state.couponLoading = true;
+        state.loyalityLoading = true;
         state.error = null;
       })
       .addCase(getAllLoyalityCards.fulfilled, (state, action) => {
-        state.couponLoading = false;
+        state.loyalityLoading = false;
         state.loyalityCards = action.payload?.data;
       })
       .addCase(getAllLoyalityCards.rejected, (state, action) => {
-        state.couponLoading = false;
+        state.loyalityLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
       }) 
 
       // Get all loyality cards
       .addCase(getAllActivatedLoyalityCards.pending, (state) => {
-        state.couponLoading = true;
+        state.loyalityLoading = true;
         state.error = null;
       })
       .addCase(getAllActivatedLoyalityCards.fulfilled, (state, action) => {
-        state.couponLoading = false;
+        state.loyalityLoading = false;
         state.activatedLoyalityCard = action.payload?.data;
       })
       .addCase(getAllActivatedLoyalityCards.rejected, (state, action) => {
-        state.couponLoading = false;
+        state.loyalityLoading = false;
         state.error = action.payload?.message || "Failed to fetch loyality cards";
       }) 
 

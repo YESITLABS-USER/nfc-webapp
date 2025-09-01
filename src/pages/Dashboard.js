@@ -40,7 +40,7 @@ const Dashboard = () => {
   const { user_id } = storedData;
   const lang = localStorage.getItem("language") || "fin";
 
-  const { clientData, loyalityCards, activatedLoyalityCard } = useSelector((state) => state.client)
+  const { clientData, loyalityCards, activatedLoyalityCard, loyalityLoading } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -110,7 +110,13 @@ const Dashboard = () => {
   }
 
   // const visibleLoyalityCards = showAllLoyality ? loyalityCards : loyalityCards?.slice(0, 2);
-  const allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  // const allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  let allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  
+  useEffect(() => {
+    allLoyaltyCards = [...(activatedLoyalityCard || []), ...(loyalityCards || [])];
+  },[activatedLoyalityCard, loyalityCards, loyalityLoading])
+
   const visibleLoyaltyCards = showAllLoyality ? allLoyaltyCards : allLoyaltyCards.slice(0, 2);
 
   const handleSeeMore = () => {
@@ -332,7 +338,7 @@ const Dashboard = () => {
               >
                 <LoyaltyCardImgComponent
                   allData={item}
-                  completed_status={isActivated ? 1 : undefined}
+                  {...(isActivated ? { completed_status: 1 } : {})}
                   clientLogo={
                     clientData?.company_logo ? backendUrl + "/" + clientData?.company_logo : null
                   }
@@ -429,6 +435,27 @@ const Dashboard = () => {
  
         {couponLoading && <span className="loader" style={{marginTop:"20px"}}></span>}
         <div className={`coupon-wrap ${showAll ? "custom-scrollbar" : ""}`}  style={{ height :showAll ? "545px" : "auto"}}>
+          {activatedCoupanData.length == 0 ? "" : (
+            activatedCoupanData.map((coupan, index) => (
+              <>
+              <CoupanComponent
+                key={index}
+                allData={coupan}
+                clientData={clientData}
+                onClick={() => {
+                  coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
+                  setCurrentCoupanData(coupan);
+                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1)) {
+                    setFreeCops(true);
+                    setAddlimitation(true);
+                  } else {
+                    setFreeCops(true);
+                    setAddlimitation(false);
+                  }
+                }}
+              /></>
+            ))
+          )}  
         {(coupansData.length === 0 && activatedCoupanData?.length === 0 && !couponLoading) ? (
             <p style={{ textAlign: "center" }}>{lang == "eng" ? "No coupon available" : "Ei saatavilla olevia kuponkeja"}</p>
           ) : (
@@ -484,27 +511,7 @@ const Dashboard = () => {
             ))
           )} */}
 
-          {activatedCoupanData.length == 0 ? "" : (
-            activatedCoupanData.map((coupan, index) => (
-              <>
-              <CoupanComponent
-                key={index}
-                allData={coupan}
-                clientData={clientData}
-                onClick={() => {
-                  coupan?.activate_time_usa_zone != null ? setCoupanPopup(true) : setCoupanPopup(false)
-                  setCurrentCoupanData(coupan);
-                  if ((coupan?.campaign_age_restriction_start_age >= 18 && coupan?.user_age <= 18) || (coupan?.dob_coupon == 1)) {
-                    setFreeCops(true);
-                    setAddlimitation(true);
-                  } else {
-                    setFreeCops(true);
-                    setAddlimitation(false);
-                  }
-                }}
-              /></>
-            ))
-          )}
+          
         </div>
 
         {coupansData?.length > 3 && (

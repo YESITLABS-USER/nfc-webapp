@@ -111,7 +111,7 @@ filter: "drop-shadow(0px 2px 1px rgba(0, 0, 0, 1))"
             }}
             onClick={onClose}
           >
-            <img src={cross} alt="" style={{ width: "100%", height: "100%" }} />
+            <img src={cross} alt="cross" style={{ width: "100%", height: "100%" }} />
           </span>
           <div className="reward-top">
             <h4 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "10px" }} >

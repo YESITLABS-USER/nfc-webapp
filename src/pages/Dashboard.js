@@ -39,6 +39,8 @@ const Dashboard = () => {
   const storedData = JSON.parse(localStorage.getItem("nfc-app")) || {};
   const { user_id } = storedData;
   const lang = localStorage.getItem("language") || "fin";
+  const xuid = localStorage.getItem('xuid');
+
 
   const { clientData, loyalityCards, activatedLoyalityCard, loyalityLoading } = useSelector((state) => state.client)
   const { coupansData, activatedCoupanData,coupanReward, couponLoading } = useSelector((state) => state.coupans);
@@ -67,8 +69,12 @@ const Dashboard = () => {
       dispatch(getAllActivatedLoyalityCards({ client_table_id: client_id, user_id: user_id }));
       dispatch(getAllCoupans({ client_table_id: client_id, user_table_id: user_id }));
       dispatch(getAllActivatedCoupans({ client_table_id: client_id, user_table_id: user_id }));
+      // if(localStorage.getItem("scan-count")){
+      //   dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
+      //   localStorage.removeItem("scan-count")
+      // }
       if(localStorage.getItem("scan-count")){
-        dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id }));
+        dispatch(addClientInUser({ client_table_id: client_id, user_table_id: user_id, xuid: xuid, }));
         localStorage.removeItem("scan-count")
       }
     }
